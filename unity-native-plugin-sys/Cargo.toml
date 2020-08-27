@@ -1,5 +1,5 @@
 [package]
-name = "unity-plugin-api-sys"
+name = "unity-native-plugin-sys"
 version = "0.1.0"
 authors = ["Yasuhiro Taniuchi"]
 edition = "2018"
