@@ -1,0 +1,3 @@
+/target
+Cargo.lock
+unity-native-plugin-sys/include/*
