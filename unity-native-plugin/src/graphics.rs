@@ -1,7 +1,7 @@
 use unity_native_plugin_sys::*;
 
 
-pub type UnityGraphicsDeviceEventCallback = extern "system" fn(eventType: crate::enums::xDeviceEventType);
+pub type UnityGraphicsDeviceEventCallback = extern "system" fn(eventType: crate::enums::GfxDeviceEventType);
 
 pub struct UnityGraphics {
     interface: *const IUnityGraphics,
@@ -21,7 +21,7 @@ impl UnityGraphics {
     pub fn get_renderer(&self) -> crate::enums::GfxRenderer {
         unsafe {
             match &(*self.interface).GetRenderer {
-                Some(intf) => intf() as crate::enums::GfxRenderer,
+                Some(intf) => std::mem::transmute(intf()),
                 None => crate::enums::GfxRenderer::Null
             }
         }
@@ -30,15 +30,15 @@ impl UnityGraphics {
     pub fn register_device_event_callback(&self, callback: Option::<UnityGraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = &(*self.interface).RegisterDeviceEventCallback {
-                intf(std::mem::transmute(intf));
+                intf(std::mem::transmute(callback));
             }
         }
     }
 
     pub fn unregister_device_event_callback(&self, callback: Option::<UnityGraphicsDeviceEventCallback>) {
         unsafe {
-            if let Some(intf) = &(*self.interface).UnRegisterDeviceEventCallback {
-                intf(std::mem::transmute(intf));
+            if let Some(intf) = &(*self.interface).UnregisterDeviceEventCallback {
+                intf(std::mem::transmute(callback));
             }
         }
     }
