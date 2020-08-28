@@ -97,10 +97,13 @@ pub enum RenderingExtCustomBlitCommands {
 pub enum RenderingExtQueryType {
     OverrideViewport = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideViewport,
     OverrideScissor = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideScissor,
-    OverrideVROcclussionMesh = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVROcclussionMesh,
+    OverrideVROcclussionMesh =
+        UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVROcclussionMesh,
     OverrideVRSinglePass = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVRSinglePass,
-    KeepOriginalDoubleWideWidth_DEPRECATED = UnityRenderingExtQueryType_kUnityRenderingExtQueryKeepOriginalDoubleWideWidth_DEPRECATED,
-    RequestVRFlushCallback = UnityRenderingExtQueryType_kUnityRenderingExtQueryRequestVRFlushCallback,
+    KeepOriginalDoubleWideWidth_DEPRECATED =
+        UnityRenderingExtQueryType_kUnityRenderingExtQueryKeepOriginalDoubleWideWidth_DEPRECATED,
+    RequestVRFlushCallback =
+        UnityRenderingExtQueryType_kUnityRenderingExtQueryRequestVRFlushCallback,
 }
 
 #[repr(u32)]
@@ -155,11 +158,13 @@ pub enum RenderingExtTextureFormat {
     R16_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SFloat,
     R16G16_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SFloat,
     R16G16B16_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SFloat,
-    R16G16B16A16_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SFloat,
+    R16G16B16A16_SFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SFloat,
     R32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_SFloat,
     R32G32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_SFloat,
     R32G32B32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_SFloat,
-    R32G32B32A32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SFloat,
+    R32G32B32A32_SFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SFloat,
     L8_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatL8_UNorm,
     A8_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8_UNorm,
     A16_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA16_UNorm,
@@ -173,30 +178,50 @@ pub enum RenderingExtTextureFormat {
     B8G8R8A8_UInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_UInt,
     B8G8R8_SInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SInt,
     B8G8R8A8_SInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SInt,
-    R4G4B4A4_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR4G4B4A4_UNormPack16,
-    B4G4R4A4_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB4G4R4A4_UNormPack16,
+    R4G4B4A4_UNormPack16 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR4G4B4A4_UNormPack16,
+    B4G4R4A4_UNormPack16 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB4G4R4A4_UNormPack16,
     R5G6B5_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G6B5_UNormPack16,
     B5G6R5_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G6R5_UNormPack16,
-    R5G5B5A1_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G5B5A1_UNormPack16,
-    B5G5R5A1_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G5R5A1_UNormPack16,
-    A1R5G5B5_UNormPack16 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA1R5G5B5_UNormPack16,
-    E5B9G9R9_UFloatPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatE5B9G9R9_UFloatPack32,
-    B10G11R11_UFloatPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB10G11R11_UFloatPack32,
-    A2B10G10R10_UNormPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UNormPack32,
-    A2B10G10R10_UIntPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UIntPack32,
-    A2B10G10R10_SIntPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_SIntPack32,
-    A2R10G10B10_UNormPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UNormPack32,
-    A2R10G10B10_UIntPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UIntPack32,
-    A2R10G10B10_SIntPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_SIntPack32,
-    A2R10G10B10_XRSRGBPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRSRGBPack32,
-    A2R10G10B10_XRUNormPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRUNormPack32,
-    R10G10B10_XRSRGBPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRSRGBPack32,
-    R10G10B10_XRUNormPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRUNormPack32,
-    A10R10G10B10_XRSRGBPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRSRGBPack32,
-    A10R10G10B10_XRUNormPack32 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRUNormPack32,
+    R5G5B5A1_UNormPack16 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G5B5A1_UNormPack16,
+    B5G5R5A1_UNormPack16 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G5R5A1_UNormPack16,
+    A1R5G5B5_UNormPack16 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA1R5G5B5_UNormPack16,
+    E5B9G9R9_UFloatPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatE5B9G9R9_UFloatPack32,
+    B10G11R11_UFloatPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB10G11R11_UFloatPack32,
+    A2B10G10R10_UNormPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UNormPack32,
+    A2B10G10R10_UIntPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UIntPack32,
+    A2B10G10R10_SIntPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_SIntPack32,
+    A2R10G10B10_UNormPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UNormPack32,
+    A2R10G10B10_UIntPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UIntPack32,
+    A2R10G10B10_SIntPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_SIntPack32,
+    A2R10G10B10_XRSRGBPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRSRGBPack32,
+    A2R10G10B10_XRUNormPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRUNormPack32,
+    R10G10B10_XRSRGBPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRSRGBPack32,
+    R10G10B10_XRUNormPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRUNormPack32,
+    A10R10G10B10_XRSRGBPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRSRGBPack32,
+    A10R10G10B10_XRUNormPack32 =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRUNormPack32,
     A8R8G8B8_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_SRGB,
     A8R8G8B8_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_UNorm,
-    A32R32G32B32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA32R32G32B32_SFloat,
+    A32R32G32B32_SFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA32R32G32B32_SFloat,
     D16_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD16_UNorm,
     D24_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm,
     D24_UNorm_S8_UInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm_S8_UInt,
@@ -217,14 +242,22 @@ pub enum RenderingExtTextureFormat {
     RGB_BC6H_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_BC6H_SFloat,
     RGBA_BC7_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_SRGB,
     RGBA_BC7_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_UNorm,
-    RGB_PVRTC_2Bpp_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_SRGB,
-    RGB_PVRTC_2Bpp_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_UNorm,
-    RGB_PVRTC_4Bpp_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_SRGB,
-    RGB_PVRTC_4Bpp_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_UNorm,
-    RGBA_PVRTC_2Bpp_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_SRGB,
-    RGBA_PVRTC_2Bpp_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_UNorm,
-    RGBA_PVRTC_4Bpp_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_SRGB,
-    RGBA_PVRTC_4Bpp_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_UNorm,
+    RGB_PVRTC_2Bpp_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_SRGB,
+    RGB_PVRTC_2Bpp_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_UNorm,
+    RGB_PVRTC_4Bpp_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_SRGB,
+    RGB_PVRTC_4Bpp_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_UNorm,
+    RGBA_PVRTC_2Bpp_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_SRGB,
+    RGBA_PVRTC_2Bpp_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_UNorm,
+    RGBA_PVRTC_4Bpp_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_SRGB,
+    RGBA_PVRTC_4Bpp_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_UNorm,
     RGB_ETC_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC_UNorm,
     RGB_ETC2_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_SRGB,
     RGB_ETC2_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_UNorm,
@@ -244,20 +277,30 @@ pub enum RenderingExtTextureFormat {
     RGBA_ASTC6X6_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UNorm,
     RGBA_ASTC8X8_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_SRGB,
     RGBA_ASTC8X8_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UNorm,
-    RGBA_ASTC10X10_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_SRGB,
-    RGBA_ASTC10X10_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UNorm,
-    RGBA_ASTC12X12_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_SRGB,
-    RGBA_ASTC12X12_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UNorm,
+    RGBA_ASTC10X10_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_SRGB,
+    RGBA_ASTC10X10_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UNorm,
+    RGBA_ASTC12X12_SRGB =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_SRGB,
+    RGBA_ASTC12X12_UNorm =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UNorm,
     YUV2 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatYUV2,
     DepthAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatDepthAuto,
     ShadowAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatShadowAuto,
     VideoAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatVideoAuto,
-    RGBA_ASTC4X4_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UFloat,
-    RGBA_ASTC5X5_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UFloat,
-    RGBA_ASTC6X6_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UFloat,
-    RGBA_ASTC8X8_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UFloat,
-    RGBA_ASTC10X10_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UFloat,
-    RGBA_ASTC12X12_UFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UFloat,
+    RGBA_ASTC4X4_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UFloat,
+    RGBA_ASTC5X5_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UFloat,
+    RGBA_ASTC6X6_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UFloat,
+    RGBA_ASTC8X8_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UFloat,
+    RGBA_ASTC10X10_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UFloat,
+    RGBA_ASTC12X12_UFloat =
+        UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UFloat,
     //Last = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatLast,
 }
 
@@ -278,12 +321,14 @@ pub enum ShaderCompilerExtCompilerPlatform {
     XboxOne = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOne,
     Unused13 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused13,
     Metal = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformMetal,
-    OpenGLCore = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformOpenGLCore,
+    OpenGLCore =
+        UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformOpenGLCore,
     Unused16 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused16,
     Unused17 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused17,
     Vulkan = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformVulkan,
     Switch = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformSwitch,
-    XboxOneD3D12 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOneD3D12,
+    XboxOneD3D12 =
+        UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOneD3D12,
     //Count = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformCount,
 }
 
@@ -303,27 +348,39 @@ pub enum ShaderCompilerExtShaderType {
 pub enum ShaderCompilerExtGPUProgramType {
     Unknown = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnknown,
     GLLegacy = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLLegacy,
-    GLES31AEP = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31AEP,
+    GLES31AEP =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31AEP,
     GLES31 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31,
     GLES3 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES3,
     GLES = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES,
     GLCore32 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore32,
     GLCore41 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore41,
     GLCore43 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore43,
-    DX9VertexSM20 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM20,
-    DX9VertexSM30 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM30,
-    DX9PixelSM20 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM20,
-    DX9PixelSM30 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM30,
+    DX9VertexSM20 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM20,
+    DX9VertexSM30 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM30,
+    DX9PixelSM20 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM20,
+    DX9PixelSM30 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM30,
     DX10Level9Vertex = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Vertex,
-    DX10Level9Pixel = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Pixel,
-    DX11VertexSM40 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM40,
-    DX11VertexSM50 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM50,
-    DX11PixelSM40 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM40,
-    DX11PixelSM50 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM50,
+    DX10Level9Pixel =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Pixel,
+    DX11VertexSM40 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM40,
+    DX11VertexSM50 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM50,
+    DX11PixelSM40 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM40,
+    DX11PixelSM50 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM50,
     DX11GeometrySM40 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM40,
     DX11GeometrySM50 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM50,
-    DX11HullSM50 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11HullSM50,
-    DX11DomainSM50 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11DomainSM50,
+    DX11HullSM50 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11HullSM50,
+    DX11DomainSM50 =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11DomainSM50,
     MetalVS = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalVS,
     MetalFS = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalFS,
     SPIRV = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetSPIRV,
@@ -332,7 +389,8 @@ pub enum ShaderCompilerExtGPUProgramType {
     Unused3 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused3,
     Unused4 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused4,
     Unused5 = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused5,
-    RayTracing = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetRayTracing,
+    RayTracing =
+        UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetRayTracing,
     Count = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetCount,
 }
 
@@ -348,12 +406,13 @@ pub enum ShaderCompilerExtGPUProgram {
 
 #[repr(u32)]
 pub enum ShaderCompilerExtEventType {
-    CreateCustomSourceVariant = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariant,
+    CreateCustomSourceVariant =
+        UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariant,
     CreateCustomSourceVariantCleanup = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariantCleanup,
-    CreateCustomBinaryVariant = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariant,
+    CreateCustomBinaryVariant =
+        UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariant,
     CreateCustomBinaryVariantCleanup = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariantCleanup,
     PluginConfigure = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventPluginConfigure,
     //Count = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCount,
     UserEventsStart = UnityShaderCompilerExtEventType_kUnityShaderCompilerExtUserEventsStart,
 }
-
