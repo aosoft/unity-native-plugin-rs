@@ -1,13 +1,22 @@
-#[cfg(feature="d3d11")]
+#[cfg(feature = "d3d11")]
 pub mod d3d11;
 
 pub mod enums;
 pub mod graphics;
 pub mod interface;
 
+#[cfg(feature = "d3d11")]
+pub use d3d11::UnityGraphicsD3D11;
+
+pub use enums::*;
+pub use graphics::{UnityGraphics, UnityGraphicsDeviceEventCallback};
+pub use interface::{RenderBuffer, TextureID, UnityInterface, UnityInterfaces};
+
 #[no_mangle]
 #[allow(non_snake_case)]
-extern "system" fn UnityPluginLoad(interfaces: Option::<*const unity_native_plugin_sys::IUnityInterfaces> ) {
+extern "system" fn UnityPluginLoad(
+    interfaces: Option<*const unity_native_plugin_sys::IUnityInterfaces>,
+) {
     interface::UnityInterfaces::set_native_unity_interfaces(interfaces);
 }
 
@@ -30,8 +39,10 @@ macro_rules! define_unity_interface {
             }
 
             fn new(interface: *const IUnityInterface) -> Self {
-                $s{ interface: interface as *const $intf }
+                $s {
+                    interface: interface as *const $intf,
+                }
             }
         }
-    }
+    };
 }
