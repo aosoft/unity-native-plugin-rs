@@ -12,7 +12,7 @@ pub struct UnityInterfaces {
 }
 
 impl UnityInterfaces {
-    pub fn get_unity_interfaces() -> &UnityInterfaces {
+    pub fn get_unity_interfaces() -> &'static UnityInterfaces {
         unsafe {
             UNITY_INTERFACES.as_ref().unwrap()
         }
@@ -43,3 +43,6 @@ impl UnityInterfaces {
         }
     }
 }
+
+pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
+pub type TextureID = unity_native_plugin_sys::UnityTextureID;

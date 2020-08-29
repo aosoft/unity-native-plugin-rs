@@ -2823,10 +2823,78 @@ extern "C" {
         data: *mut ::std::os::raw::c_void,
     );
 }
-pub type ID3D11Device = *mut ::std::os::raw::c_void;
-pub type ID3D11Resource = *mut ::std::os::raw::c_void;
-pub type ID3D11RenderTargetView = *mut ::std::os::raw::c_void;
-pub type ID3D11ShaderResourceView = *mut ::std::os::raw::c_void;
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D11Device {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D11Device() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D11Device>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D11Device))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D11Device>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D11Device))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D11Resource {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D11Resource() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D11Resource>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D11Resource))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D11Resource>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D11Resource))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D11RenderTargetView {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D11RenderTargetView() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D11RenderTargetView>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D11RenderTargetView))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D11RenderTargetView>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D11RenderTargetView))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D11ShaderResourceView {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D11ShaderResourceView() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D11ShaderResourceView>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D11ShaderResourceView))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D11ShaderResourceView>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D11ShaderResourceView))
+    );
+}
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
 pub struct IUnityGraphicsD3D11 {
@@ -2919,11 +2987,96 @@ fn bindgen_test_layout_IUnityGraphicsD3D11() {
 }
 pub type D3D12_RESOURCE_STATES = i32;
 pub type UINT64 = u64;
-pub type ID3D12Resource = *mut ::std::os::raw::c_void;
-pub type ID3D12Device = *mut ::std::os::raw::c_void;
-pub type ID3D12Fence = *mut ::std::os::raw::c_void;
-pub type ID3D12GraphicsCommandList = *mut ::std::os::raw::c_void;
-pub type ID3D12CommandQueue = *mut ::std::os::raw::c_void;
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D12Resource {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D12Resource() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D12Resource>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D12Resource))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D12Resource>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D12Resource))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D12Device {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D12Device() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D12Device>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D12Device))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D12Device>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D12Device))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D12Fence {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D12Fence() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D12Fence>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D12Fence))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D12Fence>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D12Fence))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D12GraphicsCommandList {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D12GraphicsCommandList() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D12GraphicsCommandList>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D12GraphicsCommandList))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D12GraphicsCommandList>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D12GraphicsCommandList))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+pub struct ID3D12CommandQueue {
+    pub _address: u8,
+}
+#[test]
+fn bindgen_test_layout_ID3D12CommandQueue() {
+    assert_eq!(
+        ::std::mem::size_of::<ID3D12CommandQueue>(),
+        1usize,
+        concat!("Size of: ", stringify!(ID3D12CommandQueue))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<ID3D12CommandQueue>(),
+        1usize,
+        concat!("Alignment of ", stringify!(ID3D12CommandQueue))
+    );
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct UnityGraphicsD3D12ResourceState {

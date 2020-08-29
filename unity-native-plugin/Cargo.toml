@@ -8,3 +8,7 @@ edition = "2018"
 
 [dependencies]
 unity-native-plugin-sys = { version = "0.1.0", path = "../unity-native-plugin-sys" }
+
+[features]
+default = []
+d3d11 = []
