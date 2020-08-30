@@ -1,0 +1,15 @@
+[package]
+name = "unity-native-plugin-sample"
+version = "0.1.0"
+authors = ["Yasuhiro Taniuchi"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+unity-native-plugin = { version = "0.1.0",  path = "../unity-native-plugin", features = ["d3d11"] }
+winapi = { version = "0.3.9", features = ["winuser", "d3d11", "dxgiformat"] }
+wio = "0.2.2"
