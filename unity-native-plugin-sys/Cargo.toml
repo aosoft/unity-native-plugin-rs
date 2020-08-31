@@ -8,7 +8,7 @@ description = "unity-native-plugin-sys"
 homepage = "https://github.com/aosoft/unity-native-plugin-rs"
 repository = "https://github.com/aosoft/unity-native-plugin-rs"
 readme = "README.md"
-categories = ["api-bindings", "Game engines"]
+categories = ["api-bindings", "game-engines"]
 keywords = ["unity", "ffi"]
 include = [
     "**/*.rs",
