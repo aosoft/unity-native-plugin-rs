@@ -429,7 +429,7 @@ pub type __off_t = ::std::os::raw::c_long;
 pub type __off64_t = ::std::os::raw::c_long;
 pub type __pid_t = ::std::os::raw::c_int;
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct __fsid_t {
     pub __val: [::std::os::raw::c_int; 2usize],
 }
@@ -503,7 +503,7 @@ pub type intmax_t = __intmax_t;
 pub type uintmax_t = __uintmax_t;
 #[doc = ""]
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct UnityInterfaceGUID {
     pub m_GUIDHigh: ::std::os::raw::c_ulonglong,
     pub m_GUIDLow: ::std::os::raw::c_ulonglong,
@@ -542,7 +542,7 @@ fn bindgen_test_layout_UnityInterfaceGUID() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityInterface {
     pub _address: u8,
 }
@@ -560,22 +560,22 @@ fn bindgen_test_layout_IUnityInterface() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityInterfaces {
     pub GetInterface: ::std::option::Option<
-        unsafe extern "C" fn(guid: UnityInterfaceGUID) -> *mut IUnityInterface,
+        unsafe extern "system" fn(guid: UnityInterfaceGUID) -> *mut IUnityInterface,
     >,
     pub RegisterInterface: ::std::option::Option<
-        unsafe extern "C" fn(guid: UnityInterfaceGUID, ptr: *mut IUnityInterface),
+        unsafe extern "system" fn(guid: UnityInterfaceGUID, ptr: *mut IUnityInterface),
     >,
     pub GetInterfaceSplit: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             guidHigh: ::std::os::raw::c_ulonglong,
             guidLow: ::std::os::raw::c_ulonglong,
         ) -> *mut IUnityInterface,
     >,
     pub RegisterInterfaceSplit: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             guidHigh: ::std::os::raw::c_ulonglong,
             guidLow: ::std::os::raw::c_ulonglong,
             ptr: *mut IUnityInterface,
@@ -641,14 +641,14 @@ fn bindgen_test_layout_IUnityInterfaces() {
         )
     );
 }
-extern "C" {
+extern "system" {
     pub fn UnityPluginLoad(unityInterfaces: *mut IUnityInterfaces);
 }
-extern "C" {
+extern "system" {
     pub fn UnityPluginUnload();
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct RenderSurfaceBase {
     _unused: [u8; 0],
 }
@@ -673,17 +673,17 @@ pub const UnityGfxDeviceEventType_kUnityGfxDeviceEventBeforeReset: UnityGfxDevic
 pub const UnityGfxDeviceEventType_kUnityGfxDeviceEventAfterReset: UnityGfxDeviceEventType = 3;
 pub type UnityGfxDeviceEventType = ::std::os::raw::c_uint;
 pub type IUnityGraphicsDeviceEventCallback =
-    ::std::option::Option<unsafe extern "C" fn(eventType: UnityGfxDeviceEventType)>;
+    ::std::option::Option<unsafe extern "system" fn(eventType: UnityGfxDeviceEventType)>;
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphics {
-    pub GetRenderer: ::std::option::Option<unsafe extern "C" fn() -> UnityGfxRenderer>,
+    pub GetRenderer: ::std::option::Option<unsafe extern "system" fn() -> UnityGfxRenderer>,
     pub RegisterDeviceEventCallback:
-        ::std::option::Option<unsafe extern "C" fn(callback: IUnityGraphicsDeviceEventCallback)>,
+        ::std::option::Option<unsafe extern "system" fn(callback: IUnityGraphicsDeviceEventCallback)>,
     pub UnregisterDeviceEventCallback:
-        ::std::option::Option<unsafe extern "C" fn(callback: IUnityGraphicsDeviceEventCallback)>,
+        ::std::option::Option<unsafe extern "system" fn(callback: IUnityGraphicsDeviceEventCallback)>,
     pub ReserveEventIDRange: ::std::option::Option<
-        unsafe extern "C" fn(count: ::std::os::raw::c_int) -> ::std::os::raw::c_int,
+        unsafe extern "system" fn(count: ::std::os::raw::c_int) -> ::std::os::raw::c_int,
     >,
 }
 #[test]
@@ -748,15 +748,15 @@ fn bindgen_test_layout_IUnityGraphics() {
     );
 }
 pub type UnityRenderingEvent =
-    ::std::option::Option<unsafe extern "C" fn(eventId: ::std::os::raw::c_int)>;
+    ::std::option::Option<unsafe extern "system" fn(eventId: ::std::os::raw::c_int)>;
 pub type UnityRenderingEventAndData = ::std::option::Option<
-    unsafe extern "C" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void),
+    unsafe extern "system" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void),
 >;
 pub type UnityProfilerMarkerId = u32;
 pub type UnityProfilerCategoryId = u16;
 pub type UnityProfilerThreadId = u64;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityProfilerCategoryDesc {
     pub id: UnityProfilerCategoryId,
     pub reserved0: u16,
@@ -853,7 +853,7 @@ pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle:
 pub type UnityProfilerMarkerEventType_ = ::std::os::raw::c_uint;
 pub type UnityProfilerMarkerEventType = u16;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityProfilerMarkerDesc {
     pub callback: *const ::std::os::raw::c_void,
     pub id: UnityProfilerMarkerId,
@@ -971,7 +971,7 @@ pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8:
 pub type UnityProfilerMarkerDataType_ = ::std::os::raw::c_uint;
 pub type UnityProfilerMarkerDataType = u8;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityProfilerMarkerData {
     pub type_: UnityProfilerMarkerDataType,
     pub reserved0: u8,
@@ -1060,7 +1060,7 @@ pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd: UnityProfi
 pub type UnityProfilerFlowEventType_ = ::std::os::raw::c_uint;
 pub type UnityProfilerFlowEventType = u8;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityProfilerThreadDesc {
     pub threadId: u64,
     pub groupName: *const ::std::os::raw::c_char,
@@ -1119,19 +1119,19 @@ impl Default for UnityProfilerThreadDesc {
     }
 }
 pub type IUnityProfilerCreateCategoryCallback = ::std::option::Option<
-    unsafe extern "C" fn(
+    unsafe extern "system" fn(
         categoryDesc: *const UnityProfilerCategoryDesc,
         userData: *mut ::std::os::raw::c_void,
     ),
 >;
 pub type IUnityProfilerCreateMarkerCallback = ::std::option::Option<
-    unsafe extern "C" fn(
+    unsafe extern "system" fn(
         markerDesc: *const UnityProfilerMarkerDesc,
         userData: *mut ::std::os::raw::c_void,
     ),
 >;
 pub type IUnityProfilerMarkerEventCallback = ::std::option::Option<
-    unsafe extern "C" fn(
+    unsafe extern "system" fn(
         markerDesc: *const UnityProfilerMarkerDesc,
         eventType: UnityProfilerMarkerEventType,
         eventDataCount: u16,
@@ -1140,93 +1140,93 @@ pub type IUnityProfilerMarkerEventCallback = ::std::option::Option<
     ),
 >;
 pub type IUnityProfilerFrameCallback =
-    ::std::option::Option<unsafe extern "C" fn(userData: *mut ::std::os::raw::c_void)>;
+    ::std::option::Option<unsafe extern "system" fn(userData: *mut ::std::os::raw::c_void)>;
 pub type IUnityProfilerThreadCallback = ::std::option::Option<
-    unsafe extern "C" fn(
+    unsafe extern "system" fn(
         threadDesc: *const UnityProfilerThreadDesc,
         userData: *mut ::std::os::raw::c_void,
     ),
 >;
 pub type IUnityProfilerFlowEventCallback = ::std::option::Option<
-    unsafe extern "C" fn(
+    unsafe extern "system" fn(
         flowEventType: UnityProfilerFlowEventType,
         flowId: u32,
         userData: *mut ::std::os::raw::c_void,
     ),
 >;
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityProfilerCallbacksV2 {
     pub RegisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateCategoryCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateCategoryCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateMarkerCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateMarkerCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             markerDesc: *const UnityProfilerMarkerDesc,
             callback: IUnityProfilerMarkerEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             markerDesc: *const UnityProfilerMarkerDesc,
             callback: IUnityProfilerMarkerEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterFrameCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFrameCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterFrameCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFrameCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerThreadCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerThreadCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterFlowEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFlowEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterFlowEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFlowEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
@@ -1402,66 +1402,66 @@ fn bindgen_test_layout_IUnityProfilerCallbacksV2() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityProfilerCallbacks {
     pub RegisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateCategoryCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateCategoryCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateMarkerCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerCreateMarkerCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             markerDesc: *const UnityProfilerMarkerDesc,
             callback: IUnityProfilerMarkerEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             markerDesc: *const UnityProfilerMarkerDesc,
             callback: IUnityProfilerMarkerEventCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterFrameCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFrameCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterFrameCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerFrameCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub RegisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerThreadCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
     >,
     pub UnregisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             callback: IUnityProfilerThreadCallback,
             userData: *mut ::std::os::raw::c_void,
         ) -> ::std::os::raw::c_int,
@@ -1967,7 +1967,7 @@ pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatLast:
     UnityRenderingExtTextureFormat = 150;
 pub type UnityRenderingExtTextureFormat = ::std::os::raw::c_uint;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityRenderingExtBeforeDrawCallParams {
     pub vertexShader: *mut ::std::os::raw::c_void,
     pub fragmentShader: *mut ::std::os::raw::c_void,
@@ -2079,7 +2079,7 @@ impl Default for UnityRenderingExtBeforeDrawCallParams {
     }
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityRenderingExtCustomBlitParams {
     pub source: UnityTextureID,
     pub destination: UnityRenderBuffer,
@@ -2174,7 +2174,7 @@ impl Default for UnityRenderingExtCustomBlitParams {
     }
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityRenderingExtTextureUpdateParamsV1 {
     pub texData: *mut ::std::os::raw::c_void,
     pub userData: ::std::os::raw::c_uint,
@@ -2301,7 +2301,7 @@ impl Default for UnityRenderingExtTextureUpdateParamsV1 {
 }
 pub type UnityRenderingExtTextureUpdateParams = UnityRenderingExtTextureUpdateParamsV1;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityRenderingExtTextureUpdateParamsV2 {
     pub texData: *mut ::std::os::raw::c_void,
     pub textureID: isize,
@@ -2426,13 +2426,13 @@ impl Default for UnityRenderingExtTextureUpdateParamsV2 {
         unsafe { ::std::mem::zeroed() }
     }
 }
-extern "C" {
+extern "system" {
     pub fn UnityRenderingExtEvent(
         event: UnityRenderingExtEventType,
         data: *mut ::std::os::raw::c_void,
     );
 }
-extern "C" {
+extern "system" {
     pub fn UnityRenderingExtQuery(query: UnityRenderingExtQueryType) -> bool;
 }
 pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused0:
@@ -2577,7 +2577,7 @@ pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtUserEventsStart
     UnityShaderCompilerExtEventType = 5;
 pub type UnityShaderCompilerExtEventType = ::std::os::raw::c_uint;
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityShaderCompilerExtCustomSourceVariantParams {
     pub outputSnippet: *mut ::std::os::raw::c_char,
     pub outputKeywords: *mut ::std::os::raw::c_char,
@@ -2689,7 +2689,7 @@ impl Default for UnityShaderCompilerExtCustomSourceVariantParams {
     }
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityShaderCompilerExtCustomBinaryVariantParams {
     pub outputBinaryShader: *mut *mut ::std::os::raw::c_void,
     pub inputByteCode: *const ::std::os::raw::c_uchar,
@@ -2789,7 +2789,6 @@ impl Default for UnityShaderCompilerExtCustomBinaryVariantParams {
 #[repr(C)]
 pub struct IUnityShaderCompilerExtPluginConfigure__bindgen_vtable(::std::os::raw::c_void);
 #[repr(C)]
-#[derive(Debug, PartialEq, Eq)]
 pub struct IUnityShaderCompilerExtPluginConfigure {
     pub vtable_: *const IUnityShaderCompilerExtPluginConfigure__bindgen_vtable,
 }
@@ -2817,14 +2816,14 @@ impl Default for IUnityShaderCompilerExtPluginConfigure {
         unsafe { ::std::mem::zeroed() }
     }
 }
-extern "C" {
+extern "system" {
     pub fn UnityShaderCompilerExtEvent(
         event: UnityShaderCompilerExtEventType,
         data: *mut ::std::os::raw::c_void,
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D11Device {
     pub _address: u8,
 }
@@ -2842,7 +2841,7 @@ fn bindgen_test_layout_ID3D11Device() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D11Resource {
     pub _address: u8,
 }
@@ -2860,7 +2859,7 @@ fn bindgen_test_layout_ID3D11Resource() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D11RenderTargetView {
     pub _address: u8,
 }
@@ -2878,7 +2877,7 @@ fn bindgen_test_layout_ID3D11RenderTargetView() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D11ShaderResourceView {
     pub _address: u8,
 }
@@ -2896,19 +2895,19 @@ fn bindgen_test_layout_ID3D11ShaderResourceView() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D11 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D11Device>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D11Device>,
     pub TextureFromRenderBuffer: ::std::option::Option<
-        unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut ID3D11Resource,
+        unsafe extern "system" fn(buffer: UnityRenderBuffer) -> *mut ID3D11Resource,
     >,
     pub TextureFromNativeTexture:
-        ::std::option::Option<unsafe extern "C" fn(texture: UnityTextureID) -> *mut ID3D11Resource>,
+        ::std::option::Option<unsafe extern "system" fn(texture: UnityTextureID) -> *mut ID3D11Resource>,
     pub RTVFromRenderBuffer: ::std::option::Option<
-        unsafe extern "C" fn(surface: UnityRenderBuffer) -> *mut ID3D11RenderTargetView,
+        unsafe extern "system" fn(surface: UnityRenderBuffer) -> *mut ID3D11RenderTargetView,
     >,
     pub SRVFromNativeTexture: ::std::option::Option<
-        unsafe extern "C" fn(texture: UnityTextureID) -> *mut ID3D11ShaderResourceView,
+        unsafe extern "system" fn(texture: UnityTextureID) -> *mut ID3D11ShaderResourceView,
     >,
 }
 #[test]
@@ -2988,7 +2987,7 @@ fn bindgen_test_layout_IUnityGraphicsD3D11() {
 pub type D3D12_RESOURCE_STATES = i32;
 pub type UINT64 = u64;
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D12Resource {
     pub _address: u8,
 }
@@ -3006,7 +3005,7 @@ fn bindgen_test_layout_ID3D12Resource() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D12Device {
     pub _address: u8,
 }
@@ -3024,7 +3023,7 @@ fn bindgen_test_layout_ID3D12Device() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D12Fence {
     pub _address: u8,
 }
@@ -3042,7 +3041,7 @@ fn bindgen_test_layout_ID3D12Fence() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D12GraphicsCommandList {
     pub _address: u8,
 }
@@ -3060,7 +3059,7 @@ fn bindgen_test_layout_ID3D12GraphicsCommandList() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct ID3D12CommandQueue {
     pub _address: u8,
 }
@@ -3078,7 +3077,7 @@ fn bindgen_test_layout_ID3D12CommandQueue() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone)]
 pub struct UnityGraphicsD3D12ResourceState {
     pub resource: *mut ID3D12Resource,
     pub expected: D3D12_RESOURCE_STATES,
@@ -3141,7 +3140,7 @@ impl Default for UnityGraphicsD3D12ResourceState {
     }
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct UnityGraphicsD3D12PhysicalVideoMemoryControlValues {
     pub reservation: UINT64,
     pub systemMemoryThreshold: UINT64,
@@ -3206,24 +3205,24 @@ fn bindgen_test_layout_UnityGraphicsD3D12PhysicalVideoMemoryControlValues() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D12v5 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Device>,
-    pub GetFrameFence: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Fence>,
-    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "C" fn() -> UINT64>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Device>,
+    pub GetFrameFence: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Fence>,
+    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "system" fn() -> UINT64>,
     pub ExecuteCommandList: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             commandList: *mut ID3D12GraphicsCommandList,
             stateCount: ::std::os::raw::c_int,
             states: *mut UnityGraphicsD3D12ResourceState,
         ) -> UINT64,
     >,
     pub SetPhysicalVideoMemoryControlValues: ::std::option::Option<
-        unsafe extern "C" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
+        unsafe extern "system" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
     >,
-    pub GetCommandQueue: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12CommandQueue>,
+    pub GetCommandQueue: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12CommandQueue>,
     pub TextureFromRenderBuffer: ::std::option::Option<
-        unsafe extern "C" fn(rb: *mut UnityRenderBuffer) -> *mut ID3D12Resource,
+        unsafe extern "system" fn(rb: *mut UnityRenderBuffer) -> *mut ID3D12Resource,
     >,
 }
 #[test]
@@ -3326,22 +3325,22 @@ fn bindgen_test_layout_IUnityGraphicsD3D12v5() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D12v4 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Device>,
-    pub GetFrameFence: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Fence>,
-    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "C" fn() -> UINT64>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Device>,
+    pub GetFrameFence: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Fence>,
+    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "system" fn() -> UINT64>,
     pub ExecuteCommandList: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             commandList: *mut ID3D12GraphicsCommandList,
             stateCount: ::std::os::raw::c_int,
             states: *mut UnityGraphicsD3D12ResourceState,
         ) -> UINT64,
     >,
     pub SetPhysicalVideoMemoryControlValues: ::std::option::Option<
-        unsafe extern "C" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
+        unsafe extern "system" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
     >,
-    pub GetCommandQueue: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12CommandQueue>,
+    pub GetCommandQueue: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12CommandQueue>,
 }
 #[test]
 fn bindgen_test_layout_IUnityGraphicsD3D12v4() {
@@ -3430,20 +3429,20 @@ fn bindgen_test_layout_IUnityGraphicsD3D12v4() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D12v3 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Device>,
-    pub GetFrameFence: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Fence>,
-    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "C" fn() -> UINT64>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Device>,
+    pub GetFrameFence: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Fence>,
+    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "system" fn() -> UINT64>,
     pub ExecuteCommandList: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             commandList: *mut ID3D12GraphicsCommandList,
             stateCount: ::std::os::raw::c_int,
             states: *mut UnityGraphicsD3D12ResourceState,
         ) -> UINT64,
     >,
     pub SetPhysicalVideoMemoryControlValues: ::std::option::Option<
-        unsafe extern "C" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
+        unsafe extern "system" fn(memInfo: *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues),
     >,
 }
 #[test]
@@ -3521,13 +3520,13 @@ fn bindgen_test_layout_IUnityGraphicsD3D12v3() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D12v2 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Device>,
-    pub GetFrameFence: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Fence>,
-    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "C" fn() -> UINT64>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Device>,
+    pub GetFrameFence: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Fence>,
+    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "system" fn() -> UINT64>,
     pub ExecuteCommandList: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             commandList: *mut ID3D12GraphicsCommandList,
             stateCount: ::std::os::raw::c_int,
             states: *mut UnityGraphicsD3D12ResourceState,
@@ -3596,20 +3595,20 @@ fn bindgen_test_layout_IUnityGraphicsD3D12v2() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone)]
 pub struct IUnityGraphicsD3D12 {
-    pub GetDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Device>,
-    pub GetCommandQueue: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12CommandQueue>,
-    pub GetFrameFence: ::std::option::Option<unsafe extern "C" fn() -> *mut ID3D12Fence>,
-    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "C" fn() -> UINT64>,
+    pub GetDevice: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Device>,
+    pub GetCommandQueue: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12CommandQueue>,
+    pub GetFrameFence: ::std::option::Option<unsafe extern "system" fn() -> *mut ID3D12Fence>,
+    pub GetNextFrameFenceValue: ::std::option::Option<unsafe extern "system" fn() -> UINT64>,
     pub GetResourceState: ::std::option::Option<
-        unsafe extern "C" fn(
+        unsafe extern "system" fn(
             resource: *mut ID3D12Resource,
             outState: *mut D3D12_RESOURCE_STATES,
         ) -> bool,
     >,
     pub SetResourceState: ::std::option::Option<
-        unsafe extern "C" fn(resource: *mut ID3D12Resource, state: D3D12_RESOURCE_STATES),
+        unsafe extern "system" fn(resource: *mut ID3D12Resource, state: D3D12_RESOURCE_STATES),
     >,
 }
 #[test]

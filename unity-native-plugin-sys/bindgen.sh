@@ -3,5 +3,6 @@
 bindgen \
   --output ./src/plugin_api.rs \
   --with-derive-default \
-  --with-derive-eq \
+  --no-derive-debug \
   wrapper.hpp -- -I ./include
+sed -i -e "s/extern \""C\""/extern \""system\""/g" ./src/plugin_api.rs
