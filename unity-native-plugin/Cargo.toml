@@ -2,7 +2,19 @@
 name = "unity-native-plugin"
 version = "0.1.0"
 authors = ["Yasuhiro Taniuchi"]
+license = "MIT"
+description = "Unity Native Plugin API for Rust"
+homepage = "https://github.com/aosoft/unity-native-plugin-rs"
+repository = "https://github.com/aosoft/unity-native-plugin-rs"
+readme = "../README.md"
+categories = ["api-bindings", "Game engines"]
+keywords = ["unity"]
 edition = "2018"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "LICENSE"
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
