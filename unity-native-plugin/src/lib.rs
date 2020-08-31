@@ -15,7 +15,7 @@ pub use interface::{RenderBuffer, TextureID, UnityInterface, UnityInterfaces};
 #[no_mangle]
 #[allow(non_snake_case)]
 extern "system" fn UnityPluginLoad(
-    interfaces: Option<*const unity_native_plugin_sys::IUnityInterfaces>,
+    interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
 ) {
     interface::UnityInterfaces::set_native_unity_interfaces(interfaces);
 }
@@ -23,7 +23,7 @@ extern "system" fn UnityPluginLoad(
 #[no_mangle]
 #[allow(non_snake_case)]
 extern "system" fn UnityPluginUnload() {
-    interface::UnityInterfaces::set_native_unity_interfaces(None);
+    interface::UnityInterfaces::set_native_unity_interfaces(std::ptr::null_mut());
 }
 
 #[macro_export]

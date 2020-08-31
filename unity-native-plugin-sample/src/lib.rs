@@ -7,6 +7,9 @@ use wio::com::ComPtr;
 #[allow(non_snake_case)]
 extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: f32, w: f32) {
     unsafe {
+        if unity_texture.is_null() {
+            return;
+        }
         let texture = ComPtr::<IUnknown>::from_raw(unity_texture);
         (&*unity_texture).AddRef();
         let texture = match texture.cast::<d3d11::ID3D11Texture2D>() {

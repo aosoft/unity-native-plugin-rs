@@ -14,7 +14,7 @@ pub type UnityGraphicsDeviceEventCallback =
 impl UnityGraphics {
     pub fn get_renderer(&self) -> crate::enums::GfxRenderer {
         unsafe {
-            match &(*self.interface).GetRenderer {
+            match (&*self.interface).GetRenderer {
                 Some(intf) => std::mem::transmute(intf()),
                 None => crate::enums::GfxRenderer::Null,
             }
@@ -26,7 +26,7 @@ impl UnityGraphics {
         callback: Option<UnityGraphicsDeviceEventCallback>,
     ) {
         unsafe {
-            if let Some(intf) = &(*self.interface).RegisterDeviceEventCallback {
+            if let Some(intf) = (&*self.interface).RegisterDeviceEventCallback {
                 intf(std::mem::transmute(callback));
             }
         }
@@ -37,7 +37,7 @@ impl UnityGraphics {
         callback: Option<UnityGraphicsDeviceEventCallback>,
     ) {
         unsafe {
-            if let Some(intf) = &(*self.interface).UnregisterDeviceEventCallback {
+            if let Some(intf) = (&*self.interface).UnregisterDeviceEventCallback {
                 intf(std::mem::transmute(callback));
             }
         }

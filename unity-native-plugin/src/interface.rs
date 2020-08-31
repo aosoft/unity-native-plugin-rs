@@ -8,32 +8,31 @@ pub trait UnityInterface {
 static mut UNITY_INTERFACES: Option<UnityInterfaces> = None;
 
 pub struct UnityInterfaces {
-    interfaces: *const IUnityInterfaces,
+    interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
 }
 
 impl UnityInterfaces {
     pub fn get_unity_interfaces() -> &'static UnityInterfaces {
-        unsafe {
-            UNITY_INTERFACES.as_ref().unwrap()
-        }
+        unsafe { UNITY_INTERFACES.as_ref().unwrap() }
     }
 
     pub(crate) fn set_native_unity_interfaces(
-        interfaces: Option<*const unity_native_plugin_sys::IUnityInterfaces>,
+        interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
     ) {
         unsafe {
-            UNITY_INTERFACES = match interfaces {
-                Some(interfaces) => Some(UnityInterfaces {
+            UNITY_INTERFACES = if !interfaces.is_null() {
+                Some(UnityInterfaces {
                     interfaces: interfaces,
-                }),
-                None => None,
+                })
+            } else {
+                None
             }
         }
     }
 
     pub fn get_interface<T: UnityInterface>(&self) -> Option<T> {
         unsafe {
-            if let Some(intf) = &(*self.interfaces).GetInterface {
+            if let Some(intf) = (&*self.interfaces).GetInterface {
                 let r = intf(T::get_interface_guid());
                 if !r.is_null() {
                     return Some(T::new(r));
