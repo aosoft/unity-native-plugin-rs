@@ -1,4 +1,3 @@
-use unity_native_plugin::UnityGraphicsD3D11;
 use winapi::shared::dxgiformat;
 use winapi::um::{d3d11, unknwnbase::IUnknown};
 use wio::com::ComPtr;
@@ -18,7 +17,7 @@ extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: 
         };
 
         let device = match unity_native_plugin::interface::UnityInterfaces::get_unity_interfaces()
-            .get_interface::<UnityGraphicsD3D11>()
+            .get_interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>()
         {
             Some(t) => t,
             None => return,

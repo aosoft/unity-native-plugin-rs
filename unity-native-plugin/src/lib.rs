@@ -5,9 +5,6 @@ pub mod enums;
 pub mod graphics;
 pub mod interface;
 
-#[cfg(feature = "d3d11")]
-pub use d3d11::UnityGraphicsD3D11;
-
 #[no_mangle]
 #[allow(non_snake_case)]
 extern "system" fn UnityPluginLoad(

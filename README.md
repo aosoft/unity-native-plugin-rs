@@ -14,7 +14,7 @@ Unity Native Plugin API for Rust
 * Define in Cargo.toml
 ```cargo
 [dependencies]
-unity-native-plugin = { version = "0.1.0", features = ["d3d11"] }
+unity-native-plugin = { version = "*", features = ["d3d11"] }
 ```
 * Use UnityInterface::get_interface, which is equivalent to IUnityInterfaces::GetInterface, to get the interface.
 ```rust
