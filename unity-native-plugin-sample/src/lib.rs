@@ -17,7 +17,7 @@ extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: 
             Err(_) => return,
         };
 
-        let device = match unity_native_plugin::UnityInterfaces::get_unity_interfaces()
+        let device = match unity_native_plugin::interface::UnityInterfaces::get_unity_interfaces()
             .get_interface::<UnityGraphicsD3D11>()
         {
             Some(t) => t,

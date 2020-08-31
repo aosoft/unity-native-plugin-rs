@@ -8,10 +8,6 @@ pub mod interface;
 #[cfg(feature = "d3d11")]
 pub use d3d11::UnityGraphicsD3D11;
 
-pub use enums::*;
-pub use graphics::{UnityGraphics, UnityGraphicsDeviceEventCallback};
-pub use interface::{RenderBuffer, TextureID, UnityInterface, UnityInterfaces};
-
 #[no_mangle]
 #[allow(non_snake_case)]
 extern "system" fn UnityPluginLoad(
