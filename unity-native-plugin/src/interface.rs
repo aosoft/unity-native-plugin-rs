@@ -16,7 +16,7 @@ impl UnityInterfaces {
         unsafe { UNITY_INTERFACES.as_ref().unwrap() }
     }
 
-    pub(crate) fn set_native_unity_interfaces(
+    pub fn set_native_unity_interfaces(
         interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
     ) {
         unsafe {

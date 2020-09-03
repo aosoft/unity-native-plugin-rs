@@ -2,6 +2,14 @@ use winapi::shared::dxgiformat;
 use winapi::um::{d3d11, unknwnbase::IUnknown};
 use wio::com::ComPtr;
 
+
+unity_native_plugin::unity_native_plugin_entry_point! {
+    fn unity_plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {
+    }
+    fn unity_plugin_unload() {
+    }
+}
+
 #[no_mangle]
 #[allow(non_snake_case)]
 extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: f32, w: f32) {
