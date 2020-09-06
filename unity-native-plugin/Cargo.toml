@@ -24,3 +24,4 @@ unity-native-plugin-sys = { version = "0.1.1", path = "../unity-native-plugin-sy
 [features]
 default = []
 d3d11 = []
+d3d12 = []

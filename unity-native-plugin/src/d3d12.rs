@@ -1,5 +1,5 @@
 use crate::define_unity_interface;
-use crate::interface;
+use std::ffi::c_void;
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
@@ -10,18 +10,49 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12 {
-    fn binding_method<T>(s: std::option::Option::<unsafe extern "system" fn() -> *mut T>) -> T {
-        s.map_or_else(
-            || std::ptr::null_mut(),
-            |method| method() as *mut std::ffi::c_void,
-        )
+    pub unsafe fn get_device(&self) -> *mut c_void {
+        self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
     }
 
-    pub unsafe fn get_device(&self) -> *mut std::ffi::c_void {
-        self.get_interface().GetDevice.map_or_else(
-            || std::ptr::null_mut(),
-            |method| method() as *mut std::ffi::c_void,
-        )
+    pub unsafe fn get_command_queue(&self) -> *mut c_void {
+        self.get_interface()
+            .GetCommandQueue
+            .expect("GetCommandQueue")() as *mut c_void
+    }
+
+    pub unsafe fn get_frame_fence(&self) -> *mut c_void {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut c_void
+    }
+
+    pub fn get_next_frame_fence_value(&self) -> u64 {
+        unsafe {
+            self.get_interface()
+                .GetNextFrameFenceValue
+                .expect("GetNextFrameFenceValue")()
+        }
+    }
+
+    pub fn get_resource_state(&self, resource: *mut c_void) -> Option<i32> {
+        unsafe {
+            let mut ret: D3D12_RESOURCE_STATES = D3D12_RESOURCE_STATES::default();
+            if self
+                .get_interface()
+                .GetResourceState
+                .expect("GetResourceState")(resource as *mut ID3D12Resource, &mut ret as *mut D3D12_RESOURCE_STATES)
+            {
+                Some(ret)
+            } else {
+                None
+            }
+        }
+    }
+
+    pub fn set_resource_state(&self, resource: *mut c_void, state: i32) {
+        unsafe {
+            self.get_interface()
+                .SetResourceState
+                .expect("SetResourceState")(resource as *mut ID3D12Resource, state)
+        }
     }
 }
 
@@ -31,6 +62,24 @@ define_unity_interface!(
     0xEC39D2F18446C745_u64,
     0xB1A2626641D6B11F_u64
 );
+
+impl UnityGraphicsD3D12v2 {
+    pub unsafe fn get_device(&self) -> *mut c_void {
+        self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
+    }
+
+    pub unsafe fn get_frame_fence(&self) -> *mut c_void {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut c_void
+    }
+
+    pub fn get_next_frame_fence_value(&self) -> u64 {
+        unsafe {
+            self.get_interface()
+                .GetNextFrameFenceValue
+                .expect("GetNextFrameFenceValue")()
+        }
+    }
+}
 
 define_unity_interface!(
     UnityGraphicsD3D12v3,
