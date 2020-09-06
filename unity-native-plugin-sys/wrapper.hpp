@@ -20,3 +20,5 @@ struct ID3D12Fence {};
 struct ID3D12GraphicsCommandList {};
 struct ID3D12CommandQueue {};
 #include <IUnityGraphicsD3D12.h>
+
+#include <IUnityGraphicsVulkan.h>
