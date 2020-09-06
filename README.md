@@ -6,7 +6,7 @@ Unity Native Plugin API for Rust
 ## Notice
 
 * WIP
-* Currently only D3D11 is supported
+* Currently supports D3D11 and D3D12
 * API is not stable.
 
 ## How to use

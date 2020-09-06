@@ -1,4 +1,5 @@
 use crate::define_unity_interface;
+use crate::interface;
 use std::ffi::c_void;
 use unity_native_plugin_sys::*;
 
@@ -160,7 +161,6 @@ define_unity_interface!(
     0xB18F8B0FF67778C8_u64
 );
 
-
 impl UnityGraphicsD3D12v4 {
     pub unsafe fn get_device(&self) -> *mut c_void {
         self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
@@ -218,3 +218,63 @@ define_unity_interface!(
     0xF5C8D8A37D37BC42_u64,
     0xB02DFE93B5064A27_u64
 );
+
+impl UnityGraphicsD3D12v5 {
+    pub unsafe fn get_device(&self) -> *mut c_void {
+        self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
+    }
+
+    pub unsafe fn get_frame_fence(&self) -> *mut c_void {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut c_void
+    }
+
+    pub fn get_next_frame_fence_value(&self) -> u64 {
+        unsafe {
+            self.get_interface()
+                .GetNextFrameFenceValue
+                .expect("GetNextFrameFenceValue")()
+        }
+    }
+
+    pub unsafe fn execute_command_list(
+        &self,
+        command_list: *mut c_void,
+        states: &[ResourceState],
+    ) -> u64 {
+        self.get_interface()
+            .ExecuteCommandList
+            .expect("ExecuteCommandList")(
+            command_list as *mut ID3D12GraphicsCommandList,
+            states.len() as ::std::os::raw::c_int,
+            states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
+        )
+    }
+
+    pub fn set_physical_video_memory_control_values(
+        &self,
+        mem_info: &PhysicalVideoMemoryControlValues,
+    ) {
+        unsafe {
+            self.get_interface()
+                .SetPhysicalVideoMemoryControlValues
+                .expect("SetPhysicalVideoMemoryControlValues")(
+                mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
+            )
+        }
+    }
+
+    pub unsafe fn get_command_queue(&self) -> *mut c_void {
+        self.get_interface()
+            .GetCommandQueue
+            .expect("GetCommandQueue")() as *mut c_void
+    }
+
+    pub unsafe fn texture_from_render_buffer(
+        &self,
+        buffer: *mut interface::RenderBuffer,
+    ) -> *mut c_void {
+        self.get_interface()
+            .TextureFromRenderBuffer
+            .expect("TextureFromRenderBuffer")(buffer) as *mut c_void
+    }
+}
