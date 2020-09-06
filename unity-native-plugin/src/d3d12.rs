@@ -38,8 +38,10 @@ impl UnityGraphicsD3D12 {
             if self
                 .get_interface()
                 .GetResourceState
-                .expect("GetResourceState")(resource as *mut ID3D12Resource, &mut ret as *mut D3D12_RESOURCE_STATES)
-            {
+                .expect("GetResourceState")(
+                resource as *mut ID3D12Resource,
+                &mut ret as *mut D3D12_RESOURCE_STATES,
+            ) {
                 Some(ret)
             } else {
                 None
@@ -63,6 +65,8 @@ define_unity_interface!(
     0xB1A2626641D6B11F_u64
 );
 
+pub type UnityGraphicsD3D12ResourceState = unity_native_plugin_sys::UnityGraphicsD3D12ResourceState;
+
 impl UnityGraphicsD3D12v2 {
     pub unsafe fn get_device(&self) -> *mut c_void {
         self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
@@ -78,6 +82,20 @@ impl UnityGraphicsD3D12v2 {
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
+    }
+
+    pub unsafe fn execute_command_list(
+        &self,
+        command_list: *mut c_void,
+        states: &[UnityGraphicsD3D12ResourceState],
+    ) -> u64 {
+        self.get_interface()
+            .ExecuteCommandList
+            .expect("ExecuteCommandList")(
+            command_list as *mut ID3D12GraphicsCommandList,
+            states.len() as ::std::os::raw::c_int,
+            states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
+        )
     }
 }
 
