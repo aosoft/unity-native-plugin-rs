@@ -65,7 +65,7 @@ define_unity_interface!(
     0xB1A2626641D6B11F_u64
 );
 
-pub type UnityGraphicsD3D12ResourceState = unity_native_plugin_sys::UnityGraphicsD3D12ResourceState;
+pub type ResourceState = UnityGraphicsD3D12ResourceState;
 
 impl UnityGraphicsD3D12v2 {
     pub unsafe fn get_device(&self) -> *mut c_void {
@@ -87,7 +87,7 @@ impl UnityGraphicsD3D12v2 {
     pub unsafe fn execute_command_list(
         &self,
         command_list: *mut c_void,
-        states: &[UnityGraphicsD3D12ResourceState],
+        states: &[ResourceState],
     ) -> u64 {
         self.get_interface()
             .ExecuteCommandList
@@ -106,12 +106,111 @@ define_unity_interface!(
     0xBF4F5998474BB600_u64
 );
 
+pub type PhysicalVideoMemoryControlValues = UnityGraphicsD3D12PhysicalVideoMemoryControlValues;
+
+impl UnityGraphicsD3D12v3 {
+    pub unsafe fn get_device(&self) -> *mut c_void {
+        self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
+    }
+
+    pub unsafe fn get_frame_fence(&self) -> *mut c_void {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut c_void
+    }
+
+    pub fn get_next_frame_fence_value(&self) -> u64 {
+        unsafe {
+            self.get_interface()
+                .GetNextFrameFenceValue
+                .expect("GetNextFrameFenceValue")()
+        }
+    }
+
+    pub unsafe fn execute_command_list(
+        &self,
+        command_list: *mut c_void,
+        states: &[ResourceState],
+    ) -> u64 {
+        self.get_interface()
+            .ExecuteCommandList
+            .expect("ExecuteCommandList")(
+            command_list as *mut ID3D12GraphicsCommandList,
+            states.len() as ::std::os::raw::c_int,
+            states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
+        )
+    }
+
+    pub fn set_physical_video_memory_control_values(
+        &self,
+        mem_info: &PhysicalVideoMemoryControlValues,
+    ) {
+        unsafe {
+            self.get_interface()
+                .SetPhysicalVideoMemoryControlValues
+                .expect("SetPhysicalVideoMemoryControlValues")(
+                mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
+            )
+        }
+    }
+}
+
 define_unity_interface!(
     UnityGraphicsD3D12v4,
     IUnityGraphicsD3D12v4,
     0x498FFCC13EC94006_u64,
     0xB18F8B0FF67778C8_u64
 );
+
+
+impl UnityGraphicsD3D12v4 {
+    pub unsafe fn get_device(&self) -> *mut c_void {
+        self.get_interface().GetDevice.expect("GetDevice")() as *mut c_void
+    }
+
+    pub unsafe fn get_frame_fence(&self) -> *mut c_void {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut c_void
+    }
+
+    pub fn get_next_frame_fence_value(&self) -> u64 {
+        unsafe {
+            self.get_interface()
+                .GetNextFrameFenceValue
+                .expect("GetNextFrameFenceValue")()
+        }
+    }
+
+    pub unsafe fn execute_command_list(
+        &self,
+        command_list: *mut c_void,
+        states: &[ResourceState],
+    ) -> u64 {
+        self.get_interface()
+            .ExecuteCommandList
+            .expect("ExecuteCommandList")(
+            command_list as *mut ID3D12GraphicsCommandList,
+            states.len() as ::std::os::raw::c_int,
+            states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
+        )
+    }
+
+    pub fn set_physical_video_memory_control_values(
+        &self,
+        mem_info: &PhysicalVideoMemoryControlValues,
+    ) {
+        unsafe {
+            self.get_interface()
+                .SetPhysicalVideoMemoryControlValues
+                .expect("SetPhysicalVideoMemoryControlValues")(
+                mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
+            )
+        }
+    }
+
+    pub unsafe fn get_command_queue(&self) -> *mut c_void {
+        self.get_interface()
+            .GetCommandQueue
+            .expect("GetCommandQueue")() as *mut c_void
+    }
+}
 
 define_unity_interface!(
     UnityGraphicsD3D12v5,
