@@ -11,37 +11,49 @@ define_unity_interface!(
 
 impl UnityGraphicsD3D11 {
     pub unsafe fn get_device(&self) -> *mut std::ffi::c_void {
-        match (&*self.interface).GetDevice {
-            Some(intf) => intf() as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+        self.get_interface().GetDevice.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method() as *mut std::ffi::c_void,
+        )
     }
 
-    pub unsafe fn texture_from_render_buffer(&self, buffer: interface::RenderBuffer) -> *mut std::ffi::c_void {
-        match (&*self.interface).TextureFromRenderBuffer {
-            Some(intf) => intf(buffer) as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+    pub unsafe fn texture_from_render_buffer(
+        &self,
+        buffer: interface::RenderBuffer,
+    ) -> *mut std::ffi::c_void {
+        self.get_interface().TextureFromRenderBuffer.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method(buffer) as *mut std::ffi::c_void,
+        )
     }
 
-    pub unsafe fn texture_from_natvie_texture(&self, texture: interface::TextureID) -> *mut std::ffi::c_void {
-        match (&*self.interface).TextureFromNativeTexture {
-            Some(intf) => intf(texture) as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+    pub unsafe fn texture_from_natvie_texture(
+        &self,
+        texture: interface::TextureID,
+    ) -> *mut std::ffi::c_void {
+        self.get_interface().TextureFromNativeTexture.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method(texture) as *mut std::ffi::c_void,
+        )
     }
 
-    pub unsafe fn rtv_from_render_buffer(&self, buffer: interface::RenderBuffer) -> *mut std::ffi::c_void {
-        match (&*self.interface).RTVFromRenderBuffer {
-            Some(intf) => intf(buffer) as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+    pub unsafe fn rtv_from_render_buffer(
+        &self,
+        buffer: interface::RenderBuffer,
+    ) -> *mut std::ffi::c_void {
+        self.get_interface().RTVFromRenderBuffer.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method(buffer) as *mut std::ffi::c_void,
+        )
     }
 
-    pub unsafe fn srv_from_natvie_texture(&self, texture: interface::TextureID) -> *mut std::ffi::c_void {
-        match (&*self.interface).SRVFromNativeTexture {
-            Some(intf) => intf(texture) as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+    pub unsafe fn srv_from_natvie_texture(
+        &self,
+        texture: interface::TextureID,
+    ) -> *mut std::ffi::c_void {
+        self.get_interface().SRVFromNativeTexture.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method(texture) as *mut std::ffi::c_void,
+        )
     }
 }

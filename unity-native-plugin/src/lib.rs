@@ -9,7 +9,6 @@ pub mod graphics;
 pub mod interface;
 pub type IUnityInterfaces = unity_native_plugin_sys::IUnityInterfaces;
 
-
 #[macro_export]
 macro_rules! unity_native_plugin_entry_point {
     {fn $method_load:ident($p:ident : $t:ty) $body_load:block
@@ -36,7 +35,6 @@ macro_rules! unity_native_plugin_entry_point {
     }
 }
 
-
 #[macro_export]
 macro_rules! define_unity_interface {
     ($s:ident, $intf:ident, $guid_high:expr, $guid_low:expr) => {
@@ -55,5 +53,13 @@ macro_rules! define_unity_interface {
                 }
             }
         }
-    };
+
+        impl $s {
+            #[allow(dead_code)]
+            #[inline]
+            fn get_interface(&self) -> &$intf {
+                unsafe { &*self.interface }
+            }
+        }
+    }
 }

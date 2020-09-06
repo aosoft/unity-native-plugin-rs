@@ -10,11 +10,18 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12 {
+    fn binding_method<T>(s: std::option::Option::<unsafe extern "system" fn() -> *mut T>) -> T {
+        s.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method() as *mut std::ffi::c_void,
+        )
+    }
+
     pub unsafe fn get_device(&self) -> *mut std::ffi::c_void {
-        match (&*self.interface).GetDevice {
-            Some(intf) => intf() as *mut std::ffi::c_void,
-            None => std::ptr::null_mut(),
-        }
+        self.get_interface().GetDevice.map_or_else(
+            || std::ptr::null_mut(),
+            |method| method() as *mut std::ffi::c_void,
+        )
     }
 }
 
