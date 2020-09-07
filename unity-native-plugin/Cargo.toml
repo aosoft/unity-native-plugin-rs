@@ -27,7 +27,4 @@ vulkan = []
 [dependencies]
 unity-native-plugin-sys = { version = "0.3.0", path = "../unity-native-plugin-sys" }
 
-[target.'cfg(feature = "vulkan")'.dependencies]
-ash = "0.31.0"
-
 

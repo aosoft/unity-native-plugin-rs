@@ -40,7 +40,7 @@ macro_rules! unity_native_plugin_entry_point {
 
 #[macro_export]
 macro_rules! define_unity_interface {
-    ($s:ident, $intf:ident, $guid_high:expr, $guid_low:expr) => {
+    ($s:ident, $intf:ty, $guid_high:expr, $guid_low:expr) => {
         pub struct $s {
             interface: *const $intf,
         }
@@ -50,7 +50,7 @@ macro_rules! define_unity_interface {
                 unity_native_plugin_sys::UnityInterfaceGUID::new($guid_high, $guid_low)
             }
 
-            fn new(interface: *const IUnityInterface) -> Self {
+            fn new(interface: *const unity_native_plugin_sys::IUnityInterface) -> Self {
                 $s {
                     interface: interface as *const $intf,
                 }
