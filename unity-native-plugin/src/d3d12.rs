@@ -9,21 +9,21 @@ define_unity_interface!(
     0xBD295B6F2A38D9DE_u64
 );
 
-pub type Handle = std::ffi::c_void;
+pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D12 {
-    pub unsafe fn get_device(&self) -> *mut Handle {
-        self.get_interface().GetDevice.expect("GetDevice")() as *mut Handle
+    pub unsafe fn get_device(&self) -> ComPtr {
+        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_command_queue(&self) -> *mut Handle {
+    pub unsafe fn get_command_queue(&self) -> ComPtr {
         self.get_interface()
             .GetCommandQueue
-            .expect("GetCommandQueue")() as *mut Handle
+            .expect("GetCommandQueue")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> *mut Handle {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut Handle
+    pub unsafe fn get_frame_fence(&self) -> ComPtr {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
     pub fn get_next_frame_fence_value(&self) -> u64 {
@@ -34,7 +34,7 @@ impl UnityGraphicsD3D12 {
         }
     }
 
-    pub fn get_resource_state(&self, resource: *mut Handle) -> Option<i32> {
+    pub fn get_resource_state(&self, resource: ComPtr) -> Option<i32> {
         unsafe {
             let mut ret: D3D12_RESOURCE_STATES = D3D12_RESOURCE_STATES::default();
             if self
@@ -51,7 +51,7 @@ impl UnityGraphicsD3D12 {
         }
     }
 
-    pub fn set_resource_state(&self, resource: *mut Handle, state: i32) {
+    pub fn set_resource_state(&self, resource: ComPtr, state: i32) {
         unsafe {
             self.get_interface()
                 .SetResourceState
@@ -70,12 +70,12 @@ define_unity_interface!(
 pub type ResourceState = UnityGraphicsD3D12ResourceState;
 
 impl UnityGraphicsD3D12v2 {
-    pub unsafe fn get_device(&self) -> *mut Handle {
-        self.get_interface().GetDevice.expect("GetDevice")() as *mut Handle
+    pub unsafe fn get_device(&self) -> ComPtr {
+        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> *mut Handle {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut Handle
+    pub unsafe fn get_frame_fence(&self) -> ComPtr {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
     pub fn get_next_frame_fence_value(&self) -> u64 {
@@ -88,7 +88,7 @@ impl UnityGraphicsD3D12v2 {
 
     pub unsafe fn execute_command_list(
         &self,
-        command_list: *mut Handle,
+        command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
         self.get_interface()
@@ -111,12 +111,12 @@ define_unity_interface!(
 pub type PhysicalVideoMemoryControlValues = UnityGraphicsD3D12PhysicalVideoMemoryControlValues;
 
 impl UnityGraphicsD3D12v3 {
-    pub unsafe fn get_device(&self) -> *mut Handle {
-        self.get_interface().GetDevice.expect("GetDevice")() as *mut Handle
+    pub unsafe fn get_device(&self) -> ComPtr {
+        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> *mut Handle {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut Handle
+    pub unsafe fn get_frame_fence(&self) -> ComPtr {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
     pub fn get_next_frame_fence_value(&self) -> u64 {
@@ -129,7 +129,7 @@ impl UnityGraphicsD3D12v3 {
 
     pub unsafe fn execute_command_list(
         &self,
-        command_list: *mut Handle,
+        command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
         self.get_interface()
@@ -163,12 +163,12 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12v4 {
-    pub unsafe fn get_device(&self) -> *mut Handle {
-        self.get_interface().GetDevice.expect("GetDevice")() as *mut Handle
+    pub unsafe fn get_device(&self) -> ComPtr {
+        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> *mut Handle {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut Handle
+    pub unsafe fn get_frame_fence(&self) -> ComPtr {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
     pub fn get_next_frame_fence_value(&self) -> u64 {
@@ -181,7 +181,7 @@ impl UnityGraphicsD3D12v4 {
 
     pub unsafe fn execute_command_list(
         &self,
-        command_list: *mut Handle,
+        command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
         self.get_interface()
@@ -206,10 +206,10 @@ impl UnityGraphicsD3D12v4 {
         }
     }
 
-    pub unsafe fn get_command_queue(&self) -> *mut Handle {
+    pub unsafe fn get_command_queue(&self) -> ComPtr {
         self.get_interface()
             .GetCommandQueue
-            .expect("GetCommandQueue")() as *mut Handle
+            .expect("GetCommandQueue")() as ComPtr
     }
 }
 
@@ -221,12 +221,12 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12v5 {
-    pub unsafe fn get_device(&self) -> *mut Handle {
-        self.get_interface().GetDevice.expect("GetDevice")() as *mut Handle
+    pub unsafe fn get_device(&self) -> ComPtr {
+        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> *mut Handle {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as *mut Handle
+    pub unsafe fn get_frame_fence(&self) -> ComPtr {
+        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
     pub fn get_next_frame_fence_value(&self) -> u64 {
@@ -239,7 +239,7 @@ impl UnityGraphicsD3D12v5 {
 
     pub unsafe fn execute_command_list(
         &self,
-        command_list: *mut Handle,
+        command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
         self.get_interface()
@@ -264,18 +264,18 @@ impl UnityGraphicsD3D12v5 {
         }
     }
 
-    pub unsafe fn get_command_queue(&self) -> *mut Handle {
+    pub unsafe fn get_command_queue(&self) -> ComPtr {
         self.get_interface()
             .GetCommandQueue
-            .expect("GetCommandQueue")() as *mut Handle
+            .expect("GetCommandQueue")() as ComPtr
     }
 
     pub unsafe fn texture_from_render_buffer(
         &self,
         buffer: *mut interface::RenderBuffer,
-    ) -> *mut Handle {
+    ) -> ComPtr {
         self.get_interface()
             .TextureFromRenderBuffer
-            .expect("TextureFromRenderBuffer")(buffer) as *mut Handle
+            .expect("TextureFromRenderBuffer")(buffer) as ComPtr
     }
 }
