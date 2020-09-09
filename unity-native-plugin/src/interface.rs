@@ -12,13 +12,11 @@ pub struct UnityInterfaces {
 }
 
 impl UnityInterfaces {
-    pub fn get_unity_interfaces() -> &'static UnityInterfaces {
+    pub fn get() -> &'static UnityInterfaces {
         unsafe { UNITY_INTERFACES.as_ref().unwrap() }
     }
 
-    pub fn set_native_unity_interfaces(
-        interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
-    ) {
+    pub fn set_native_unity_interfaces(interfaces: *mut unity_native_plugin_sys::IUnityInterfaces) {
         unsafe {
             UNITY_INTERFACES = if !interfaces.is_null() {
                 Some(UnityInterfaces {
@@ -30,7 +28,7 @@ impl UnityInterfaces {
         }
     }
 
-    pub fn get_interface<T: UnityInterface>(&self) -> Option<T> {
+    pub fn interface<T: UnityInterface>(&self) -> Option<T> {
         unsafe {
             if let Some(intf) = (&*self.interfaces).GetInterface {
                 let r = intf(T::get_interface_guid());

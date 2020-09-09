@@ -24,12 +24,15 @@ pub struct VulkanInstance {
 }
 
 impl VulkanInstance {
-    pub unsafe fn get_instance_proc_addr(&self, name:&str) -> VoidFunction {
+    pub unsafe fn get_instance_proc_addr(&self, name: &str) -> VoidFunction {
         let name = std::ffi::CString::new(name).unwrap_or(std::ffi::CString::default());
-        (self.getInstanceProcAddr.expect("getInstanceProcAddr"))(self.instance as VkInstance, name.as_ptr())
+        (self.getInstanceProcAddr.expect("getInstanceProcAddr"))(
+            self.instance as VkInstance,
+            name.as_ptr(),
+        )
     }
 }
 
 impl UnityGraphicsVulkan {
-    pub fn get_instance()
+    //pub fn instance()
 }

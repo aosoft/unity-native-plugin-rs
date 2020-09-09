@@ -27,8 +27,8 @@ unity_native_plugin::unity_native_plugin_entry_point! {
     }
 }
 ```
-* Use UnityInterface::get_interface, which is equivalent to IUnityInterfaces::GetInterface, to get the interface.
+* Use UnityInterface::interface, which is equivalent to IUnityInterfaces::GetInterface, to get the interface.
 ```rust
-let intf = unity_native_plugin::interface::UnityInterfaces::get_unity_interfaces()
-    .get_interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>();
+let intf = unity_native_plugin::interface::UnityInterfaces::get()
+    .interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>();
 ```

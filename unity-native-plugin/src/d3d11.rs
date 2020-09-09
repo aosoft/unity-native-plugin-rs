@@ -11,42 +11,30 @@ define_unity_interface!(
 pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D11 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn texture_from_render_buffer(
-        &self,
-        buffer: interface::RenderBuffer,
-    ) -> ComPtr {
-        self.get_interface()
+    pub unsafe fn texture_from_render_buffer(&self, buffer: interface::RenderBuffer) -> ComPtr {
+        self.interface()
             .TextureFromRenderBuffer
             .expect("TextureFromRenderBuffer")(buffer) as ComPtr
     }
 
-    pub unsafe fn texture_from_natvie_texture(
-        &self,
-        texture: interface::TextureID,
-    ) -> ComPtr {
-        self.get_interface()
+    pub unsafe fn texture_from_natvie_texture(&self, texture: interface::TextureID) -> ComPtr {
+        self.interface()
             .TextureFromNativeTexture
             .expect("TextureFromNativeTexture")(texture) as ComPtr
     }
 
-    pub unsafe fn rtv_from_render_buffer(
-        &self,
-        buffer: interface::RenderBuffer,
-    ) -> ComPtr {
-        self.get_interface()
+    pub unsafe fn rtv_from_render_buffer(&self, buffer: interface::RenderBuffer) -> ComPtr {
+        self.interface()
             .RTVFromRenderBuffer
             .expect("RTVFromRenderBuffer")(buffer) as ComPtr
     }
 
-    pub unsafe fn srv_from_natvie_texture(
-        &self,
-        texture: interface::TextureID,
-    ) -> ComPtr {
-        self.get_interface()
+    pub unsafe fn srv_from_natvie_texture(&self, texture: interface::TextureID) -> ComPtr {
+        self.interface()
             .SRVFromNativeTexture
             .expect("SRVFromNativeTexture")(texture) as ComPtr
     }

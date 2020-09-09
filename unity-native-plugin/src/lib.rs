@@ -26,7 +26,7 @@ macro_rules! unity_native_plugin_entry_point {
             interfaces: *mut unity_native_plugin::IUnityInterfaces,
         ) {
             unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(interfaces);
-            $method_load(unity_native_plugin::interface::UnityInterfaces::get_unity_interfaces());
+            $method_load(unity_native_plugin::interface::UnityInterfaces::get());
         }
 
         #[no_mangle]
@@ -60,9 +60,9 @@ macro_rules! define_unity_interface {
         impl $s {
             #[allow(dead_code)]
             #[inline]
-            fn get_interface(&self) -> &$intf {
+            fn interface(&self) -> &$intf {
                 unsafe { &*self.interface }
             }
         }
-    }
+    };
 }

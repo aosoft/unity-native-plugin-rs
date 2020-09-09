@@ -12,35 +12,30 @@ define_unity_interface!(
 pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D12 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_command_queue(&self) -> ComPtr {
-        self.get_interface()
-            .GetCommandQueue
-            .expect("GetCommandQueue")() as ComPtr
+    pub unsafe fn command_queue(&self) -> ComPtr {
+        self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> ComPtr {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+    pub unsafe fn frame_fence(&self) -> ComPtr {
+        self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
-    pub fn get_next_frame_fence_value(&self) -> u64 {
+    pub fn next_frame_fence_value(&self) -> u64 {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
     }
 
-    pub fn get_resource_state(&self, resource: ComPtr) -> Option<i32> {
+    pub fn resource_state(&self, resource: ComPtr) -> Option<i32> {
         unsafe {
             let mut ret: D3D12_RESOURCE_STATES = D3D12_RESOURCE_STATES::default();
-            if self
-                .get_interface()
-                .GetResourceState
-                .expect("GetResourceState")(
+            if self.interface().GetResourceState.expect("GetResourceState")(
                 resource as *mut ID3D12Resource,
                 &mut ret as *mut D3D12_RESOURCE_STATES,
             ) {
@@ -53,9 +48,10 @@ impl UnityGraphicsD3D12 {
 
     pub fn set_resource_state(&self, resource: ComPtr, state: i32) {
         unsafe {
-            self.get_interface()
-                .SetResourceState
-                .expect("SetResourceState")(resource as *mut ID3D12Resource, state)
+            self.interface().SetResourceState.expect("SetResourceState")(
+                resource as *mut ID3D12Resource,
+                state,
+            )
         }
     }
 }
@@ -70,17 +66,17 @@ define_unity_interface!(
 pub type ResourceState = UnityGraphicsD3D12ResourceState;
 
 impl UnityGraphicsD3D12v2 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> ComPtr {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+    pub unsafe fn frame_fence(&self) -> ComPtr {
+        self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
-    pub fn get_next_frame_fence_value(&self) -> u64 {
+    pub fn next_frame_fence_value(&self) -> u64 {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
@@ -91,7 +87,7 @@ impl UnityGraphicsD3D12v2 {
         command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
-        self.get_interface()
+        self.interface()
             .ExecuteCommandList
             .expect("ExecuteCommandList")(
             command_list as *mut ID3D12GraphicsCommandList,
@@ -111,17 +107,17 @@ define_unity_interface!(
 pub type PhysicalVideoMemoryControlValues = UnityGraphicsD3D12PhysicalVideoMemoryControlValues;
 
 impl UnityGraphicsD3D12v3 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> ComPtr {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+    pub unsafe fn frame_fence(&self) -> ComPtr {
+        self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
-    pub fn get_next_frame_fence_value(&self) -> u64 {
+    pub fn next_frame_fence_value(&self) -> u64 {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
@@ -132,7 +128,7 @@ impl UnityGraphicsD3D12v3 {
         command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
-        self.get_interface()
+        self.interface()
             .ExecuteCommandList
             .expect("ExecuteCommandList")(
             command_list as *mut ID3D12GraphicsCommandList,
@@ -146,7 +142,7 @@ impl UnityGraphicsD3D12v3 {
         mem_info: &PhysicalVideoMemoryControlValues,
     ) {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .SetPhysicalVideoMemoryControlValues
                 .expect("SetPhysicalVideoMemoryControlValues")(
                 mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
@@ -163,17 +159,17 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12v4 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> ComPtr {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+    pub unsafe fn frame_fence(&self) -> ComPtr {
+        self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
-    pub fn get_next_frame_fence_value(&self) -> u64 {
+    pub fn next_frame_fence_value(&self) -> u64 {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
@@ -184,7 +180,7 @@ impl UnityGraphicsD3D12v4 {
         command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
-        self.get_interface()
+        self.interface()
             .ExecuteCommandList
             .expect("ExecuteCommandList")(
             command_list as *mut ID3D12GraphicsCommandList,
@@ -198,7 +194,7 @@ impl UnityGraphicsD3D12v4 {
         mem_info: &PhysicalVideoMemoryControlValues,
     ) {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .SetPhysicalVideoMemoryControlValues
                 .expect("SetPhysicalVideoMemoryControlValues")(
                 mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
@@ -206,10 +202,8 @@ impl UnityGraphicsD3D12v4 {
         }
     }
 
-    pub unsafe fn get_command_queue(&self) -> ComPtr {
-        self.get_interface()
-            .GetCommandQueue
-            .expect("GetCommandQueue")() as ComPtr
+    pub unsafe fn command_queue(&self) -> ComPtr {
+        self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
     }
 }
 
@@ -221,17 +215,17 @@ define_unity_interface!(
 );
 
 impl UnityGraphicsD3D12v5 {
-    pub unsafe fn get_device(&self) -> ComPtr {
-        self.get_interface().GetDevice.expect("GetDevice")() as ComPtr
+    pub unsafe fn device(&self) -> ComPtr {
+        self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn get_frame_fence(&self) -> ComPtr {
-        self.get_interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+    pub unsafe fn frame_fence(&self) -> ComPtr {
+        self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
     }
 
-    pub fn get_next_frame_fence_value(&self) -> u64 {
+    pub fn next_frame_fence_value(&self) -> u64 {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .GetNextFrameFenceValue
                 .expect("GetNextFrameFenceValue")()
         }
@@ -242,7 +236,7 @@ impl UnityGraphicsD3D12v5 {
         command_list: ComPtr,
         states: &[ResourceState],
     ) -> u64 {
-        self.get_interface()
+        self.interface()
             .ExecuteCommandList
             .expect("ExecuteCommandList")(
             command_list as *mut ID3D12GraphicsCommandList,
@@ -256,7 +250,7 @@ impl UnityGraphicsD3D12v5 {
         mem_info: &PhysicalVideoMemoryControlValues,
     ) {
         unsafe {
-            self.get_interface()
+            self.interface()
                 .SetPhysicalVideoMemoryControlValues
                 .expect("SetPhysicalVideoMemoryControlValues")(
                 mem_info as *const UnityGraphicsD3D12PhysicalVideoMemoryControlValues,
@@ -264,17 +258,15 @@ impl UnityGraphicsD3D12v5 {
         }
     }
 
-    pub unsafe fn get_command_queue(&self) -> ComPtr {
-        self.get_interface()
-            .GetCommandQueue
-            .expect("GetCommandQueue")() as ComPtr
+    pub unsafe fn command_queue(&self) -> ComPtr {
+        self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
     }
 
     pub unsafe fn texture_from_render_buffer(
         &self,
         buffer: *mut interface::RenderBuffer,
     ) -> ComPtr {
-        self.get_interface()
+        self.interface()
             .TextureFromRenderBuffer
             .expect("TextureFromRenderBuffer")(buffer) as ComPtr
     }

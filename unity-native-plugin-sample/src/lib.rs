@@ -2,7 +2,6 @@ use winapi::shared::dxgiformat;
 use winapi::um::{d3d11, unknwnbase::IUnknown};
 use wio::com::ComPtr;
 
-
 unity_native_plugin::unity_native_plugin_entry_point! {
     fn unity_plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {
     }
@@ -24,13 +23,13 @@ extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: 
             Err(_) => return,
         };
 
-        let device = match unity_native_plugin::interface::UnityInterfaces::get_unity_interfaces()
-            .get_interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>()
+        let device = match unity_native_plugin::interface::UnityInterfaces::get()
+            .interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>()
         {
             Some(t) => t,
             None => return,
         }
-        .get_device() as *mut d3d11::ID3D11Device;
+        .device() as *mut d3d11::ID3D11Device;
 
         let mut dc: *mut d3d11::ID3D11DeviceContext = std::ptr::null_mut();
         (&*device).GetImmediateContext(&mut dc as *mut *mut _);
