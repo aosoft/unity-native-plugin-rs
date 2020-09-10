@@ -12,7 +12,6 @@ define_unity_interface!(
 pub type Handle = *mut std::ffi::c_void;
 pub type VoidFunction = unity_native_plugin_sys::PFN_vkVoidFunction;
 
-#[derive(Copy, Clone)]
 pub struct VulkanInstance {
     pub pipeline_cache: Handle,
     pub instance: Handle,
@@ -38,12 +37,22 @@ pub enum VulkanGraphicsQueueAccess {
     Allow = UnityVulkanGraphicsQueueAccess_kUnityVulkanGraphicsQueueAccess_Allow,
 }
 
-#[derive(Copy, Clone)]
 pub struct VulkanPluginEventConfig {
     pub render_pass_precondition: VulkanEventRenderPassPreCondition,
     pub graphics_queue_access: VulkanGraphicsQueueAccess,
     pub flags: u32,
 }
+
+pub struct VulkanRecordingState {
+    pub command_buffer: Handle,
+    pub command_buffer_level: u32,
+    pub render_pass: Handle,
+    pub framebuffer: Handle,
+    pub sub_pass_index: i32,
+    pub current_frame_number: u64,
+    pub safe_frame_number: u64,
+}
+
 
 impl VulkanInstance {
     pub unsafe fn get_instance_proc_addr(&self, name: &str) -> VoidFunction {
@@ -79,6 +88,25 @@ impl UnityGraphicsVulkan {
                 graphics_queue: instance.graphicsQueue as Handle,
                 get_instance_proc_addr: instance.getInstanceProcAddr,
                 queue_family_index: instance.queueFamilyIndex,
+            }
+        }
+    }
+
+    pub fn command_recording_state(&self, queue_access: VulkanGraphicsQueueAccess) -> Option<VulkanRecordingState> {
+        let mut ret = UnityVulkanRecordingState::default();
+        unsafe {
+            if self.interface().CommandRecordingState.expect("CommandRecordingState")(&mut ret, queue_access as UnityVulkanGraphicsQueueAccess) {
+                Some(VulkanRecordingState {
+                    command_buffer: ret.commandBuffer as Handle,
+                    command_buffer_level: ret.commandBufferLevel,
+                    render_pass: ret.renderPass as Handle,
+                    framebuffer: ret.framebuffer as Handle,
+                    sub_pass_index: ret.subPassIndex,
+                    current_frame_number: ret.currentFrameNumber,
+                    safe_frame_number: ret.safeFrameNumber
+                })
+            } else {
+                None
             }
         }
     }
