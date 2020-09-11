@@ -1,5 +1,6 @@
 use crate::define_unity_interface;
 use crate::interface;
+use crate::interface::UnityInterface;
 
 define_unity_interface!(
     UnityGraphicsD3D11,

@@ -4,9 +4,6 @@ pub mod d3d11;
 #[cfg(feature = "d3d12")]
 pub mod d3d12;
 
-#[cfg(feature = "vulkan")]
-pub mod vulkan;
-
 pub mod enums;
 pub mod graphics;
 pub mod interface;
@@ -45,7 +42,7 @@ macro_rules! define_unity_interface {
             interface: *const $intf,
         }
 
-        impl crate::interface::UnityInterface for $s {
+        impl UnityInterface for $s {
             fn get_interface_guid() -> unity_native_plugin_sys::UnityInterfaceGUID {
                 unity_native_plugin_sys::UnityInterfaceGUID::new($guid_high, $guid_low)
             }

@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "unity-native-plugin",
+    "unity-native-plugin-vulkan",
     "unity-native-plugin-sys",
     "unity-native-plugin-sample"
 ]
