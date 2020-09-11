@@ -9,6 +9,8 @@ define_unity_interface!(
     0x9789313dfcffcc87_u64
 );
 
+pub type VulkanInitCallback = UnityVulkanInitCallback;
+
 #[repr(C)]
 pub struct VulkanInstance {
     pub pipeline_cache: ash::vk::PipelineCache,
@@ -22,11 +24,11 @@ pub struct VulkanInstance {
 }
 
 impl VulkanInstance {
-    pub unsafe fn get_instance_proc_addr(&self, name: *const std::os::raw::c_char) -> ash::vk::PFN_vkVoidFunction {
-        std::mem::transmute((self.get_instance_proc_addr)(
-            self.instance,
-            name,
-        ))
+    pub unsafe fn get_instance_proc_addr(
+        &self,
+        name: *const std::os::raw::c_char,
+    ) -> ash::vk::PFN_vkVoidFunction {
+        std::mem::transmute((self.get_instance_proc_addr)(self.instance, name))
     }
 }
 
@@ -65,7 +67,28 @@ pub struct VulkanRecordingState {
 }
 
 impl UnityGraphicsVulkan {
-    //pub fn intercept_initialization()
+    pub unsafe fn intercept_initialization(
+        &self,
+        func: VulkanInitCallback,
+        userdata: *mut ::std::os::raw::c_void,
+    ) {
+        self.interface()
+            .InterceptInitialization
+            .expect("InterceptInitialization")(func, userdata);
+    }
+
+    pub unsafe fn intercept_vulkan_api(
+        &self,
+        name: *const ::std::os::raw::c_char,
+        func: ash::vk::PFN_vkVoidFunction,
+    ) -> ash::vk::PFN_vkVoidFunction {
+        std::mem::transmute(self
+            .interface()
+            .InterceptVulkanAPI
+            .expect("InterceptVulkanAPI")(
+            name, std::mem::transmute(func)
+        ))
+    }
 
     pub fn configure_event(&self, event_id: i32, plugin_event_config: &VulkanPluginEventConfig) {
         unsafe {
