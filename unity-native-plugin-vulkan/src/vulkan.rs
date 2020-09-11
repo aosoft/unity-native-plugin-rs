@@ -77,6 +77,14 @@ pub struct VulkanMemory {
     reserved: [*mut ::std::os::raw::c_void; 4usize],
 }
 
+#[repr(u32)]
+#[derive(Copy, Clone)]
+pub enum VulkanResourceAccessMode {
+    ObserveOnly = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_ObserveOnly,
+    PipelineBarrier = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_PipelineBarrier,
+    Recreate = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_Recreate,
+}
+
 #[repr(C)]
 pub struct VulkanImage {
     pub memory: VulkanMemory,
@@ -151,14 +159,32 @@ impl UnityGraphicsVulkan {
         }
     }
 
-    /*pub fn access_texture(
-        nativeTexture: *mut ::std::os::raw::c_void,
-        subResource: *const VkImageSubresource,
-        layout: VkImageLayout,
-        pipelineStageFlags: VkPipelineStageFlags,
-        accessFlags: VkAccessFlags,
-        accessMode: UnityVulkanResourceAccessMode,
-        outImage: *mut UnityVulkanImage)*/
+    pub unsafe fn access_texture(
+        &self,
+        native_texture: *mut ::std::os::raw::c_void,
+        sub_resource: Option::<&ash::vk::ImageSubresource>,
+        layout: ash::vk::ImageLayout,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode) -> Option::<VulkanImage> {
+        let mut ret = std::mem::zeroed::<VulkanImage>();
+        if self.interface().AccessTexture.expect("AccessTexture")(
+            native_texture,
+            match sub_resource {
+                Some(t) => std::mem::transmute(t),
+                None => std::ptr::null()
+            },
+            std::mem::transmute(layout),
+            std::mem::transmute(pipeline_stage_flags),
+            std::mem::transmute(access_flags),
+            access_mode as UnityVulkanResourceAccessMode,
+            std::mem::transmute(&ret)
+        ) {
+            Some(ret)
+        } else {
+            None
+        }
+    }
 }
 
 #[cfg(test)]
