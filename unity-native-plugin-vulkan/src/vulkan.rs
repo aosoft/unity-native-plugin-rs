@@ -63,7 +63,35 @@ pub struct VulkanRecordingState {
     pub sub_pass_index: ::std::os::raw::c_int,
     pub current_frame_number: ::std::os::raw::c_ulonglong,
     pub safe_frame_number: ::std::os::raw::c_ulonglong,
-    pub reserved: [*mut ::std::os::raw::c_void; 4usize],
+    reserved: [*mut ::std::os::raw::c_void; 4usize],
+}
+
+#[repr(C)]
+pub struct VulkanMemory {
+    pub memory: ash::vk::DeviceMemory,
+    pub offset: ash::vk::DeviceSize,
+    pub size: ash::vk::DeviceSize,
+    pub mapped: *mut ::std::os::raw::c_void,
+    pub flags: ash::vk::MemoryPropertyFlags,
+    pub memory_type_index: ::std::os::raw::c_uint,
+    reserved: [*mut ::std::os::raw::c_void; 4usize],
+}
+
+#[repr(C)]
+pub struct VulkanImage {
+    pub memory: VulkanMemory,
+    pub image: ash::vk::Image,
+    pub layout: ash::vk::ImageLayout,
+    pub aspect: ash::vk::ImageAspectFlags,
+    pub usage: ash::vk::ImageUsageFlags,
+    pub format: ash::vk::Format,
+    pub extent: ash::vk::Extent3D,
+    pub tiling: ash::vk::ImageTiling,
+    pub type_: ash::vk::ImageType,
+    pub samples: ash::vk::SampleCountFlags,
+    pub layers: ::std::os::raw::c_int,
+    pub mip_count: ::std::os::raw::c_int,
+    reserved: [*mut ::std::os::raw::c_void; 4usize],
 }
 
 impl UnityGraphicsVulkan {
@@ -122,23 +150,42 @@ impl UnityGraphicsVulkan {
             }
         }
     }
+
+    /*pub fn access_texture(
+        nativeTexture: *mut ::std::os::raw::c_void,
+        subResource: *const VkImageSubresource,
+        layout: VkImageLayout,
+        pipelineStageFlags: VkPipelineStageFlags,
+        accessFlags: VkAccessFlags,
+        accessMode: UnityVulkanResourceAccessMode,
+        outImage: *mut UnityVulkanImage)*/
 }
 
 #[cfg(test)]
 mod test {
+    use super::*;
+
     #[test]
     fn size_test() {
         assert_eq!(
-            ::std::mem::size_of::<crate::vulkan::VulkanInstance>(),
+            ::std::mem::size_of::<VulkanInstance>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanInstance>()
         );
         assert_eq!(
-            ::std::mem::size_of::<crate::vulkan::VulkanPluginEventConfig>(),
+            ::std::mem::size_of::<VulkanPluginEventConfig>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanPluginEventConfig>()
         );
         assert_eq!(
-            ::std::mem::size_of::<crate::vulkan::VulkanRecordingState>(),
+            ::std::mem::size_of::<VulkanRecordingState>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanRecordingState>()
+        );
+        assert_eq!(
+            ::std::mem::size_of::<VulkanMemory>(),
+            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanMemory>()
+        );
+        assert_eq!(
+            ::std::mem::size_of::<VulkanImage>(),
+            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanImage>()
         );
     }
 }
