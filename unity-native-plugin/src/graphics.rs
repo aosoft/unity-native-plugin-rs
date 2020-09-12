@@ -4,6 +4,9 @@ use unity_native_plugin_sys::*;
 
 pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
 pub type TextureID = unity_native_plugin_sys::UnityTextureID;
+pub type RenderingEvent = unsafe extern "system" fn(eventId: ::std::os::raw::c_int);
+pub type RenderingEventAndData =
+    unsafe extern "system" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void);
 
 #[repr(u32)]
 #[derive(Copy, Clone)]
@@ -38,7 +41,7 @@ define_unity_interface!(
     0x8C5AD4926EB17B11_u64
 );
 
-pub type UnityGraphicsDeviceEventCallback = extern "system" fn(eventType: GfxDeviceEventType);
+pub type GraphicsDeviceEventCallback = extern "system" fn(eventType: GfxDeviceEventType);
 
 impl UnityGraphics {
     pub fn get_renderer(&self) -> GfxRenderer {
@@ -52,7 +55,7 @@ impl UnityGraphics {
 
     pub fn register_device_event_callback(
         &self,
-        callback: Option<UnityGraphicsDeviceEventCallback>,
+        callback: Option<GraphicsDeviceEventCallback>,
     ) {
         unsafe {
             if let Some(intf) = self.interface().RegisterDeviceEventCallback {
@@ -63,7 +66,7 @@ impl UnityGraphics {
 
     pub fn unregister_device_event_callback(
         &self,
-        callback: Option<UnityGraphicsDeviceEventCallback>,
+        callback: Option<GraphicsDeviceEventCallback>,
     ) {
         unsafe {
             if let Some(intf) = self.interface().UnregisterDeviceEventCallback {

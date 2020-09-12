@@ -298,15 +298,21 @@ impl UnityGraphicsVulkan {
         }
     }
 
-    //pub fn access_queue
+    pub unsafe fn access_queue(
+        &self,
+        callback: UnityRenderingEventAndData,
+        event_id: ::std::os::raw::c_int,
+        user_data: *mut ::std::os::raw::c_void,
+        flush: bool,
+    ) {
+        self.interface().AccessQueue.expect("AccessQueue")(callback, event_id, user_data, flush);
+    }
 
     pub fn config_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
         unsafe {
             self.interface()
                 .ConfigureSwapchain
-                .expect("ConfigureSwapchain")(
-                std::mem::transmute(swapchain_config),
-            )
+                .expect("ConfigureSwapchain")(std::mem::transmute(swapchain_config))
         }
     }
 
@@ -320,7 +326,10 @@ impl UnityGraphicsVulkan {
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
         let mut ret = std::mem::zeroed::<VulkanImage>();
-        if self.interface().AccessTextureByID.expect("AccessTextureByID")(
+        if self
+            .interface()
+            .AccessTextureByID
+            .expect("AccessTextureByID")(
             texture_id,
             match sub_resource {
                 Some(t) => std::mem::transmute(t),
