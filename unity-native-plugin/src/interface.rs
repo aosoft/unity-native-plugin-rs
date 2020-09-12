@@ -40,6 +40,3 @@ impl UnityInterfaces {
         }
     }
 }
-
-pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
-pub type TextureID = unity_native_plugin_sys::UnityTextureID;

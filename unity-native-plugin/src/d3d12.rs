@@ -1,5 +1,5 @@
 use crate::define_unity_interface;
-use crate::interface;
+use crate::graphics;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
@@ -265,7 +265,7 @@ impl UnityGraphicsD3D12v5 {
 
     pub unsafe fn texture_from_render_buffer(
         &self,
-        buffer: *mut interface::RenderBuffer,
+        buffer: *mut graphics::RenderBuffer,
     ) -> ComPtr {
         self.interface()
             .TextureFromRenderBuffer

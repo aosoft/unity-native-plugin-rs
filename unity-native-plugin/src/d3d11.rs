@@ -1,5 +1,5 @@
 use crate::define_unity_interface;
-use crate::interface;
+use crate::graphics;
 use crate::interface::UnityInterface;
 
 define_unity_interface!(
@@ -16,25 +16,25 @@ impl UnityGraphicsD3D11 {
         self.interface().GetDevice.expect("GetDevice")() as ComPtr
     }
 
-    pub unsafe fn texture_from_render_buffer(&self, buffer: interface::RenderBuffer) -> ComPtr {
+    pub unsafe fn texture_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr {
         self.interface()
             .TextureFromRenderBuffer
             .expect("TextureFromRenderBuffer")(buffer) as ComPtr
     }
 
-    pub unsafe fn texture_from_natvie_texture(&self, texture: interface::TextureID) -> ComPtr {
+    pub unsafe fn texture_from_natvie_texture(&self, texture: graphics::TextureID) -> ComPtr {
         self.interface()
             .TextureFromNativeTexture
             .expect("TextureFromNativeTexture")(texture) as ComPtr
     }
 
-    pub unsafe fn rtv_from_render_buffer(&self, buffer: interface::RenderBuffer) -> ComPtr {
+    pub unsafe fn rtv_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr {
         self.interface()
             .RTVFromRenderBuffer
             .expect("RTVFromRenderBuffer")(buffer) as ComPtr
     }
 
-    pub unsafe fn srv_from_natvie_texture(&self, texture: interface::TextureID) -> ComPtr {
+    pub unsafe fn srv_from_natvie_texture(&self, texture: graphics::TextureID) -> ComPtr {
         self.interface()
             .SRVFromNativeTexture
             .expect("SRVFromNativeTexture")(texture) as ComPtr

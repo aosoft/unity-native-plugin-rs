@@ -2,6 +2,9 @@ use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
+pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
+pub type TextureID = unity_native_plugin_sys::UnityTextureID;
+
 #[repr(u32)]
 #[derive(Copy, Clone)]
 pub enum GfxRenderer {
