@@ -10,6 +10,7 @@ crate-type = ["cdylib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-unity-native-plugin = { version = "0.3.0",  path = "../unity-native-plugin", features = ["d3d11", "d3d12","vulkan"] }
+unity-native-plugin = { version = "0.3.0",  path = "../unity-native-plugin", features = ["d3d11", "d3d12"] }
+unity-native-plugin-vulkan = { version = "0.3.0",  path = "../unity-native-plugin-vulkan" }
 winapi = { version = "0.3.9", features = ["winuser", "d3d11", "dxgiformat"] }
 wio = "0.2.2"

@@ -6,7 +6,7 @@ Unity Native Plugin API for Rust
 ## Notice
 
 * WIP
-* Currently supports D3D11 and D3D12
+* Currently supports D3D11, D3D12, Vulkan
 * API is not stable.
 
 ## How to use
@@ -16,6 +16,13 @@ Unity Native Plugin API for Rust
 [dependencies]
 unity-native-plugin = { version = "*", features = ["d3d11"] }
 ```
+* If you use Vulkan, define "unity-native-plugin-vulkan" in your dependencies.
+```cargo
+[dependencies]
+unity-native-plugin = "*"
+unity-native-plugin-vulkan = "*"
+```
+    
 * Use a macro in lib.rs to define your entry points. Without this definition, UnityInterfaces cannot be used.
 ```rust
 unity_native_plugin::unity_native_plugin_entry_point! {
