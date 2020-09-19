@@ -2,9 +2,6 @@
 
 #include <IUnityGraphics.h>
 #include <IUnityInterface.h>
-#include <IUnityProfilerCallbacks.h>
-#include <IUnityRenderingExtensions.h>
-#include <IUnityShaderCompilerAccess.h>
 
 struct ID3D11Device {};
 struct ID3D11Resource {};
@@ -22,3 +19,13 @@ struct ID3D12CommandQueue {};
 #include <IUnityGraphicsD3D12.h>
 
 #include <IUnityGraphicsVulkan.h>
+
+#include <IUnityRenderingExtensions.h>
+#include <IUnityShaderCompilerAccess.h>
+
+#ifndef NULL
+#define NULL nullptr
+#endif
+
+#include <IUnityProfiler.h>
+//#include <IUnityProfilerCallbacks.h>

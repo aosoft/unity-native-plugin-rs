@@ -1571,2076 +1571,6 @@ pub type UnityRenderingEvent =
 pub type UnityRenderingEventAndData = ::std::option::Option<
     unsafe extern "system" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void),
 >;
-pub type UnityProfilerMarkerId = u32;
-pub type UnityProfilerCategoryId = u16;
-pub type UnityProfilerThreadId = u64;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityProfilerCategoryDesc {
-    pub id: UnityProfilerCategoryId,
-    pub reserved0: u16,
-    pub rgbaColor: u32,
-    pub name: *const ::std::os::raw::c_char,
-}
-#[test]
-fn bindgen_test_layout_UnityProfilerCategoryDesc() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityProfilerCategoryDesc>(),
-        16usize,
-        concat!("Size of: ", stringify!(UnityProfilerCategoryDesc))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityProfilerCategoryDesc>(),
-        8usize,
-        concat!("Alignment of ", stringify!(UnityProfilerCategoryDesc))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).id as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerCategoryDesc),
-            "::",
-            stringify!(id)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).reserved0 as *const _ as usize
-        },
-        2usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerCategoryDesc),
-            "::",
-            stringify!(reserved0)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).rgbaColor as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerCategoryDesc),
-            "::",
-            stringify!(rgbaColor)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).name as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerCategoryDesc),
-            "::",
-            stringify!(name)
-        )
-    );
-}
-impl Default for UnityProfilerCategoryDesc {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault: UnityProfilerMarkerFlag_ = 0;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptUser: UnityProfilerMarkerFlag_ = 2;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptInvoke: UnityProfilerMarkerFlag_ =
-    32;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptEnterLeave:
-    UnityProfilerMarkerFlag_ = 64;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor:
-    UnityProfilerMarkerFlag_ = 4;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityNonDev:
-    UnityProfilerMarkerFlag_ = 8;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagWarning: UnityProfilerMarkerFlag_ = 16;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityDebug:
-    UnityProfilerMarkerFlag_ = 1024;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityInternal:
-    UnityProfilerMarkerFlag_ = 2048;
-pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced:
-    UnityProfilerMarkerFlag_ = 4096;
-pub type UnityProfilerMarkerFlag_ = ::std::os::raw::c_uint;
-pub type UnityProfilerMarkerFlags = u16;
-pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeBegin:
-    UnityProfilerMarkerEventType_ = 0;
-pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeEnd:
-    UnityProfilerMarkerEventType_ = 1;
-pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle:
-    UnityProfilerMarkerEventType_ = 2;
-pub type UnityProfilerMarkerEventType_ = ::std::os::raw::c_uint;
-pub type UnityProfilerMarkerEventType = u16;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityProfilerMarkerDesc {
-    pub callback: *const ::std::os::raw::c_void,
-    pub id: UnityProfilerMarkerId,
-    pub flags: UnityProfilerMarkerFlags,
-    pub categoryId: UnityProfilerCategoryId,
-    pub name: *const ::std::os::raw::c_char,
-    pub metaDataDesc: *const ::std::os::raw::c_void,
-}
-#[test]
-fn bindgen_test_layout_UnityProfilerMarkerDesc() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityProfilerMarkerDesc>(),
-        32usize,
-        concat!("Size of: ", stringify!(UnityProfilerMarkerDesc))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityProfilerMarkerDesc>(),
-        8usize,
-        concat!("Alignment of ", stringify!(UnityProfilerMarkerDesc))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).callback as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(callback)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).id as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(id)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).flags as *const _ as usize },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(flags)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).categoryId as *const _ as usize
-        },
-        14usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(categoryId)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).name as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(name)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).metaDataDesc as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerDesc),
-            "::",
-            stringify!(metaDataDesc)
-        )
-    );
-}
-impl Default for UnityProfilerMarkerDesc {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeNone:
-    UnityProfilerMarkerDataType_ = 0;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInstanceId:
-    UnityProfilerMarkerDataType_ = 1;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt32:
-    UnityProfilerMarkerDataType_ = 2;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt32:
-    UnityProfilerMarkerDataType_ = 3;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt64:
-    UnityProfilerMarkerDataType_ = 4;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt64:
-    UnityProfilerMarkerDataType_ = 5;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeFloat:
-    UnityProfilerMarkerDataType_ = 6;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeDouble:
-    UnityProfilerMarkerDataType_ = 7;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString:
-    UnityProfilerMarkerDataType_ = 8;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString16:
-    UnityProfilerMarkerDataType_ = 9;
-pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8:
-    UnityProfilerMarkerDataType_ = 11;
-pub type UnityProfilerMarkerDataType_ = ::std::os::raw::c_uint;
-pub type UnityProfilerMarkerDataType = u8;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityProfilerMarkerData {
-    pub type_: UnityProfilerMarkerDataType,
-    pub reserved0: u8,
-    pub reserved1: u16,
-    pub size: u32,
-    pub ptr: *const ::std::os::raw::c_void,
-}
-#[test]
-fn bindgen_test_layout_UnityProfilerMarkerData() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityProfilerMarkerData>(),
-        16usize,
-        concat!("Size of: ", stringify!(UnityProfilerMarkerData))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityProfilerMarkerData>(),
-        8usize,
-        concat!("Alignment of ", stringify!(UnityProfilerMarkerData))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).type_ as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerData),
-            "::",
-            stringify!(type_)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerMarkerData>())).reserved0 as *const _ as usize
-        },
-        1usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerData),
-            "::",
-            stringify!(reserved0)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerMarkerData>())).reserved1 as *const _ as usize
-        },
-        2usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerData),
-            "::",
-            stringify!(reserved1)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).size as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerData),
-            "::",
-            stringify!(size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).ptr as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerMarkerData),
-            "::",
-            stringify!(ptr)
-        )
-    );
-}
-impl Default for UnityProfilerMarkerData {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeBegin:
-    UnityProfilerFlowEventType_ = 0;
-pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeNext: UnityProfilerFlowEventType_ =
-    1;
-pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd: UnityProfilerFlowEventType_ =
-    2;
-pub type UnityProfilerFlowEventType_ = ::std::os::raw::c_uint;
-pub type UnityProfilerFlowEventType = u8;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityProfilerThreadDesc {
-    pub threadId: u64,
-    pub groupName: *const ::std::os::raw::c_char,
-    pub name: *const ::std::os::raw::c_char,
-}
-#[test]
-fn bindgen_test_layout_UnityProfilerThreadDesc() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityProfilerThreadDesc>(),
-        24usize,
-        concat!("Size of: ", stringify!(UnityProfilerThreadDesc))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityProfilerThreadDesc>(),
-        8usize,
-        concat!("Alignment of ", stringify!(UnityProfilerThreadDesc))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerThreadDesc>())).threadId as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerThreadDesc),
-            "::",
-            stringify!(threadId)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityProfilerThreadDesc>())).groupName as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerThreadDesc),
-            "::",
-            stringify!(groupName)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<UnityProfilerThreadDesc>())).name as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityProfilerThreadDesc),
-            "::",
-            stringify!(name)
-        )
-    );
-}
-impl Default for UnityProfilerThreadDesc {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub type IUnityProfilerCreateCategoryCallback = ::std::option::Option<
-    unsafe extern "system" fn(
-        categoryDesc: *const UnityProfilerCategoryDesc,
-        userData: *mut ::std::os::raw::c_void,
-    ),
->;
-pub type IUnityProfilerCreateMarkerCallback = ::std::option::Option<
-    unsafe extern "system" fn(
-        markerDesc: *const UnityProfilerMarkerDesc,
-        userData: *mut ::std::os::raw::c_void,
-    ),
->;
-pub type IUnityProfilerMarkerEventCallback = ::std::option::Option<
-    unsafe extern "system" fn(
-        markerDesc: *const UnityProfilerMarkerDesc,
-        eventType: UnityProfilerMarkerEventType,
-        eventDataCount: u16,
-        eventData: *const UnityProfilerMarkerData,
-        userData: *mut ::std::os::raw::c_void,
-    ),
->;
-pub type IUnityProfilerFrameCallback =
-    ::std::option::Option<unsafe extern "system" fn(userData: *mut ::std::os::raw::c_void)>;
-pub type IUnityProfilerThreadCallback = ::std::option::Option<
-    unsafe extern "system" fn(
-        threadDesc: *const UnityProfilerThreadDesc,
-        userData: *mut ::std::os::raw::c_void,
-    ),
->;
-pub type IUnityProfilerFlowEventCallback = ::std::option::Option<
-    unsafe extern "system" fn(
-        flowEventType: UnityProfilerFlowEventType,
-        flowId: u32,
-        userData: *mut ::std::os::raw::c_void,
-    ),
->;
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct IUnityProfilerCallbacksV2 {
-    pub RegisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateCategoryCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateCategoryCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateMarkerCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateMarkerCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            markerDesc: *const UnityProfilerMarkerDesc,
-            callback: IUnityProfilerMarkerEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            markerDesc: *const UnityProfilerMarkerDesc,
-            callback: IUnityProfilerMarkerEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterFrameCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFrameCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterFrameCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFrameCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerThreadCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerThreadCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterFlowEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFlowEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterFlowEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFlowEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-}
-#[test]
-fn bindgen_test_layout_IUnityProfilerCallbacksV2() {
-    assert_eq!(
-        ::std::mem::size_of::<IUnityProfilerCallbacksV2>(),
-        96usize,
-        concat!("Size of: ", stringify!(IUnityProfilerCallbacksV2))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<IUnityProfilerCallbacksV2>(),
-        8usize,
-        concat!("Alignment of ", stringify!(IUnityProfilerCallbacksV2))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterCreateCategoryCallback
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterCreateCategoryCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterCreateCategoryCallback
-                as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterCreateCategoryCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterCreateMarkerCallback
-                as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterCreateMarkerCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterCreateMarkerCallback
-                as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterCreateMarkerCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterMarkerEventCallback
-                as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterMarkerEventCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterMarkerEventCallback
-                as *const _ as usize
-        },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterMarkerEventCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterFrameCallback as *const _
-                as usize
-        },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterFrameCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterFrameCallback
-                as *const _ as usize
-        },
-        56usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterFrameCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterCreateThreadCallback
-                as *const _ as usize
-        },
-        64usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterCreateThreadCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterCreateThreadCallback
-                as *const _ as usize
-        },
-        72usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterCreateThreadCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).RegisterFlowEventCallback
-                as *const _ as usize
-        },
-        80usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(RegisterFlowEventCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacksV2>())).UnregisterFlowEventCallback
-                as *const _ as usize
-        },
-        88usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacksV2),
-            "::",
-            stringify!(UnregisterFlowEventCallback)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct IUnityProfilerCallbacks {
-    pub RegisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateCategoryCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateCategoryCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateCategoryCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateMarkerCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateMarkerCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerCreateMarkerCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            markerDesc: *const UnityProfilerMarkerDesc,
-            callback: IUnityProfilerMarkerEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterMarkerEventCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            markerDesc: *const UnityProfilerMarkerDesc,
-            callback: IUnityProfilerMarkerEventCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterFrameCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFrameCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterFrameCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerFrameCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub RegisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerThreadCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-    pub UnregisterCreateThreadCallback: ::std::option::Option<
-        unsafe extern "system" fn(
-            callback: IUnityProfilerThreadCallback,
-            userData: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
-    >,
-}
-#[test]
-fn bindgen_test_layout_IUnityProfilerCallbacks() {
-    assert_eq!(
-        ::std::mem::size_of::<IUnityProfilerCallbacks>(),
-        80usize,
-        concat!("Size of: ", stringify!(IUnityProfilerCallbacks))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<IUnityProfilerCallbacks>(),
-        8usize,
-        concat!("Alignment of ", stringify!(IUnityProfilerCallbacks))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).RegisterCreateCategoryCallback
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(RegisterCreateCategoryCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).UnregisterCreateCategoryCallback
-                as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(UnregisterCreateCategoryCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).RegisterCreateMarkerCallback
-                as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(RegisterCreateMarkerCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).UnregisterCreateMarkerCallback
-                as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(UnregisterCreateMarkerCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).RegisterMarkerEventCallback
-                as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(RegisterMarkerEventCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).UnregisterMarkerEventCallback
-                as *const _ as usize
-        },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(UnregisterMarkerEventCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).RegisterFrameCallback as *const _
-                as usize
-        },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(RegisterFrameCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).UnregisterFrameCallback as *const _
-                as usize
-        },
-        56usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(UnregisterFrameCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).RegisterCreateThreadCallback
-                as *const _ as usize
-        },
-        64usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(RegisterCreateThreadCallback)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<IUnityProfilerCallbacks>())).UnregisterCreateThreadCallback
-                as *const _ as usize
-        },
-        72usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(IUnityProfilerCallbacks),
-            "::",
-            stringify!(UnregisterCreateThreadCallback)
-        )
-    );
-}
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoTarget:
-    UnityRenderingExtEventType = 0;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoEye:
-    UnityRenderingExtEventType = 1;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventStereoRenderingDone:
-    UnityRenderingExtEventType = 2;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventBeforeDrawCall:
-    UnityRenderingExtEventType = 3;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventAfterDrawCall:
-    UnityRenderingExtEventType = 4;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventCustomGrab: UnityRenderingExtEventType =
-    5;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventCustomBlit: UnityRenderingExtEventType =
-    6;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBegin:
-    UnityRenderingExtEventType = 7;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEnd:
-    UnityRenderingExtEventType = 8;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBeginV1:
-    UnityRenderingExtEventType = 7;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEndV1:
-    UnityRenderingExtEventType = 8;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBeginV2:
-    UnityRenderingExtEventType = 9;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEndV2:
-    UnityRenderingExtEventType = 10;
-pub const UnityRenderingExtEventType_kUnityRenderingExtEventCount: UnityRenderingExtEventType = 11;
-pub const UnityRenderingExtEventType_kUnityRenderingExtUserEventsStart: UnityRenderingExtEventType =
-    11;
-pub type UnityRenderingExtEventType = ::std::os::raw::c_uint;
-pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitVRFlush:
-    UnityRenderingExtCustomBlitCommands = 0;
-pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitCount:
-    UnityRenderingExtCustomBlitCommands = 1;
-pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtUserCustomBlitStart:
-    UnityRenderingExtCustomBlitCommands = 1;
-pub type UnityRenderingExtCustomBlitCommands = ::std::os::raw::c_uint;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideViewport:
-    UnityRenderingExtQueryType = 1;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideScissor:
-    UnityRenderingExtQueryType = 2;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVROcclussionMesh:
-    UnityRenderingExtQueryType = 4;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVRSinglePass:
-    UnityRenderingExtQueryType = 8;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryKeepOriginalDoubleWideWidth_DEPRECATED : UnityRenderingExtQueryType = 16 ;
-pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryRequestVRFlushCallback:
-    UnityRenderingExtQueryType = 32;
-pub type UnityRenderingExtQueryType = ::std::os::raw::c_uint;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatNone:
-    UnityRenderingExtTextureFormat = 0;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatFirst:
-    UnityRenderingExtTextureFormat = 0;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SRGB:
-    UnityRenderingExtTextureFormat = 1;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SRGB:
-    UnityRenderingExtTextureFormat = 2;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SRGB:
-    UnityRenderingExtTextureFormat = 3;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SRGB:
-    UnityRenderingExtTextureFormat = 4;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_UNorm:
-    UnityRenderingExtTextureFormat = 5;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_UNorm:
-    UnityRenderingExtTextureFormat = 6;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_UNorm:
-    UnityRenderingExtTextureFormat = 7;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_UNorm:
-    UnityRenderingExtTextureFormat = 8;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SNorm:
-    UnityRenderingExtTextureFormat = 9;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SNorm:
-    UnityRenderingExtTextureFormat = 10;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SNorm:
-    UnityRenderingExtTextureFormat = 11;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SNorm:
-    UnityRenderingExtTextureFormat = 12;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_UInt:
-    UnityRenderingExtTextureFormat = 13;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_UInt:
-    UnityRenderingExtTextureFormat = 14;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_UInt:
-    UnityRenderingExtTextureFormat = 15;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_UInt:
-    UnityRenderingExtTextureFormat = 16;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SInt:
-    UnityRenderingExtTextureFormat = 17;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SInt:
-    UnityRenderingExtTextureFormat = 18;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SInt:
-    UnityRenderingExtTextureFormat = 19;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SInt:
-    UnityRenderingExtTextureFormat = 20;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_UNorm:
-    UnityRenderingExtTextureFormat = 21;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_UNorm:
-    UnityRenderingExtTextureFormat = 22;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_UNorm:
-    UnityRenderingExtTextureFormat = 23;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_UNorm:
-    UnityRenderingExtTextureFormat = 24;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SNorm:
-    UnityRenderingExtTextureFormat = 25;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SNorm:
-    UnityRenderingExtTextureFormat = 26;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SNorm:
-    UnityRenderingExtTextureFormat = 27;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SNorm:
-    UnityRenderingExtTextureFormat = 28;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_UInt:
-    UnityRenderingExtTextureFormat = 29;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_UInt:
-    UnityRenderingExtTextureFormat = 30;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_UInt:
-    UnityRenderingExtTextureFormat = 31;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_UInt:
-    UnityRenderingExtTextureFormat = 32;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SInt:
-    UnityRenderingExtTextureFormat = 33;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SInt:
-    UnityRenderingExtTextureFormat = 34;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SInt:
-    UnityRenderingExtTextureFormat = 35;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SInt:
-    UnityRenderingExtTextureFormat = 36;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_UInt:
-    UnityRenderingExtTextureFormat = 37;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_UInt:
-    UnityRenderingExtTextureFormat = 38;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_UInt:
-    UnityRenderingExtTextureFormat = 39;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_UInt:
-    UnityRenderingExtTextureFormat = 40;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_SInt:
-    UnityRenderingExtTextureFormat = 41;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_SInt:
-    UnityRenderingExtTextureFormat = 42;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_SInt:
-    UnityRenderingExtTextureFormat = 43;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SInt:
-    UnityRenderingExtTextureFormat = 44;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SFloat:
-    UnityRenderingExtTextureFormat = 45;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SFloat:
-    UnityRenderingExtTextureFormat = 46;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SFloat:
-    UnityRenderingExtTextureFormat = 47;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SFloat:
-    UnityRenderingExtTextureFormat = 48;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_SFloat:
-    UnityRenderingExtTextureFormat = 49;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_SFloat:
-    UnityRenderingExtTextureFormat = 50;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_SFloat:
-    UnityRenderingExtTextureFormat = 51;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SFloat:
-    UnityRenderingExtTextureFormat = 52;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatL8_UNorm:
-    UnityRenderingExtTextureFormat = 53;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8_UNorm:
-    UnityRenderingExtTextureFormat = 54;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA16_UNorm:
-    UnityRenderingExtTextureFormat = 55;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SRGB:
-    UnityRenderingExtTextureFormat = 56;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SRGB:
-    UnityRenderingExtTextureFormat = 57;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_UNorm:
-    UnityRenderingExtTextureFormat = 58;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_UNorm:
-    UnityRenderingExtTextureFormat = 59;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SNorm:
-    UnityRenderingExtTextureFormat = 60;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SNorm:
-    UnityRenderingExtTextureFormat = 61;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_UInt:
-    UnityRenderingExtTextureFormat = 62;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_UInt:
-    UnityRenderingExtTextureFormat = 63;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SInt:
-    UnityRenderingExtTextureFormat = 64;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SInt:
-    UnityRenderingExtTextureFormat = 65;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR4G4B4A4_UNormPack16:
-    UnityRenderingExtTextureFormat = 66;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB4G4R4A4_UNormPack16:
-    UnityRenderingExtTextureFormat = 67;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G6B5_UNormPack16:
-    UnityRenderingExtTextureFormat = 68;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G6R5_UNormPack16:
-    UnityRenderingExtTextureFormat = 69;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G5B5A1_UNormPack16:
-    UnityRenderingExtTextureFormat = 70;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G5R5A1_UNormPack16:
-    UnityRenderingExtTextureFormat = 71;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA1R5G5B5_UNormPack16:
-    UnityRenderingExtTextureFormat = 72;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatE5B9G9R9_UFloatPack32:
-    UnityRenderingExtTextureFormat = 73;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB10G11R11_UFloatPack32:
-    UnityRenderingExtTextureFormat = 74;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UNormPack32:
-    UnityRenderingExtTextureFormat = 75;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UIntPack32:
-    UnityRenderingExtTextureFormat = 76;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_SIntPack32:
-    UnityRenderingExtTextureFormat = 77;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UNormPack32:
-    UnityRenderingExtTextureFormat = 78;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UIntPack32:
-    UnityRenderingExtTextureFormat = 79;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_SIntPack32:
-    UnityRenderingExtTextureFormat = 80;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRSRGBPack32:
-    UnityRenderingExtTextureFormat = 81;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRUNormPack32:
-    UnityRenderingExtTextureFormat = 82;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRSRGBPack32:
-    UnityRenderingExtTextureFormat = 83;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRUNormPack32:
-    UnityRenderingExtTextureFormat = 84;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRSRGBPack32:
-    UnityRenderingExtTextureFormat = 85;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRUNormPack32:
-    UnityRenderingExtTextureFormat = 86;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_SRGB:
-    UnityRenderingExtTextureFormat = 87;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_UNorm:
-    UnityRenderingExtTextureFormat = 88;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA32R32G32B32_SFloat:
-    UnityRenderingExtTextureFormat = 89;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD16_UNorm:
-    UnityRenderingExtTextureFormat = 90;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm:
-    UnityRenderingExtTextureFormat = 91;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm_S8_UInt:
-    UnityRenderingExtTextureFormat = 92;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat:
-    UnityRenderingExtTextureFormat = 93;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat_S8_Uint:
-    UnityRenderingExtTextureFormat = 94;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatS8_Uint:
-    UnityRenderingExtTextureFormat = 95;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_SRGB:
-    UnityRenderingExtTextureFormat = 96;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_UNorm:
-    UnityRenderingExtTextureFormat = 97;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT3_SRGB:
-    UnityRenderingExtTextureFormat = 98;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT3_UNorm:
-    UnityRenderingExtTextureFormat = 99;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT5_SRGB:
-    UnityRenderingExtTextureFormat = 100;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT5_UNorm:
-    UnityRenderingExtTextureFormat = 101;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_BC4_UNorm:
-    UnityRenderingExtTextureFormat = 102;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_BC4_SNorm:
-    UnityRenderingExtTextureFormat = 103;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_BC5_UNorm:
-    UnityRenderingExtTextureFormat = 104;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_BC5_SNorm:
-    UnityRenderingExtTextureFormat = 105;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_BC6H_UFloat:
-    UnityRenderingExtTextureFormat = 106;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_BC6H_SFloat:
-    UnityRenderingExtTextureFormat = 107;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_SRGB:
-    UnityRenderingExtTextureFormat = 108;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_UNorm:
-    UnityRenderingExtTextureFormat = 109;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_SRGB:
-    UnityRenderingExtTextureFormat = 110;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_UNorm:
-    UnityRenderingExtTextureFormat = 111;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_SRGB:
-    UnityRenderingExtTextureFormat = 112;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_UNorm:
-    UnityRenderingExtTextureFormat = 113;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_SRGB:
-    UnityRenderingExtTextureFormat = 114;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_UNorm:
-    UnityRenderingExtTextureFormat = 115;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_SRGB:
-    UnityRenderingExtTextureFormat = 116;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_UNorm:
-    UnityRenderingExtTextureFormat = 117;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC_UNorm:
-    UnityRenderingExtTextureFormat = 118;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_SRGB:
-    UnityRenderingExtTextureFormat = 119;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_UNorm:
-    UnityRenderingExtTextureFormat = 120;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_A1_ETC2_SRGB:
-    UnityRenderingExtTextureFormat = 121;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_A1_ETC2_UNorm:
-    UnityRenderingExtTextureFormat = 122;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ETC2_SRGB:
-    UnityRenderingExtTextureFormat = 123;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ETC2_UNorm:
-    UnityRenderingExtTextureFormat = 124;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_EAC_UNorm:
-    UnityRenderingExtTextureFormat = 125;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_EAC_SNorm:
-    UnityRenderingExtTextureFormat = 126;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_EAC_UNorm:
-    UnityRenderingExtTextureFormat = 127;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_EAC_SNorm:
-    UnityRenderingExtTextureFormat = 128;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_SRGB:
-    UnityRenderingExtTextureFormat = 129;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UNorm:
-    UnityRenderingExtTextureFormat = 130;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_SRGB:
-    UnityRenderingExtTextureFormat = 131;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UNorm:
-    UnityRenderingExtTextureFormat = 132;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_SRGB:
-    UnityRenderingExtTextureFormat = 133;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UNorm:
-    UnityRenderingExtTextureFormat = 134;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_SRGB:
-    UnityRenderingExtTextureFormat = 135;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UNorm:
-    UnityRenderingExtTextureFormat = 136;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_SRGB:
-    UnityRenderingExtTextureFormat = 137;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UNorm:
-    UnityRenderingExtTextureFormat = 138;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_SRGB:
-    UnityRenderingExtTextureFormat = 139;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UNorm:
-    UnityRenderingExtTextureFormat = 140;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatYUV2:
-    UnityRenderingExtTextureFormat = 141;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatDepthAuto:
-    UnityRenderingExtTextureFormat = 142;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatShadowAuto:
-    UnityRenderingExtTextureFormat = 143;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatVideoAuto:
-    UnityRenderingExtTextureFormat = 144;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UFloat:
-    UnityRenderingExtTextureFormat = 145;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UFloat:
-    UnityRenderingExtTextureFormat = 146;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UFloat:
-    UnityRenderingExtTextureFormat = 147;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UFloat:
-    UnityRenderingExtTextureFormat = 148;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UFloat:
-    UnityRenderingExtTextureFormat = 149;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UFloat:
-    UnityRenderingExtTextureFormat = 150;
-pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatLast:
-    UnityRenderingExtTextureFormat = 150;
-pub type UnityRenderingExtTextureFormat = ::std::os::raw::c_uint;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityRenderingExtBeforeDrawCallParams {
-    pub vertexShader: *mut ::std::os::raw::c_void,
-    pub fragmentShader: *mut ::std::os::raw::c_void,
-    pub geometryShader: *mut ::std::os::raw::c_void,
-    pub hullShader: *mut ::std::os::raw::c_void,
-    pub domainShader: *mut ::std::os::raw::c_void,
-    pub eyeIndex: ::std::os::raw::c_int,
-}
-#[test]
-fn bindgen_test_layout_UnityRenderingExtBeforeDrawCallParams() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityRenderingExtBeforeDrawCallParams>(),
-        48usize,
-        concat!(
-            "Size of: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityRenderingExtBeforeDrawCallParams>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).vertexShader
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(vertexShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).fragmentShader
-                as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(fragmentShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).geometryShader
-                as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(geometryShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).hullShader as *const _
-                as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(hullShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).domainShader
-                as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(domainShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).eyeIndex as *const _
-                as usize
-        },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtBeforeDrawCallParams),
-            "::",
-            stringify!(eyeIndex)
-        )
-    );
-}
-impl Default for UnityRenderingExtBeforeDrawCallParams {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityRenderingExtCustomBlitParams {
-    pub source: UnityTextureID,
-    pub destination: UnityRenderBuffer,
-    pub command: ::std::os::raw::c_uint,
-    pub commandParam: ::std::os::raw::c_uint,
-    pub commandFlags: ::std::os::raw::c_uint,
-}
-#[test]
-fn bindgen_test_layout_UnityRenderingExtCustomBlitParams() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityRenderingExtCustomBlitParams>(),
-        32usize,
-        concat!("Size of: ", stringify!(UnityRenderingExtCustomBlitParams))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityRenderingExtCustomBlitParams>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityRenderingExtCustomBlitParams)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).source as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtCustomBlitParams),
-            "::",
-            stringify!(source)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).destination as *const _
-                as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtCustomBlitParams),
-            "::",
-            stringify!(destination)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).command as *const _
-                as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtCustomBlitParams),
-            "::",
-            stringify!(command)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).commandParam as *const _
-                as usize
-        },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtCustomBlitParams),
-            "::",
-            stringify!(commandParam)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).commandFlags as *const _
-                as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtCustomBlitParams),
-            "::",
-            stringify!(commandFlags)
-        )
-    );
-}
-impl Default for UnityRenderingExtCustomBlitParams {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityRenderingExtTextureUpdateParamsV1 {
-    pub texData: *mut ::std::os::raw::c_void,
-    pub userData: ::std::os::raw::c_uint,
-    pub textureID: ::std::os::raw::c_uint,
-    pub format: UnityRenderingExtTextureFormat,
-    pub width: ::std::os::raw::c_uint,
-    pub height: ::std::os::raw::c_uint,
-    pub bpp: ::std::os::raw::c_uint,
-}
-#[test]
-fn bindgen_test_layout_UnityRenderingExtTextureUpdateParamsV1() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityRenderingExtTextureUpdateParamsV1>(),
-        32usize,
-        concat!(
-            "Size of: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityRenderingExtTextureUpdateParamsV1>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).texData as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(texData)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).userData as *const _
-                as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(userData)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).textureID as *const _
-                as usize
-        },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(textureID)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).format as *const _
-                as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(format)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).width as *const _
-                as usize
-        },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(width)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).height as *const _
-                as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(height)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).bpp as *const _
-                as usize
-        },
-        28usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV1),
-            "::",
-            stringify!(bpp)
-        )
-    );
-}
-impl Default for UnityRenderingExtTextureUpdateParamsV1 {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub type UnityRenderingExtTextureUpdateParams = UnityRenderingExtTextureUpdateParamsV1;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityRenderingExtTextureUpdateParamsV2 {
-    pub texData: *mut ::std::os::raw::c_void,
-    pub textureID: isize,
-    pub userData: ::std::os::raw::c_uint,
-    pub format: UnityRenderingExtTextureFormat,
-    pub width: ::std::os::raw::c_uint,
-    pub height: ::std::os::raw::c_uint,
-    pub bpp: ::std::os::raw::c_uint,
-}
-#[test]
-fn bindgen_test_layout_UnityRenderingExtTextureUpdateParamsV2() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityRenderingExtTextureUpdateParamsV2>(),
-        40usize,
-        concat!(
-            "Size of: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityRenderingExtTextureUpdateParamsV2>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).texData as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(texData)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).textureID as *const _
-                as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(textureID)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).userData as *const _
-                as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(userData)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).format as *const _
-                as usize
-        },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(format)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).width as *const _
-                as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(width)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).height as *const _
-                as usize
-        },
-        28usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(height)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).bpp as *const _
-                as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityRenderingExtTextureUpdateParamsV2),
-            "::",
-            stringify!(bpp)
-        )
-    );
-}
-impl Default for UnityRenderingExtTextureUpdateParamsV2 {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-extern "system" {
-    pub fn UnityRenderingExtEvent(
-        event: UnityRenderingExtEventType,
-        data: *mut ::std::os::raw::c_void,
-    );
-}
-extern "system" {
-    pub fn UnityRenderingExtQuery(query: UnityRenderingExtQueryType) -> bool;
-}
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused0:
-    UnityShaderCompilerExtCompilerPlatform = 0;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused1:
-    UnityShaderCompilerExtCompilerPlatform = 1;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused2:
-    UnityShaderCompilerExtCompilerPlatform = 2;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused3:
-    UnityShaderCompilerExtCompilerPlatform = 3;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformD3D11:
-    UnityShaderCompilerExtCompilerPlatform = 4;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformGLES20:
-    UnityShaderCompilerExtCompilerPlatform = 5;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused6:
-    UnityShaderCompilerExtCompilerPlatform = 6;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused7:
-    UnityShaderCompilerExtCompilerPlatform = 7;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused8:
-    UnityShaderCompilerExtCompilerPlatform = 8;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformGLES3Plus:
-    UnityShaderCompilerExtCompilerPlatform = 9;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused10:
-    UnityShaderCompilerExtCompilerPlatform = 10;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformPS4:
-    UnityShaderCompilerExtCompilerPlatform = 11;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOne:
-    UnityShaderCompilerExtCompilerPlatform = 12;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused13:
-    UnityShaderCompilerExtCompilerPlatform = 13;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformMetal:
-    UnityShaderCompilerExtCompilerPlatform = 14;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformOpenGLCore:
-    UnityShaderCompilerExtCompilerPlatform = 15;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused16:
-    UnityShaderCompilerExtCompilerPlatform = 16;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused17:
-    UnityShaderCompilerExtCompilerPlatform = 17;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformVulkan:
-    UnityShaderCompilerExtCompilerPlatform = 18;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformSwitch:
-    UnityShaderCompilerExtCompilerPlatform = 19;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOneD3D12:
-    UnityShaderCompilerExtCompilerPlatform = 20;
-pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformCount:
-    UnityShaderCompilerExtCompilerPlatform = 21;
-pub type UnityShaderCompilerExtCompilerPlatform = ::std::os::raw::c_uint;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderNone:
-    UnityShaderCompilerExtShaderType = 0;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderVertex:
-    UnityShaderCompilerExtShaderType = 1;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderFragment:
-    UnityShaderCompilerExtShaderType = 2;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderGeometry:
-    UnityShaderCompilerExtShaderType = 3;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderHull:
-    UnityShaderCompilerExtShaderType = 4;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderDomain:
-    UnityShaderCompilerExtShaderType = 5;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderRayTracing:
-    UnityShaderCompilerExtShaderType = 6;
-pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderTypeCount:
-    UnityShaderCompilerExtShaderType = 7;
-pub type UnityShaderCompilerExtShaderType = ::std::os::raw::c_uint;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnknown:
-    UnityShaderCompilerExtGPUProgramType = 0;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLLegacy:
-    UnityShaderCompilerExtGPUProgramType = 1;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31AEP:
-    UnityShaderCompilerExtGPUProgramType = 2;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31:
-    UnityShaderCompilerExtGPUProgramType = 3;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES3:
-    UnityShaderCompilerExtGPUProgramType = 4;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES:
-    UnityShaderCompilerExtGPUProgramType = 5;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore32:
-    UnityShaderCompilerExtGPUProgramType = 6;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore41:
-    UnityShaderCompilerExtGPUProgramType = 7;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore43:
-    UnityShaderCompilerExtGPUProgramType = 8;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM20 : UnityShaderCompilerExtGPUProgramType = 9 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM30 : UnityShaderCompilerExtGPUProgramType = 10 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM20 : UnityShaderCompilerExtGPUProgramType = 11 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM30 : UnityShaderCompilerExtGPUProgramType = 12 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Vertex : UnityShaderCompilerExtGPUProgramType = 13 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Pixel : UnityShaderCompilerExtGPUProgramType = 14 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM40 : UnityShaderCompilerExtGPUProgramType = 15 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM50 : UnityShaderCompilerExtGPUProgramType = 16 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM40 : UnityShaderCompilerExtGPUProgramType = 17 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM50 : UnityShaderCompilerExtGPUProgramType = 18 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM40 : UnityShaderCompilerExtGPUProgramType = 19 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM50 : UnityShaderCompilerExtGPUProgramType = 20 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11HullSM50 : UnityShaderCompilerExtGPUProgramType = 21 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11DomainSM50 : UnityShaderCompilerExtGPUProgramType = 22 ;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalVS:
-    UnityShaderCompilerExtGPUProgramType = 23;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalFS:
-    UnityShaderCompilerExtGPUProgramType = 24;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetSPIRV:
-    UnityShaderCompilerExtGPUProgramType = 25;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused1:
-    UnityShaderCompilerExtGPUProgramType = 26;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused2:
-    UnityShaderCompilerExtGPUProgramType = 27;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused3:
-    UnityShaderCompilerExtGPUProgramType = 28;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused4:
-    UnityShaderCompilerExtGPUProgramType = 29;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused5:
-    UnityShaderCompilerExtGPUProgramType = 30;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetRayTracing:
-    UnityShaderCompilerExtGPUProgramType = 31;
-pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetCount:
-    UnityShaderCompilerExtGPUProgramType = 32;
-pub type UnityShaderCompilerExtGPUProgramType = ::std::os::raw::c_uint;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramVS:
-    UnityShaderCompilerExtGPUProgram = 2;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramPS:
-    UnityShaderCompilerExtGPUProgram = 4;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramGS:
-    UnityShaderCompilerExtGPUProgram = 8;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramHS:
-    UnityShaderCompilerExtGPUProgram = 16;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramDS:
-    UnityShaderCompilerExtGPUProgram = 32;
-pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramCustom:
-    UnityShaderCompilerExtGPUProgram = 128;
-pub type UnityShaderCompilerExtGPUProgram = ::std::os::raw::c_uint;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariant:
-    UnityShaderCompilerExtEventType = 0;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariantCleanup : UnityShaderCompilerExtEventType = 1 ;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariant:
-    UnityShaderCompilerExtEventType = 2;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariantCleanup : UnityShaderCompilerExtEventType = 3 ;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventPluginConfigure:
-    UnityShaderCompilerExtEventType = 4;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCount:
-    UnityShaderCompilerExtEventType = 5;
-pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtUserEventsStart:
-    UnityShaderCompilerExtEventType = 5;
-pub type UnityShaderCompilerExtEventType = ::std::os::raw::c_uint;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityShaderCompilerExtCustomSourceVariantParams {
-    pub outputSnippet: *mut ::std::os::raw::c_char,
-    pub outputKeywords: *mut ::std::os::raw::c_char,
-    pub inputSnippet: *const ::std::os::raw::c_char,
-    pub vr: bool,
-    pub platform: UnityShaderCompilerExtCompilerPlatform,
-    pub shaderType: UnityShaderCompilerExtShaderType,
-}
-#[test]
-fn bindgen_test_layout_UnityShaderCompilerExtCustomSourceVariantParams() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityShaderCompilerExtCustomSourceVariantParams>(),
-        40usize,
-        concat!(
-            "Size of: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityShaderCompilerExtCustomSourceVariantParams>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>()))
-                .outputSnippet as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(outputSnippet)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>()))
-                .outputKeywords as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(outputKeywords)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).inputSnippet
-                as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(inputSnippet)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).vr
-                as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(vr)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).platform
-                as *const _ as usize
-        },
-        28usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(platform)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).shaderType
-                as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
-            "::",
-            stringify!(shaderType)
-        )
-    );
-}
-impl Default for UnityShaderCompilerExtCustomSourceVariantParams {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct UnityShaderCompilerExtCustomBinaryVariantParams {
-    pub outputBinaryShader: *mut *mut ::std::os::raw::c_void,
-    pub inputByteCode: *const ::std::os::raw::c_uchar,
-    pub inputByteCodeSize: ::std::os::raw::c_uint,
-    pub programTypeMask: ::std::os::raw::c_uint,
-    pub platform: UnityShaderCompilerExtCompilerPlatform,
-}
-#[test]
-fn bindgen_test_layout_UnityShaderCompilerExtCustomBinaryVariantParams() {
-    assert_eq!(
-        ::std::mem::size_of::<UnityShaderCompilerExtCustomBinaryVariantParams>(),
-        32usize,
-        concat!(
-            "Size of: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<UnityShaderCompilerExtCustomBinaryVariantParams>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
-                .outputBinaryShader as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
-            "::",
-            stringify!(outputBinaryShader)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
-                .inputByteCode as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
-            "::",
-            stringify!(inputByteCode)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
-                .inputByteCodeSize as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
-            "::",
-            stringify!(inputByteCodeSize)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
-                .programTypeMask as *const _ as usize
-        },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
-            "::",
-            stringify!(programTypeMask)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>())).platform
-                as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
-            "::",
-            stringify!(platform)
-        )
-    );
-}
-impl Default for UnityShaderCompilerExtCustomBinaryVariantParams {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-pub struct IUnityShaderCompilerExtPluginConfigure__bindgen_vtable(::std::os::raw::c_void);
-#[repr(C)]
-pub struct IUnityShaderCompilerExtPluginConfigure {
-    pub vtable_: *const IUnityShaderCompilerExtPluginConfigure__bindgen_vtable,
-}
-#[test]
-fn bindgen_test_layout_IUnityShaderCompilerExtPluginConfigure() {
-    assert_eq!(
-        ::std::mem::size_of::<IUnityShaderCompilerExtPluginConfigure>(),
-        8usize,
-        concat!(
-            "Size of: ",
-            stringify!(IUnityShaderCompilerExtPluginConfigure)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<IUnityShaderCompilerExtPluginConfigure>(),
-        8usize,
-        concat!(
-            "Alignment of ",
-            stringify!(IUnityShaderCompilerExtPluginConfigure)
-        )
-    );
-}
-impl Default for IUnityShaderCompilerExtPluginConfigure {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-extern "system" {
-    pub fn UnityShaderCompilerExtEvent(
-        event: UnityShaderCompilerExtEventType,
-        data: *mut ::std::os::raw::c_void,
-    );
-}
 #[repr(C)]
 #[derive(Default, Copy, Clone)]
 pub struct ID3D11Device {
@@ -61594,6 +59524,1731 @@ fn bindgen_test_layout_IUnityGraphicsVulkan() {
             stringify!(IUnityGraphicsVulkan),
             "::",
             stringify!(AccessTextureByID)
+        )
+    );
+}
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoTarget:
+    UnityRenderingExtEventType = 0;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoEye:
+    UnityRenderingExtEventType = 1;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventStereoRenderingDone:
+    UnityRenderingExtEventType = 2;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventBeforeDrawCall:
+    UnityRenderingExtEventType = 3;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventAfterDrawCall:
+    UnityRenderingExtEventType = 4;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventCustomGrab: UnityRenderingExtEventType =
+    5;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventCustomBlit: UnityRenderingExtEventType =
+    6;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBegin:
+    UnityRenderingExtEventType = 7;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEnd:
+    UnityRenderingExtEventType = 8;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBeginV1:
+    UnityRenderingExtEventType = 7;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEndV1:
+    UnityRenderingExtEventType = 8;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureBeginV2:
+    UnityRenderingExtEventType = 9;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventUpdateTextureEndV2:
+    UnityRenderingExtEventType = 10;
+pub const UnityRenderingExtEventType_kUnityRenderingExtEventCount: UnityRenderingExtEventType = 11;
+pub const UnityRenderingExtEventType_kUnityRenderingExtUserEventsStart: UnityRenderingExtEventType =
+    11;
+pub type UnityRenderingExtEventType = ::std::os::raw::c_uint;
+pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitVRFlush:
+    UnityRenderingExtCustomBlitCommands = 0;
+pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitCount:
+    UnityRenderingExtCustomBlitCommands = 1;
+pub const UnityRenderingExtCustomBlitCommands_kUnityRenderingExtUserCustomBlitStart:
+    UnityRenderingExtCustomBlitCommands = 1;
+pub type UnityRenderingExtCustomBlitCommands = ::std::os::raw::c_uint;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideViewport:
+    UnityRenderingExtQueryType = 1;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideScissor:
+    UnityRenderingExtQueryType = 2;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVROcclussionMesh:
+    UnityRenderingExtQueryType = 4;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideVRSinglePass:
+    UnityRenderingExtQueryType = 8;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryKeepOriginalDoubleWideWidth_DEPRECATED : UnityRenderingExtQueryType = 16 ;
+pub const UnityRenderingExtQueryType_kUnityRenderingExtQueryRequestVRFlushCallback:
+    UnityRenderingExtQueryType = 32;
+pub type UnityRenderingExtQueryType = ::std::os::raw::c_uint;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatNone:
+    UnityRenderingExtTextureFormat = 0;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatFirst:
+    UnityRenderingExtTextureFormat = 0;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SRGB:
+    UnityRenderingExtTextureFormat = 1;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SRGB:
+    UnityRenderingExtTextureFormat = 2;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SRGB:
+    UnityRenderingExtTextureFormat = 3;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SRGB:
+    UnityRenderingExtTextureFormat = 4;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_UNorm:
+    UnityRenderingExtTextureFormat = 5;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_UNorm:
+    UnityRenderingExtTextureFormat = 6;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_UNorm:
+    UnityRenderingExtTextureFormat = 7;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_UNorm:
+    UnityRenderingExtTextureFormat = 8;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SNorm:
+    UnityRenderingExtTextureFormat = 9;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SNorm:
+    UnityRenderingExtTextureFormat = 10;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SNorm:
+    UnityRenderingExtTextureFormat = 11;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SNorm:
+    UnityRenderingExtTextureFormat = 12;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_UInt:
+    UnityRenderingExtTextureFormat = 13;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_UInt:
+    UnityRenderingExtTextureFormat = 14;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_UInt:
+    UnityRenderingExtTextureFormat = 15;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_UInt:
+    UnityRenderingExtTextureFormat = 16;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8_SInt:
+    UnityRenderingExtTextureFormat = 17;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8_SInt:
+    UnityRenderingExtTextureFormat = 18;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8_SInt:
+    UnityRenderingExtTextureFormat = 19;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR8G8B8A8_SInt:
+    UnityRenderingExtTextureFormat = 20;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_UNorm:
+    UnityRenderingExtTextureFormat = 21;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_UNorm:
+    UnityRenderingExtTextureFormat = 22;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_UNorm:
+    UnityRenderingExtTextureFormat = 23;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_UNorm:
+    UnityRenderingExtTextureFormat = 24;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SNorm:
+    UnityRenderingExtTextureFormat = 25;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SNorm:
+    UnityRenderingExtTextureFormat = 26;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SNorm:
+    UnityRenderingExtTextureFormat = 27;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SNorm:
+    UnityRenderingExtTextureFormat = 28;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_UInt:
+    UnityRenderingExtTextureFormat = 29;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_UInt:
+    UnityRenderingExtTextureFormat = 30;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_UInt:
+    UnityRenderingExtTextureFormat = 31;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_UInt:
+    UnityRenderingExtTextureFormat = 32;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SInt:
+    UnityRenderingExtTextureFormat = 33;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SInt:
+    UnityRenderingExtTextureFormat = 34;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SInt:
+    UnityRenderingExtTextureFormat = 35;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SInt:
+    UnityRenderingExtTextureFormat = 36;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_UInt:
+    UnityRenderingExtTextureFormat = 37;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_UInt:
+    UnityRenderingExtTextureFormat = 38;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_UInt:
+    UnityRenderingExtTextureFormat = 39;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_UInt:
+    UnityRenderingExtTextureFormat = 40;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_SInt:
+    UnityRenderingExtTextureFormat = 41;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_SInt:
+    UnityRenderingExtTextureFormat = 42;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_SInt:
+    UnityRenderingExtTextureFormat = 43;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SInt:
+    UnityRenderingExtTextureFormat = 44;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16_SFloat:
+    UnityRenderingExtTextureFormat = 45;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16_SFloat:
+    UnityRenderingExtTextureFormat = 46;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16_SFloat:
+    UnityRenderingExtTextureFormat = 47;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR16G16B16A16_SFloat:
+    UnityRenderingExtTextureFormat = 48;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32_SFloat:
+    UnityRenderingExtTextureFormat = 49;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32_SFloat:
+    UnityRenderingExtTextureFormat = 50;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32_SFloat:
+    UnityRenderingExtTextureFormat = 51;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR32G32B32A32_SFloat:
+    UnityRenderingExtTextureFormat = 52;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatL8_UNorm:
+    UnityRenderingExtTextureFormat = 53;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8_UNorm:
+    UnityRenderingExtTextureFormat = 54;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA16_UNorm:
+    UnityRenderingExtTextureFormat = 55;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SRGB:
+    UnityRenderingExtTextureFormat = 56;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SRGB:
+    UnityRenderingExtTextureFormat = 57;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_UNorm:
+    UnityRenderingExtTextureFormat = 58;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_UNorm:
+    UnityRenderingExtTextureFormat = 59;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SNorm:
+    UnityRenderingExtTextureFormat = 60;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SNorm:
+    UnityRenderingExtTextureFormat = 61;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_UInt:
+    UnityRenderingExtTextureFormat = 62;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_UInt:
+    UnityRenderingExtTextureFormat = 63;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8_SInt:
+    UnityRenderingExtTextureFormat = 64;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB8G8R8A8_SInt:
+    UnityRenderingExtTextureFormat = 65;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR4G4B4A4_UNormPack16:
+    UnityRenderingExtTextureFormat = 66;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB4G4R4A4_UNormPack16:
+    UnityRenderingExtTextureFormat = 67;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G6B5_UNormPack16:
+    UnityRenderingExtTextureFormat = 68;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G6R5_UNormPack16:
+    UnityRenderingExtTextureFormat = 69;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR5G5B5A1_UNormPack16:
+    UnityRenderingExtTextureFormat = 70;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB5G5R5A1_UNormPack16:
+    UnityRenderingExtTextureFormat = 71;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA1R5G5B5_UNormPack16:
+    UnityRenderingExtTextureFormat = 72;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatE5B9G9R9_UFloatPack32:
+    UnityRenderingExtTextureFormat = 73;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatB10G11R11_UFloatPack32:
+    UnityRenderingExtTextureFormat = 74;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UNormPack32:
+    UnityRenderingExtTextureFormat = 75;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_UIntPack32:
+    UnityRenderingExtTextureFormat = 76;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2B10G10R10_SIntPack32:
+    UnityRenderingExtTextureFormat = 77;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UNormPack32:
+    UnityRenderingExtTextureFormat = 78;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_UIntPack32:
+    UnityRenderingExtTextureFormat = 79;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_SIntPack32:
+    UnityRenderingExtTextureFormat = 80;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRSRGBPack32:
+    UnityRenderingExtTextureFormat = 81;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA2R10G10B10_XRUNormPack32:
+    UnityRenderingExtTextureFormat = 82;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRSRGBPack32:
+    UnityRenderingExtTextureFormat = 83;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR10G10B10_XRUNormPack32:
+    UnityRenderingExtTextureFormat = 84;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRSRGBPack32:
+    UnityRenderingExtTextureFormat = 85;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA10R10G10B10_XRUNormPack32:
+    UnityRenderingExtTextureFormat = 86;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_SRGB:
+    UnityRenderingExtTextureFormat = 87;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA8R8G8B8_UNorm:
+    UnityRenderingExtTextureFormat = 88;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatA32R32G32B32_SFloat:
+    UnityRenderingExtTextureFormat = 89;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD16_UNorm:
+    UnityRenderingExtTextureFormat = 90;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm:
+    UnityRenderingExtTextureFormat = 91;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm_S8_UInt:
+    UnityRenderingExtTextureFormat = 92;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat:
+    UnityRenderingExtTextureFormat = 93;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat_S8_Uint:
+    UnityRenderingExtTextureFormat = 94;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatS8_Uint:
+    UnityRenderingExtTextureFormat = 95;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_SRGB:
+    UnityRenderingExtTextureFormat = 96;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_UNorm:
+    UnityRenderingExtTextureFormat = 97;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT3_SRGB:
+    UnityRenderingExtTextureFormat = 98;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT3_UNorm:
+    UnityRenderingExtTextureFormat = 99;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT5_SRGB:
+    UnityRenderingExtTextureFormat = 100;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT5_UNorm:
+    UnityRenderingExtTextureFormat = 101;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_BC4_UNorm:
+    UnityRenderingExtTextureFormat = 102;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_BC4_SNorm:
+    UnityRenderingExtTextureFormat = 103;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_BC5_UNorm:
+    UnityRenderingExtTextureFormat = 104;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_BC5_SNorm:
+    UnityRenderingExtTextureFormat = 105;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_BC6H_UFloat:
+    UnityRenderingExtTextureFormat = 106;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_BC6H_SFloat:
+    UnityRenderingExtTextureFormat = 107;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_SRGB:
+    UnityRenderingExtTextureFormat = 108;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_BC7_UNorm:
+    UnityRenderingExtTextureFormat = 109;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_SRGB:
+    UnityRenderingExtTextureFormat = 110;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_2Bpp_UNorm:
+    UnityRenderingExtTextureFormat = 111;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_SRGB:
+    UnityRenderingExtTextureFormat = 112;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_PVRTC_4Bpp_UNorm:
+    UnityRenderingExtTextureFormat = 113;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_SRGB:
+    UnityRenderingExtTextureFormat = 114;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_2Bpp_UNorm:
+    UnityRenderingExtTextureFormat = 115;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_SRGB:
+    UnityRenderingExtTextureFormat = 116;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_PVRTC_4Bpp_UNorm:
+    UnityRenderingExtTextureFormat = 117;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC_UNorm:
+    UnityRenderingExtTextureFormat = 118;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_SRGB:
+    UnityRenderingExtTextureFormat = 119;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_ETC2_UNorm:
+    UnityRenderingExtTextureFormat = 120;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_A1_ETC2_SRGB:
+    UnityRenderingExtTextureFormat = 121;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGB_A1_ETC2_UNorm:
+    UnityRenderingExtTextureFormat = 122;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ETC2_SRGB:
+    UnityRenderingExtTextureFormat = 123;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ETC2_UNorm:
+    UnityRenderingExtTextureFormat = 124;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_EAC_UNorm:
+    UnityRenderingExtTextureFormat = 125;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatR_EAC_SNorm:
+    UnityRenderingExtTextureFormat = 126;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_EAC_UNorm:
+    UnityRenderingExtTextureFormat = 127;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRG_EAC_SNorm:
+    UnityRenderingExtTextureFormat = 128;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_SRGB:
+    UnityRenderingExtTextureFormat = 129;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UNorm:
+    UnityRenderingExtTextureFormat = 130;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_SRGB:
+    UnityRenderingExtTextureFormat = 131;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UNorm:
+    UnityRenderingExtTextureFormat = 132;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_SRGB:
+    UnityRenderingExtTextureFormat = 133;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UNorm:
+    UnityRenderingExtTextureFormat = 134;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_SRGB:
+    UnityRenderingExtTextureFormat = 135;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UNorm:
+    UnityRenderingExtTextureFormat = 136;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_SRGB:
+    UnityRenderingExtTextureFormat = 137;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UNorm:
+    UnityRenderingExtTextureFormat = 138;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_SRGB:
+    UnityRenderingExtTextureFormat = 139;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UNorm:
+    UnityRenderingExtTextureFormat = 140;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatYUV2:
+    UnityRenderingExtTextureFormat = 141;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatDepthAuto:
+    UnityRenderingExtTextureFormat = 142;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatShadowAuto:
+    UnityRenderingExtTextureFormat = 143;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatVideoAuto:
+    UnityRenderingExtTextureFormat = 144;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UFloat:
+    UnityRenderingExtTextureFormat = 145;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC5X5_UFloat:
+    UnityRenderingExtTextureFormat = 146;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC6X6_UFloat:
+    UnityRenderingExtTextureFormat = 147;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC8X8_UFloat:
+    UnityRenderingExtTextureFormat = 148;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC10X10_UFloat:
+    UnityRenderingExtTextureFormat = 149;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UFloat:
+    UnityRenderingExtTextureFormat = 150;
+pub const UnityRenderingExtTextureFormat_kUnityRenderingExtFormatLast:
+    UnityRenderingExtTextureFormat = 150;
+pub type UnityRenderingExtTextureFormat = ::std::os::raw::c_uint;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityRenderingExtBeforeDrawCallParams {
+    pub vertexShader: *mut ::std::os::raw::c_void,
+    pub fragmentShader: *mut ::std::os::raw::c_void,
+    pub geometryShader: *mut ::std::os::raw::c_void,
+    pub hullShader: *mut ::std::os::raw::c_void,
+    pub domainShader: *mut ::std::os::raw::c_void,
+    pub eyeIndex: ::std::os::raw::c_int,
+}
+#[test]
+fn bindgen_test_layout_UnityRenderingExtBeforeDrawCallParams() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityRenderingExtBeforeDrawCallParams>(),
+        48usize,
+        concat!(
+            "Size of: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityRenderingExtBeforeDrawCallParams>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).vertexShader
+                as *const _ as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(vertexShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).fragmentShader
+                as *const _ as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(fragmentShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).geometryShader
+                as *const _ as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(geometryShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).hullShader as *const _
+                as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(hullShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).domainShader
+                as *const _ as usize
+        },
+        32usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(domainShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtBeforeDrawCallParams>())).eyeIndex as *const _
+                as usize
+        },
+        40usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtBeforeDrawCallParams),
+            "::",
+            stringify!(eyeIndex)
+        )
+    );
+}
+impl Default for UnityRenderingExtBeforeDrawCallParams {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityRenderingExtCustomBlitParams {
+    pub source: UnityTextureID,
+    pub destination: UnityRenderBuffer,
+    pub command: ::std::os::raw::c_uint,
+    pub commandParam: ::std::os::raw::c_uint,
+    pub commandFlags: ::std::os::raw::c_uint,
+}
+#[test]
+fn bindgen_test_layout_UnityRenderingExtCustomBlitParams() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityRenderingExtCustomBlitParams>(),
+        32usize,
+        concat!("Size of: ", stringify!(UnityRenderingExtCustomBlitParams))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityRenderingExtCustomBlitParams>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityRenderingExtCustomBlitParams)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).source as *const _
+                as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtCustomBlitParams),
+            "::",
+            stringify!(source)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).destination as *const _
+                as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtCustomBlitParams),
+            "::",
+            stringify!(destination)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).command as *const _
+                as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtCustomBlitParams),
+            "::",
+            stringify!(command)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).commandParam as *const _
+                as usize
+        },
+        20usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtCustomBlitParams),
+            "::",
+            stringify!(commandParam)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtCustomBlitParams>())).commandFlags as *const _
+                as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtCustomBlitParams),
+            "::",
+            stringify!(commandFlags)
+        )
+    );
+}
+impl Default for UnityRenderingExtCustomBlitParams {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityRenderingExtTextureUpdateParamsV1 {
+    pub texData: *mut ::std::os::raw::c_void,
+    pub userData: ::std::os::raw::c_uint,
+    pub textureID: ::std::os::raw::c_uint,
+    pub format: UnityRenderingExtTextureFormat,
+    pub width: ::std::os::raw::c_uint,
+    pub height: ::std::os::raw::c_uint,
+    pub bpp: ::std::os::raw::c_uint,
+}
+#[test]
+fn bindgen_test_layout_UnityRenderingExtTextureUpdateParamsV1() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityRenderingExtTextureUpdateParamsV1>(),
+        32usize,
+        concat!(
+            "Size of: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityRenderingExtTextureUpdateParamsV1>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).texData as *const _
+                as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(texData)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).userData as *const _
+                as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(userData)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).textureID as *const _
+                as usize
+        },
+        12usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(textureID)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).format as *const _
+                as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(format)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).width as *const _
+                as usize
+        },
+        20usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(width)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).height as *const _
+                as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(height)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV1>())).bpp as *const _
+                as usize
+        },
+        28usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV1),
+            "::",
+            stringify!(bpp)
+        )
+    );
+}
+impl Default for UnityRenderingExtTextureUpdateParamsV1 {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub type UnityRenderingExtTextureUpdateParams = UnityRenderingExtTextureUpdateParamsV1;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityRenderingExtTextureUpdateParamsV2 {
+    pub texData: *mut ::std::os::raw::c_void,
+    pub textureID: isize,
+    pub userData: ::std::os::raw::c_uint,
+    pub format: UnityRenderingExtTextureFormat,
+    pub width: ::std::os::raw::c_uint,
+    pub height: ::std::os::raw::c_uint,
+    pub bpp: ::std::os::raw::c_uint,
+}
+#[test]
+fn bindgen_test_layout_UnityRenderingExtTextureUpdateParamsV2() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityRenderingExtTextureUpdateParamsV2>(),
+        40usize,
+        concat!(
+            "Size of: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityRenderingExtTextureUpdateParamsV2>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).texData as *const _
+                as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(texData)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).textureID as *const _
+                as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(textureID)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).userData as *const _
+                as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(userData)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).format as *const _
+                as usize
+        },
+        20usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(format)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).width as *const _
+                as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(width)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).height as *const _
+                as usize
+        },
+        28usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(height)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityRenderingExtTextureUpdateParamsV2>())).bpp as *const _
+                as usize
+        },
+        32usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityRenderingExtTextureUpdateParamsV2),
+            "::",
+            stringify!(bpp)
+        )
+    );
+}
+impl Default for UnityRenderingExtTextureUpdateParamsV2 {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+extern "system" {
+    pub fn UnityRenderingExtEvent(
+        event: UnityRenderingExtEventType,
+        data: *mut ::std::os::raw::c_void,
+    );
+}
+extern "system" {
+    pub fn UnityRenderingExtQuery(query: UnityRenderingExtQueryType) -> bool;
+}
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused0:
+    UnityShaderCompilerExtCompilerPlatform = 0;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused1:
+    UnityShaderCompilerExtCompilerPlatform = 1;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused2:
+    UnityShaderCompilerExtCompilerPlatform = 2;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused3:
+    UnityShaderCompilerExtCompilerPlatform = 3;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformD3D11:
+    UnityShaderCompilerExtCompilerPlatform = 4;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformGLES20:
+    UnityShaderCompilerExtCompilerPlatform = 5;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused6:
+    UnityShaderCompilerExtCompilerPlatform = 6;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused7:
+    UnityShaderCompilerExtCompilerPlatform = 7;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused8:
+    UnityShaderCompilerExtCompilerPlatform = 8;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformGLES3Plus:
+    UnityShaderCompilerExtCompilerPlatform = 9;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused10:
+    UnityShaderCompilerExtCompilerPlatform = 10;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformPS4:
+    UnityShaderCompilerExtCompilerPlatform = 11;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOne:
+    UnityShaderCompilerExtCompilerPlatform = 12;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused13:
+    UnityShaderCompilerExtCompilerPlatform = 13;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformMetal:
+    UnityShaderCompilerExtCompilerPlatform = 14;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformOpenGLCore:
+    UnityShaderCompilerExtCompilerPlatform = 15;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused16:
+    UnityShaderCompilerExtCompilerPlatform = 16;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused17:
+    UnityShaderCompilerExtCompilerPlatform = 17;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformVulkan:
+    UnityShaderCompilerExtCompilerPlatform = 18;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformSwitch:
+    UnityShaderCompilerExtCompilerPlatform = 19;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformXboxOneD3D12:
+    UnityShaderCompilerExtCompilerPlatform = 20;
+pub const UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformCount:
+    UnityShaderCompilerExtCompilerPlatform = 21;
+pub type UnityShaderCompilerExtCompilerPlatform = ::std::os::raw::c_uint;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderNone:
+    UnityShaderCompilerExtShaderType = 0;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderVertex:
+    UnityShaderCompilerExtShaderType = 1;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderFragment:
+    UnityShaderCompilerExtShaderType = 2;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderGeometry:
+    UnityShaderCompilerExtShaderType = 3;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderHull:
+    UnityShaderCompilerExtShaderType = 4;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderDomain:
+    UnityShaderCompilerExtShaderType = 5;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderRayTracing:
+    UnityShaderCompilerExtShaderType = 6;
+pub const UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderTypeCount:
+    UnityShaderCompilerExtShaderType = 7;
+pub type UnityShaderCompilerExtShaderType = ::std::os::raw::c_uint;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnknown:
+    UnityShaderCompilerExtGPUProgramType = 0;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLLegacy:
+    UnityShaderCompilerExtGPUProgramType = 1;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31AEP:
+    UnityShaderCompilerExtGPUProgramType = 2;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES31:
+    UnityShaderCompilerExtGPUProgramType = 3;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES3:
+    UnityShaderCompilerExtGPUProgramType = 4;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLES:
+    UnityShaderCompilerExtGPUProgramType = 5;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore32:
+    UnityShaderCompilerExtGPUProgramType = 6;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore41:
+    UnityShaderCompilerExtGPUProgramType = 7;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLCore43:
+    UnityShaderCompilerExtGPUProgramType = 8;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM20 : UnityShaderCompilerExtGPUProgramType = 9 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9VertexSM30 : UnityShaderCompilerExtGPUProgramType = 10 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM20 : UnityShaderCompilerExtGPUProgramType = 11 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX9PixelSM30 : UnityShaderCompilerExtGPUProgramType = 12 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Vertex : UnityShaderCompilerExtGPUProgramType = 13 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX10Level9Pixel : UnityShaderCompilerExtGPUProgramType = 14 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM40 : UnityShaderCompilerExtGPUProgramType = 15 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11VertexSM50 : UnityShaderCompilerExtGPUProgramType = 16 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM40 : UnityShaderCompilerExtGPUProgramType = 17 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11PixelSM50 : UnityShaderCompilerExtGPUProgramType = 18 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM40 : UnityShaderCompilerExtGPUProgramType = 19 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11GeometrySM50 : UnityShaderCompilerExtGPUProgramType = 20 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11HullSM50 : UnityShaderCompilerExtGPUProgramType = 21 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetDX11DomainSM50 : UnityShaderCompilerExtGPUProgramType = 22 ;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalVS:
+    UnityShaderCompilerExtGPUProgramType = 23;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetMetalFS:
+    UnityShaderCompilerExtGPUProgramType = 24;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetSPIRV:
+    UnityShaderCompilerExtGPUProgramType = 25;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused1:
+    UnityShaderCompilerExtGPUProgramType = 26;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused2:
+    UnityShaderCompilerExtGPUProgramType = 27;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused3:
+    UnityShaderCompilerExtGPUProgramType = 28;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused4:
+    UnityShaderCompilerExtGPUProgramType = 29;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnused5:
+    UnityShaderCompilerExtGPUProgramType = 30;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetRayTracing:
+    UnityShaderCompilerExtGPUProgramType = 31;
+pub const UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetCount:
+    UnityShaderCompilerExtGPUProgramType = 32;
+pub type UnityShaderCompilerExtGPUProgramType = ::std::os::raw::c_uint;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramVS:
+    UnityShaderCompilerExtGPUProgram = 2;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramPS:
+    UnityShaderCompilerExtGPUProgram = 4;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramGS:
+    UnityShaderCompilerExtGPUProgram = 8;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramHS:
+    UnityShaderCompilerExtGPUProgram = 16;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramDS:
+    UnityShaderCompilerExtGPUProgram = 32;
+pub const UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramCustom:
+    UnityShaderCompilerExtGPUProgram = 128;
+pub type UnityShaderCompilerExtGPUProgram = ::std::os::raw::c_uint;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariant:
+    UnityShaderCompilerExtEventType = 0;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariantCleanup : UnityShaderCompilerExtEventType = 1 ;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariant:
+    UnityShaderCompilerExtEventType = 2;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomBinaryVariantCleanup : UnityShaderCompilerExtEventType = 3 ;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventPluginConfigure:
+    UnityShaderCompilerExtEventType = 4;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCount:
+    UnityShaderCompilerExtEventType = 5;
+pub const UnityShaderCompilerExtEventType_kUnityShaderCompilerExtUserEventsStart:
+    UnityShaderCompilerExtEventType = 5;
+pub type UnityShaderCompilerExtEventType = ::std::os::raw::c_uint;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityShaderCompilerExtCustomSourceVariantParams {
+    pub outputSnippet: *mut ::std::os::raw::c_char,
+    pub outputKeywords: *mut ::std::os::raw::c_char,
+    pub inputSnippet: *const ::std::os::raw::c_char,
+    pub vr: bool,
+    pub platform: UnityShaderCompilerExtCompilerPlatform,
+    pub shaderType: UnityShaderCompilerExtShaderType,
+}
+#[test]
+fn bindgen_test_layout_UnityShaderCompilerExtCustomSourceVariantParams() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityShaderCompilerExtCustomSourceVariantParams>(),
+        40usize,
+        concat!(
+            "Size of: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityShaderCompilerExtCustomSourceVariantParams>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>()))
+                .outputSnippet as *const _ as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(outputSnippet)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>()))
+                .outputKeywords as *const _ as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(outputKeywords)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).inputSnippet
+                as *const _ as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(inputSnippet)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).vr
+                as *const _ as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(vr)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).platform
+                as *const _ as usize
+        },
+        28usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(platform)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomSourceVariantParams>())).shaderType
+                as *const _ as usize
+        },
+        32usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomSourceVariantParams),
+            "::",
+            stringify!(shaderType)
+        )
+    );
+}
+impl Default for UnityShaderCompilerExtCustomSourceVariantParams {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityShaderCompilerExtCustomBinaryVariantParams {
+    pub outputBinaryShader: *mut *mut ::std::os::raw::c_void,
+    pub inputByteCode: *const ::std::os::raw::c_uchar,
+    pub inputByteCodeSize: ::std::os::raw::c_uint,
+    pub programTypeMask: ::std::os::raw::c_uint,
+    pub platform: UnityShaderCompilerExtCompilerPlatform,
+}
+#[test]
+fn bindgen_test_layout_UnityShaderCompilerExtCustomBinaryVariantParams() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityShaderCompilerExtCustomBinaryVariantParams>(),
+        32usize,
+        concat!(
+            "Size of: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityShaderCompilerExtCustomBinaryVariantParams>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
+                .outputBinaryShader as *const _ as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
+            "::",
+            stringify!(outputBinaryShader)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
+                .inputByteCode as *const _ as usize
+        },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
+            "::",
+            stringify!(inputByteCode)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
+                .inputByteCodeSize as *const _ as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
+            "::",
+            stringify!(inputByteCodeSize)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>()))
+                .programTypeMask as *const _ as usize
+        },
+        20usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
+            "::",
+            stringify!(programTypeMask)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityShaderCompilerExtCustomBinaryVariantParams>())).platform
+                as *const _ as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityShaderCompilerExtCustomBinaryVariantParams),
+            "::",
+            stringify!(platform)
+        )
+    );
+}
+impl Default for UnityShaderCompilerExtCustomBinaryVariantParams {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+#[repr(C)]
+pub struct IUnityShaderCompilerExtPluginConfigure__bindgen_vtable(::std::os::raw::c_void);
+#[repr(C)]
+pub struct IUnityShaderCompilerExtPluginConfigure {
+    pub vtable_: *const IUnityShaderCompilerExtPluginConfigure__bindgen_vtable,
+}
+#[test]
+fn bindgen_test_layout_IUnityShaderCompilerExtPluginConfigure() {
+    assert_eq!(
+        ::std::mem::size_of::<IUnityShaderCompilerExtPluginConfigure>(),
+        8usize,
+        concat!(
+            "Size of: ",
+            stringify!(IUnityShaderCompilerExtPluginConfigure)
+        )
+    );
+    assert_eq!(
+        ::std::mem::align_of::<IUnityShaderCompilerExtPluginConfigure>(),
+        8usize,
+        concat!(
+            "Alignment of ",
+            stringify!(IUnityShaderCompilerExtPluginConfigure)
+        )
+    );
+}
+impl Default for IUnityShaderCompilerExtPluginConfigure {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+extern "system" {
+    pub fn UnityShaderCompilerExtEvent(
+        event: UnityShaderCompilerExtEventType,
+        data: *mut ::std::os::raw::c_void,
+    );
+}
+pub type UnityProfilerMarkerId = u32;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryRender:
+    UnityBuiltinProfilerCategory_ = 0;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryScripts:
+    UnityBuiltinProfilerCategory_ = 1;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryManagedJobs:
+    UnityBuiltinProfilerCategory_ = 2;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryBurstJobs:
+    UnityBuiltinProfilerCategory_ = 3;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryGUI: UnityBuiltinProfilerCategory_ =
+    4;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryPhysics:
+    UnityBuiltinProfilerCategory_ = 5;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAnimation:
+    UnityBuiltinProfilerCategory_ = 6;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAI: UnityBuiltinProfilerCategory_ = 7;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAudio: UnityBuiltinProfilerCategory_ =
+    8;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAudioJob:
+    UnityBuiltinProfilerCategory_ = 9;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAudioUpdateJob:
+    UnityBuiltinProfilerCategory_ = 10;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryVideo: UnityBuiltinProfilerCategory_ =
+    11;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryParticles:
+    UnityBuiltinProfilerCategory_ = 12;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryGi: UnityBuiltinProfilerCategory_ =
+    13;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryNetwork:
+    UnityBuiltinProfilerCategory_ = 14;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryLoading:
+    UnityBuiltinProfilerCategory_ = 15;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryOther: UnityBuiltinProfilerCategory_ =
+    16;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryGC: UnityBuiltinProfilerCategory_ =
+    17;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryVSync: UnityBuiltinProfilerCategory_ =
+    18;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryOverhead:
+    UnityBuiltinProfilerCategory_ = 19;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryPlayerLoop:
+    UnityBuiltinProfilerCategory_ = 20;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryDirector:
+    UnityBuiltinProfilerCategory_ = 21;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryVR: UnityBuiltinProfilerCategory_ =
+    22;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryAllocation:
+    UnityBuiltinProfilerCategory_ = 23;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryInternal:
+    UnityBuiltinProfilerCategory_ = 24;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryFileIO:
+    UnityBuiltinProfilerCategory_ = 25;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryUISystemLayout:
+    UnityBuiltinProfilerCategory_ = 26;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryUISystemRender:
+    UnityBuiltinProfilerCategory_ = 27;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryVFX: UnityBuiltinProfilerCategory_ =
+    28;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryBuildInterface:
+    UnityBuiltinProfilerCategory_ = 29;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryInput: UnityBuiltinProfilerCategory_ =
+    30;
+pub const UnityBuiltinProfilerCategory__kUnityProfilerCategoryVirtualTexturing:
+    UnityBuiltinProfilerCategory_ = 31;
+pub type UnityBuiltinProfilerCategory_ = ::std::os::raw::c_uint;
+pub type UnityProfilerCategoryId = u16;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityProfilerCategoryDesc {
+    pub id: UnityProfilerCategoryId,
+    pub reserved0: u16,
+    pub rgbaColor: u32,
+    pub name: *const ::std::os::raw::c_char,
+}
+#[test]
+fn bindgen_test_layout_UnityProfilerCategoryDesc() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityProfilerCategoryDesc>(),
+        16usize,
+        concat!("Size of: ", stringify!(UnityProfilerCategoryDesc))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityProfilerCategoryDesc>(),
+        8usize,
+        concat!("Alignment of ", stringify!(UnityProfilerCategoryDesc))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).id as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerCategoryDesc),
+            "::",
+            stringify!(id)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).reserved0 as *const _ as usize
+        },
+        2usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerCategoryDesc),
+            "::",
+            stringify!(reserved0)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).rgbaColor as *const _ as usize
+        },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerCategoryDesc),
+            "::",
+            stringify!(rgbaColor)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerCategoryDesc>())).name as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerCategoryDesc),
+            "::",
+            stringify!(name)
+        )
+    );
+}
+impl Default for UnityProfilerCategoryDesc {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault: UnityProfilerMarkerFlag_ = 0;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptUser: UnityProfilerMarkerFlag_ = 2;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptInvoke: UnityProfilerMarkerFlag_ =
+    32;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptEnterLeave:
+    UnityProfilerMarkerFlag_ = 64;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor:
+    UnityProfilerMarkerFlag_ = 4;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityNonDev:
+    UnityProfilerMarkerFlag_ = 8;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagWarning: UnityProfilerMarkerFlag_ = 16;
+pub const UnityProfilerMarkerFlag__kCounter: UnityProfilerMarkerFlag_ = 128;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityDebug:
+    UnityProfilerMarkerFlag_ = 1024;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityInternal:
+    UnityProfilerMarkerFlag_ = 2048;
+pub const UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced:
+    UnityProfilerMarkerFlag_ = 4096;
+pub type UnityProfilerMarkerFlag_ = ::std::os::raw::c_uint;
+pub type UnityProfilerMarkerFlags = u16;
+pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeBegin:
+    UnityProfilerMarkerEventType_ = 0;
+pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeEnd:
+    UnityProfilerMarkerEventType_ = 1;
+pub const UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle:
+    UnityProfilerMarkerEventType_ = 2;
+pub type UnityProfilerMarkerEventType_ = ::std::os::raw::c_uint;
+pub type UnityProfilerMarkerEventType = u16;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityProfilerMarkerDesc {
+    pub callback: *const ::std::os::raw::c_void,
+    pub id: UnityProfilerMarkerId,
+    pub flags: UnityProfilerMarkerFlags,
+    pub categoryId: UnityProfilerCategoryId,
+    pub name: *const ::std::os::raw::c_char,
+    pub metaDataDesc: *const ::std::os::raw::c_void,
+}
+#[test]
+fn bindgen_test_layout_UnityProfilerMarkerDesc() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityProfilerMarkerDesc>(),
+        32usize,
+        concat!("Size of: ", stringify!(UnityProfilerMarkerDesc))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityProfilerMarkerDesc>(),
+        8usize,
+        concat!("Alignment of ", stringify!(UnityProfilerMarkerDesc))
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).callback as *const _ as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(callback)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).id as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(id)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).flags as *const _ as usize },
+        12usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(flags)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).categoryId as *const _ as usize
+        },
+        14usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(categoryId)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).name as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(name)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerMarkerDesc>())).metaDataDesc as *const _ as usize
+        },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerDesc),
+            "::",
+            stringify!(metaDataDesc)
+        )
+    );
+}
+impl Default for UnityProfilerMarkerDesc {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeNone:
+    UnityProfilerMarkerDataType_ = 0;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInstanceId:
+    UnityProfilerMarkerDataType_ = 1;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt32:
+    UnityProfilerMarkerDataType_ = 2;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt32:
+    UnityProfilerMarkerDataType_ = 3;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt64:
+    UnityProfilerMarkerDataType_ = 4;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt64:
+    UnityProfilerMarkerDataType_ = 5;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeFloat:
+    UnityProfilerMarkerDataType_ = 6;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeDouble:
+    UnityProfilerMarkerDataType_ = 7;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString:
+    UnityProfilerMarkerDataType_ = 8;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString16:
+    UnityProfilerMarkerDataType_ = 9;
+pub const UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8:
+    UnityProfilerMarkerDataType_ = 11;
+pub type UnityProfilerMarkerDataType_ = ::std::os::raw::c_uint;
+pub type UnityProfilerMarkerDataType = u8;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitUndefined:
+    UnityProfilerMarkerDataUnit_ = 0;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitTimeNanoseconds:
+    UnityProfilerMarkerDataUnit_ = 1;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitBytes:
+    UnityProfilerMarkerDataUnit_ = 2;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitCount:
+    UnityProfilerMarkerDataUnit_ = 3;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitPercent:
+    UnityProfilerMarkerDataUnit_ = 4;
+pub const UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitFrequencyHz:
+    UnityProfilerMarkerDataUnit_ = 5;
+pub type UnityProfilerMarkerDataUnit_ = ::std::os::raw::c_uint;
+pub type UnityProfilerMarkerDataUnit = u8;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct UnityProfilerMarkerData {
+    pub type_: UnityProfilerMarkerDataType,
+    pub reserved0: u8,
+    pub reserved1: u16,
+    pub size: u32,
+    pub ptr: *const ::std::os::raw::c_void,
+}
+#[test]
+fn bindgen_test_layout_UnityProfilerMarkerData() {
+    assert_eq!(
+        ::std::mem::size_of::<UnityProfilerMarkerData>(),
+        16usize,
+        concat!("Size of: ", stringify!(UnityProfilerMarkerData))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<UnityProfilerMarkerData>(),
+        8usize,
+        concat!("Alignment of ", stringify!(UnityProfilerMarkerData))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).type_ as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerData),
+            "::",
+            stringify!(type_)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerMarkerData>())).reserved0 as *const _ as usize
+        },
+        1usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerData),
+            "::",
+            stringify!(reserved0)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<UnityProfilerMarkerData>())).reserved1 as *const _ as usize
+        },
+        2usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerData),
+            "::",
+            stringify!(reserved1)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).size as *const _ as usize },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerData),
+            "::",
+            stringify!(size)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<UnityProfilerMarkerData>())).ptr as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(UnityProfilerMarkerData),
+            "::",
+            stringify!(ptr)
+        )
+    );
+}
+impl Default for UnityProfilerMarkerData {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeBegin:
+    UnityProfilerFlowEventType_ = 0;
+pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeNext: UnityProfilerFlowEventType_ =
+    1;
+pub const UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd: UnityProfilerFlowEventType_ =
+    2;
+pub type UnityProfilerFlowEventType_ = ::std::os::raw::c_uint;
+pub type UnityProfilerFlowEventType = u8;
+pub type UnityProfilerThreadId = u64;
+#[repr(C)]
+#[derive(Default, Copy, Clone)]
+pub struct IUnityProfiler {
+    pub EmitEvent: ::std::option::Option<
+        unsafe extern "system" fn(
+            markerDesc: *const UnityProfilerMarkerDesc,
+            eventType: UnityProfilerMarkerEventType,
+            eventDataCount: u16,
+            eventData: *const UnityProfilerMarkerData,
+        ),
+    >,
+    pub IsEnabled: ::std::option::Option<unsafe extern "system" fn() -> ::std::os::raw::c_int>,
+    pub IsAvailable: ::std::option::Option<unsafe extern "system" fn() -> ::std::os::raw::c_int>,
+    pub CreateMarker: ::std::option::Option<
+        unsafe extern "system" fn(
+            desc: *mut *const UnityProfilerMarkerDesc,
+            name: *const ::std::os::raw::c_char,
+            category: UnityProfilerCategoryId,
+            flags: UnityProfilerMarkerFlags,
+            eventDataCount: ::std::os::raw::c_int,
+        ) -> ::std::os::raw::c_int,
+    >,
+    pub SetMarkerMetadataName: ::std::option::Option<
+        unsafe extern "system" fn(
+            desc: *const UnityProfilerMarkerDesc,
+            index: ::std::os::raw::c_int,
+            metadataName: *const ::std::os::raw::c_char,
+            metadataType: UnityProfilerMarkerDataType,
+            metadataUnit: UnityProfilerMarkerDataUnit,
+        ) -> ::std::os::raw::c_int,
+    >,
+    pub RegisterThread: ::std::option::Option<
+        unsafe extern "system" fn(
+            threadId: *mut UnityProfilerThreadId,
+            groupName: *const ::std::os::raw::c_char,
+            name: *const ::std::os::raw::c_char,
+        ) -> ::std::os::raw::c_int,
+    >,
+    pub UnregisterThread: ::std::option::Option<
+        unsafe extern "system" fn(threadId: UnityProfilerThreadId) -> ::std::os::raw::c_int,
+    >,
+}
+#[test]
+fn bindgen_test_layout_IUnityProfiler() {
+    assert_eq!(
+        ::std::mem::size_of::<IUnityProfiler>(),
+        56usize,
+        concat!("Size of: ", stringify!(IUnityProfiler))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<IUnityProfiler>(),
+        8usize,
+        concat!("Alignment of ", stringify!(IUnityProfiler))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).EmitEvent as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(EmitEvent)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).IsEnabled as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(IsEnabled)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).IsAvailable as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(IsAvailable)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).CreateMarker as *const _ as usize },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(CreateMarker)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<IUnityProfiler>())).SetMarkerMetadataName as *const _ as usize
+        },
+        32usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(SetMarkerMetadataName)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).RegisterThread as *const _ as usize },
+        40usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(RegisterThread)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<IUnityProfiler>())).UnregisterThread as *const _ as usize },
+        48usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(IUnityProfiler),
+            "::",
+            stringify!(UnregisterThread)
         )
     );
 }
