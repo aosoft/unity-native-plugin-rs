@@ -308,7 +308,7 @@ impl UnityGraphicsVulkan {
         self.interface().AccessQueue.expect("AccessQueue")(callback, event_id, user_data, flush);
     }
 
-    pub fn config_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
+    pub fn configure_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
         unsafe {
             self.interface()
                 .ConfigureSwapchain
