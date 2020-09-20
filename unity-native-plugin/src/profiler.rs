@@ -1,8 +1,17 @@
+use crate::define_unity_interface;
+use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
+
+define_unity_interface!(
+    UnityProfiler,
+    unity_native_plugin_sys::IUnityProfiler,
+    0x2CE79ED8316A4833_u64,
+    0x87076B2013E1571F_u64
+);
 
 #[repr(u16)]
 #[derive(Copy, Clone)]
-pub enum ProfilerCategoryId {
+pub enum BuiltinProfilerCategory {
     Render = UnityBuiltinProfilerCategory__kUnityProfilerCategoryRender as u16,
     Scripts = UnityBuiltinProfilerCategory__kUnityProfilerCategoryScripts as u16,
     ManagedJobs = UnityBuiltinProfilerCategory__kUnityProfilerCategoryManagedJobs as u16,
@@ -37,6 +46,8 @@ pub enum ProfilerCategoryId {
     VirtualTexturing = UnityBuiltinProfilerCategory__kUnityProfilerCategoryVirtualTexturing as u16,
 }
 
+pub type ProfilerCategoryId = UnityProfilerCategoryId;
+
 #[repr(u16)]
 #[derive(Copy, Clone)]
 pub enum ProfilerMarkerFlag {
@@ -66,6 +77,16 @@ pub enum ProfilerMarkerEventType {
     Single = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle as u16,
 }
 
+pub type ProfilerMarkerId = UnityProfilerMarkerId;
+
+pub struct ProfilerMarkerDesc {
+    pub id: ProfilerMarkerId,
+    pub flags: ProfilerMarkerFlags,
+    pub category_id: ProfilerCategoryId,
+    pub name: std::ffi::CStr,
+}
+
+
 #[repr(u8)]
 #[derive(Copy, Clone)]
 pub enum ProfilerMarkerDataType {
@@ -93,10 +114,44 @@ pub enum ProfilerMarkerDataUnit {
     FrequencyHz = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitFrequencyHz as u8,
 }
 
+#[repr(C)]
+pub struct ProfilerMarkerData {
+    pub data_type: ProfilerMarkerDataType,
+    reserved0: u8,
+    reserved1: u16,
+    size: u32,
+    ptr: *const ::std::os::raw::c_void,
+}
+
 #[repr(u8)]
 #[derive(Copy, Clone)]
 pub enum ProfilerFlowEventType {
     Begin = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeBegin as u8,
     Next = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeNext as u8,
     End = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd as u8,
+}
+
+impl UnityProfiler {
+    pub fn emit_event(
+        &self,
+        marker_desc: &ProfilerMarkerDesc,
+        event_type: ProfilerMarkerEventType,
+        event_data: &[ProfilerMarkerData]) {
+        unsafe {
+            self.interface().EmitEvent.expect("EmitEvent")(
+                &UnityProfilerMarkerDesc {
+                    callback: std::ptr::null(),
+                    id: marker_desc.id,
+                    flags: marker_desc.flags.flag as _,
+                    categoryId: marker_desc.category_id,
+                    name: marker_desc.name.as_ptr(),
+                    metaDataDesc: std::ptr::null()
+                },
+                event_type as UnityProfilerMarkerEventType,
+                event_data.len() as u16,
+                event_data.as_ptr() as *const _
+            );
+        }
+    }
+
 }
