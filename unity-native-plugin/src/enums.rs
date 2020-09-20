@@ -14,13 +14,6 @@ pub enum ProfilerMarkerFlag {
 
 pub struct ProfilerMarkerFlags(u16);
 
-#[repr(u16)]
-#[derive(Copy, Clone)]
-pub enum ProfilerMarkerEventType {
-    Begin = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeBegin as u16,
-    End = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeEnd as u16,
-    Single = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle as u16,
-}
 
 #[repr(u8)]
 #[derive(Copy, Clone)]
@@ -36,14 +29,6 @@ pub enum ProfilerMarkerDataType {
     String = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString as u8,
     String16 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString16 as u8,
     Blob8 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8 as u8,
-}
-
-#[repr(u8)]
-#[derive(Copy, Clone)]
-pub enum ProfilerFlowEventType {
-    Begin = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeBegin as u8,
-    Next = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeNext as u8,
-    End = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd as u8,
 }
 
 #[repr(u32)]

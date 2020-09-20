@@ -4,6 +4,9 @@ pub mod d3d11;
 #[cfg(feature = "d3d12")]
 pub mod d3d12;
 
+#[cfg(feature = "profiler")]
+pub mod profiler;
+
 pub mod enums;
 pub mod graphics;
 pub mod interface;
