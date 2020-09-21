@@ -115,12 +115,26 @@ pub enum ProfilerMarkerDataUnit {
 }
 
 #[repr(C)]
-pub struct ProfilerMarkerData {
+pub struct ProfilerMarkerData<'a> {
     pub data_type: ProfilerMarkerDataType,
     reserved0: u8,
     reserved1: u16,
     size: u32,
-    ptr: *const ::std::os::raw::c_void,
+    ptr: &'a ::std::os::raw::c_void,
+}
+
+impl ProfilerMarkerData<'_> {
+    pub fn new<'a>(data_type: ProfilerMarkerDataType, data: &'a [u8]) -> ProfilerMarkerData<'a> {
+        unsafe {
+            ProfilerMarkerData {
+                data_type: data_type,
+                reserved0: 0,
+                reserved1: 0,
+                size: data.len() as u32,
+                ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void)
+            }
+        }
+    }
 }
 
 #[repr(u8)]
@@ -154,4 +168,21 @@ impl UnityProfiler {
         }
     }
 
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn size_test() {
+        assert_eq!(
+            ::std::mem::size_of::<ProfilerMarkerFlags>(),
+            ::std::mem::size_of::<unity_native_plugin_sys::UnityProfilerMarkerFlags>()
+        );
+        assert_eq!(
+            ::std::mem::size_of::<ProfilerMarkerData>(),
+            ::std::mem::size_of::<unity_native_plugin_sys::UnityProfilerMarkerData>()
+        );
+    }
 }
