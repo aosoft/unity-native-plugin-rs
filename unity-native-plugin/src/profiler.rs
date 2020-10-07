@@ -72,7 +72,9 @@ pub struct ProfilerMarkerFlags {
 impl From<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
     fn from(value: u16) -> Self {
         unsafe {
-            ProfilerMarkerFlags { flag: std::mem::transmute(value) }
+            ProfilerMarkerFlags {
+                flag: std::mem::transmute(value),
+            }
         }
     }
 }
@@ -159,6 +161,8 @@ pub enum ProfilerFlowEventType {
     End = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd as u8,
 }
 
+type ProfilerThreadId = UnityProfilerThreadId;
+
 impl UnityProfiler {
     pub fn emit_event(
         &self,
@@ -188,11 +192,11 @@ impl UnityProfiler {
     }
 
     pub fn is_available(&self) -> bool {
-        unsafe { self.interface().IsAvailable.expect("IsEnabled")() != 0 }
+        unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
     }
 
-    pub fn create_marker(
-        &self,
+    pub fn create_marker<'a>(
+        &'a self,
         name: &std::ffi::CStr,
         category: ProfilerCategoryId,
         flags: ProfilerMarkerFlags,
@@ -214,8 +218,82 @@ impl UnityProfiler {
                     id: (*ret).id,
                     flags: (*ret).flags.into(),
                     category_id: (*ret).categoryId,
-                    name: std::ffi::CStr::from_ptr((*ret).name),
+                    name: std::ffi::CStr::from_ptr::<'a>((*ret).name),
                 })
+            }
+        }
+    }
+
+    pub fn set_marker_metadata_name(
+        &self,
+        desc: &ProfilerMarkerDesc,
+        index: ::std::os::raw::c_int,
+        metadata_name: &std::ffi::CStr,
+        metadata_type: ProfilerMarkerDataType,
+        metadata_unit: ProfilerMarkerDataUnit,
+    ) -> Result<(), ::std::os::raw::c_int> {
+        unsafe {
+            let result = self
+                .interface()
+                .SetMarkerMetadataName
+                .expect("SetMarkerMetadataName")(
+                &UnityProfilerMarkerDesc {
+                    callback: std::ptr::null(),
+                    id: desc.id,
+                    flags: desc.flags.into(),
+                    categoryId: desc.category_id,
+                    name: desc.name.as_ptr(),
+                    metaDataDesc: std::ptr::null(),
+                },
+                index,
+                metadata_name.as_ptr(),
+                metadata_type as _,
+                metadata_unit as _,
+            );
+            if result > 0 {
+                Err(result)
+            } else {
+                Ok(())
+            }
+        }
+    }
+
+    pub fn register_thread(
+        &self,
+        group_name: &std::ffi::CStr,
+        name: &std::ffi::CStr,
+    ) -> Result<ProfilerThreadId, ::std::os::raw::c_int> {
+        unsafe {
+            let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
+
+            let result = self
+                .interface()
+                .RegisterThread
+                .expect("RegisterThread")(
+                &mut thread_id,
+                group_name.as_ptr(),
+                name.as_ptr()
+            );
+            if result > 0 {
+                Err(result)
+            } else {
+                Ok(thread_id)
+            }
+        }
+    }
+
+    pub fn unregister_thread(&self, thread_id: ProfilerThreadId) -> Result<(), ::std::os::raw::c_int> {
+        unsafe {
+            let result = self
+                .interface()
+                .UnregisterThread
+                .expect("UnregisterThread")(
+                thread_id
+            );
+            if result > 0 {
+                Err(result)
+            } else {
+                Ok(())
             }
         }
     }
