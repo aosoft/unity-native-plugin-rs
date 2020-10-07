@@ -69,6 +69,20 @@ pub struct ProfilerMarkerFlags {
     pub flag: ProfilerMarkerFlag,
 }
 
+impl From<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
+    fn from(value: u16) -> Self {
+        unsafe {
+            ProfilerMarkerFlags { flag: std::mem::transmute(value) }
+        }
+    }
+}
+
+impl Into<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
+    fn into(self) -> UnityProfilerMarkerFlags {
+        self.flag as UnityProfilerMarkerFlags
+    }
+}
+
 #[repr(u16)]
 #[derive(Copy, Clone)]
 pub enum ProfilerMarkerEventType {
@@ -79,13 +93,12 @@ pub enum ProfilerMarkerEventType {
 
 pub type ProfilerMarkerId = UnityProfilerMarkerId;
 
-pub struct ProfilerMarkerDesc {
+pub struct ProfilerMarkerDesc<'a> {
     pub id: ProfilerMarkerId,
     pub flags: ProfilerMarkerFlags,
     pub category_id: ProfilerCategoryId,
-    pub name: std::ffi::CStr,
+    pub name: &'a std::ffi::CStr,
 }
-
 
 #[repr(u8)]
 #[derive(Copy, Clone)]
@@ -107,7 +120,8 @@ pub enum ProfilerMarkerDataType {
 #[derive(Copy, Clone)]
 pub enum ProfilerMarkerDataUnit {
     Undefined = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitUndefined as u8,
-    TimeNanoseconds = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitTimeNanoseconds as u8,
+    TimeNanoseconds =
+        UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitTimeNanoseconds as u8,
     Bytes = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitBytes as u8,
     Count = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitCount as u8,
     Percent = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitPercent as u8,
@@ -131,7 +145,7 @@ impl ProfilerMarkerData<'_> {
                 reserved0: 0,
                 reserved1: 0,
                 size: data.len() as u32,
-                ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void)
+                ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void),
             }
         }
     }
@@ -150,24 +164,61 @@ impl UnityProfiler {
         &self,
         marker_desc: &ProfilerMarkerDesc,
         event_type: ProfilerMarkerEventType,
-        event_data: &[ProfilerMarkerData]) {
+        event_data: &[ProfilerMarkerData],
+    ) {
         unsafe {
             self.interface().EmitEvent.expect("EmitEvent")(
                 &UnityProfilerMarkerDesc {
                     callback: std::ptr::null(),
                     id: marker_desc.id,
-                    flags: marker_desc.flags.flag as _,
+                    flags: marker_desc.flags.into(),
                     categoryId: marker_desc.category_id,
                     name: marker_desc.name.as_ptr(),
-                    metaDataDesc: std::ptr::null()
+                    metaDataDesc: std::ptr::null(),
                 },
                 event_type as UnityProfilerMarkerEventType,
                 event_data.len() as u16,
-                event_data.as_ptr() as *const _
+                event_data.as_ptr() as *const _,
             );
         }
     }
 
+    pub fn is_enabled(&self) -> bool {
+        unsafe { self.interface().IsEnabled.expect("IsEnabled")() != 0 }
+    }
+
+    pub fn is_available(&self) -> bool {
+        unsafe { self.interface().IsAvailable.expect("IsEnabled")() != 0 }
+    }
+
+    pub fn create_marker(
+        &self,
+        name: &std::ffi::CStr,
+        category: ProfilerCategoryId,
+        flags: ProfilerMarkerFlags,
+        event_data_count: ::std::os::raw::c_int,
+    ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int> {
+        unsafe {
+            let mut ret = std::ptr::null::<UnityProfilerMarkerDesc>();
+            let result = self.interface().CreateMarker.expect("CreateMarker")(
+                &mut ret,
+                name.as_ptr(),
+                category as _,
+                flags.flag as _,
+                event_data_count,
+            );
+            if result > 0 {
+                Err(result)
+            } else {
+                Ok(ProfilerMarkerDesc {
+                    id: (*ret).id,
+                    flags: (*ret).flags.into(),
+                    category_id: (*ret).categoryId,
+                    name: std::ffi::CStr::from_ptr((*ret).name),
+                })
+            }
+        }
+    }
 }
 
 #[cfg(test)]
