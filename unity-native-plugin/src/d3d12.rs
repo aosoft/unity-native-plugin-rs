@@ -263,10 +263,7 @@ impl UnityGraphicsD3D12v5 {
         self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
     }
 
-    pub unsafe fn texture_from_render_buffer(
-        &self,
-        buffer: *mut graphics::RenderBuffer,
-    ) -> ComPtr {
+    pub unsafe fn texture_from_render_buffer(&self, buffer: *mut graphics::RenderBuffer) -> ComPtr {
         self.interface()
             .TextureFromRenderBuffer
             .expect("TextureFromRenderBuffer")(buffer) as ComPtr

@@ -14,7 +14,6 @@ pub enum ProfilerMarkerFlag {
 
 pub struct ProfilerMarkerFlags(u16);
 
-
 #[repr(u8)]
 #[derive(Copy, Clone)]
 pub enum ProfilerMarkerDataType {

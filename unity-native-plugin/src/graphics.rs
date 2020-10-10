@@ -53,10 +53,7 @@ impl UnityGraphics {
         }
     }
 
-    pub fn register_device_event_callback(
-        &self,
-        callback: Option<GraphicsDeviceEventCallback>,
-    ) {
+    pub fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().RegisterDeviceEventCallback {
                 intf(std::mem::transmute(callback));
@@ -64,10 +61,7 @@ impl UnityGraphics {
         }
     }
 
-    pub fn unregister_device_event_callback(
-        &self,
-        callback: Option<GraphicsDeviceEventCallback>,
-    ) {
+    pub fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().UnregisterDeviceEventCallback {
                 intf(std::mem::transmute(callback));

@@ -66,22 +66,44 @@ pub enum ProfilerMarkerFlag {
 
 #[derive(Copy, Clone)]
 pub struct ProfilerMarkerFlags {
-    pub flag: ProfilerMarkerFlag,
+    pub flag: u16,
 }
 
 impl From<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
     fn from(value: u16) -> Self {
-        unsafe {
-            ProfilerMarkerFlags {
-                flag: std::mem::transmute(value),
-            }
-        }
+        ProfilerMarkerFlags { flag: value }
     }
 }
 
 impl Into<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
     fn into(self) -> UnityProfilerMarkerFlags {
         self.flag as UnityProfilerMarkerFlags
+    }
+}
+
+impl ProfilerMarkerFlags {
+    pub fn new(flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
+        ProfilerMarkerFlags { flag: flag as u16 }
+    }
+
+    pub const fn is_default(&self) -> bool {
+        self.flag == UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault as u16;
+    }
+
+    pub const fn has_flag(&self, flag: ProfilerMarkerFlag) -> bool {
+        (self.flag & flag) != 0
+    }
+
+    pub const fn set_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
+        ProfilerMarkerFlags {
+            flag: self.flag | flag,
+        }
+    }
+
+    pub const fn unset_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
+        ProfilerMarkerFlags {
+            flag: self.flag & !flag,
+        }
     }
 }
 
@@ -266,13 +288,10 @@ impl UnityProfiler {
         unsafe {
             let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
 
-            let result = self
-                .interface()
-                .RegisterThread
-                .expect("RegisterThread")(
+            let result = self.interface().RegisterThread.expect("RegisterThread")(
                 &mut thread_id,
                 group_name.as_ptr(),
-                name.as_ptr()
+                name.as_ptr(),
             );
             if result > 0 {
                 Err(result)
@@ -282,14 +301,12 @@ impl UnityProfiler {
         }
     }
 
-    pub fn unregister_thread(&self, thread_id: ProfilerThreadId) -> Result<(), ::std::os::raw::c_int> {
+    pub fn unregister_thread(
+        &self,
+        thread_id: ProfilerThreadId,
+    ) -> Result<(), ::std::os::raw::c_int> {
         unsafe {
-            let result = self
-                .interface()
-                .UnregisterThread
-                .expect("UnregisterThread")(
-                thread_id
-            );
+            let result = self.interface().UnregisterThread.expect("UnregisterThread")(thread_id);
             if result > 0 {
                 Err(result)
             } else {
@@ -313,5 +330,37 @@ mod test {
             ::std::mem::size_of::<ProfilerMarkerData>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityProfilerMarkerData>()
         );
+    }
+
+    #[test]
+    fn flags_test() {
+        let f = [
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptUser,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptInvoke,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptEnterLeave,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityNonDev,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagWarning,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityDebug,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityInternal,
+            unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced,
+        ];
+
+        let f2 = [
+            ProfilerMarkerFlag::ScriptUser,
+            ProfilerMarkerFlag::ScriptInvoke,
+            ProfilerMarkerFlag::ScriptEnterLeave,
+            ProfilerMarkerFlag::AvailabilityEditor,
+            ProfilerMarkerFlag::AvailabilityNonDev,
+            ProfilerMarkerFlag::Warning,
+            ProfilerMarkerFlag::VerbosityDebug,
+            ProfilerMarkerFlag::VerbosityInternal,
+            ProfilerMarkerFlag::VerbosityAdvanced,
+        ];
+
+        for i in 0..f.len() {
+            assert!(ProfilerMarkerFlags::from(f[i] as u16).has_flag(f2[i]));
+            assert_eq!(ProfilerMarkerFlags::new(f2[i]).unset_flag(f2[i]), 0);
+        }
     }
 }
