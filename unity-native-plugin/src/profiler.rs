@@ -69,6 +69,12 @@ pub struct ProfilerMarkerFlags {
     pub flag: u16,
 }
 
+impl From<ProfilerMarkerFlag> for ProfilerMarkerFlags {
+    fn from(value: ProfilerMarkerFlag) -> Self {
+        ProfilerMarkerFlags::new(value)
+    }
+}
+
 impl From<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
     fn from(value: u16) -> Self {
         ProfilerMarkerFlags { flag: value }
@@ -87,22 +93,22 @@ impl ProfilerMarkerFlags {
     }
 
     pub const fn is_default(&self) -> bool {
-        self.flag == UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault as u16;
+        self.flag == UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault as u16
     }
 
     pub const fn has_flag(&self, flag: ProfilerMarkerFlag) -> bool {
-        (self.flag & flag) != 0
+        (self.flag & flag as u16) != 0
     }
 
     pub const fn set_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
         ProfilerMarkerFlags {
-            flag: self.flag | flag,
+            flag: self.flag | flag as u16,
         }
     }
 
     pub const fn unset_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
         ProfilerMarkerFlags {
-            flag: self.flag & !flag,
+            flag: self.flag & !(flag as u16),
         }
     }
 }
@@ -117,11 +123,34 @@ pub enum ProfilerMarkerEventType {
 
 pub type ProfilerMarkerId = UnityProfilerMarkerId;
 
-pub struct ProfilerMarkerDesc<'a> {
-    pub id: ProfilerMarkerId,
-    pub flags: ProfilerMarkerFlags,
-    pub category_id: ProfilerCategoryId,
-    pub name: &'a std::ffi::CStr,
+pub struct ProfilerMarkerDesc {
+    native: *const UnityProfilerMarkerDesc
+}
+
+impl ProfilerMarkerDesc {
+    pub fn id(&self) -> ProfilerMarkerId {
+        unsafe {
+            (*self.native).id as ProfilerMarkerId
+        }
+    }
+
+    pub fn flags(&self) -> ProfilerMarkerFlags {
+        unsafe {
+            ProfilerMarkerFlags::from((*self.native).flags)
+        }
+    }
+
+    pub fn category_id(&self) -> ProfilerCategoryId {
+        unsafe {
+            (*self.native).categoryId as ProfilerCategoryId
+        }
+    }
+
+    pub fn name(&self) -> &std::ffi::CStr {
+        unsafe {
+            std::ffi::CStr::from_ptr((*self.native).name)
+        }
+    }
 }
 
 #[repr(u8)]
@@ -154,24 +183,34 @@ pub enum ProfilerMarkerDataUnit {
 
 #[repr(C)]
 pub struct ProfilerMarkerData<'a> {
-    pub data_type: ProfilerMarkerDataType,
-    reserved0: u8,
-    reserved1: u16,
-    size: u32,
-    ptr: &'a ::std::os::raw::c_void,
+    native: UnityProfilerMarkerData,
+    data_ref: &'a [u8]
 }
 
 impl ProfilerMarkerData<'_> {
     pub fn new<'a>(data_type: ProfilerMarkerDataType, data: &'a [u8]) -> ProfilerMarkerData<'a> {
         unsafe {
             ProfilerMarkerData {
-                data_type: data_type,
-                reserved0: 0,
-                reserved1: 0,
-                size: data.len() as u32,
-                ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void),
+                native: UnityProfilerMarkerData{
+                    type_: data_type as UnityProfilerMarkerDataType,
+                    reserved0: 0,
+                    reserved1: 0,
+                    size: data.len() as u32,
+                    ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void),
+                },
+                data_ref: data
             }
         }
+    }
+
+    pub fn data_type(&self) -> ProfilerMarkerDataType {
+        unsafe {
+            std::mem::transmute(self.native.type_)
+        }
+    }
+
+    pub fn data(&self) -> &'_ [u8] {
+        self.data_ref
     }
 }
 
@@ -194,14 +233,7 @@ impl UnityProfiler {
     ) {
         unsafe {
             self.interface().EmitEvent.expect("EmitEvent")(
-                &UnityProfilerMarkerDesc {
-                    callback: std::ptr::null(),
-                    id: marker_desc.id,
-                    flags: marker_desc.flags.into(),
-                    categoryId: marker_desc.category_id,
-                    name: marker_desc.name.as_ptr(),
-                    metaDataDesc: std::ptr::null(),
-                },
+                marker_desc.native,
                 event_type as UnityProfilerMarkerEventType,
                 event_data.len() as u16,
                 event_data.as_ptr() as *const _,
@@ -236,12 +268,7 @@ impl UnityProfiler {
             if result > 0 {
                 Err(result)
             } else {
-                Ok(ProfilerMarkerDesc {
-                    id: (*ret).id,
-                    flags: (*ret).flags.into(),
-                    category_id: (*ret).categoryId,
-                    name: std::ffi::CStr::from_ptr::<'a>((*ret).name),
-                })
+                Ok(ProfilerMarkerDesc { native: ret })
             }
         }
     }
@@ -259,14 +286,7 @@ impl UnityProfiler {
                 .interface()
                 .SetMarkerMetadataName
                 .expect("SetMarkerMetadataName")(
-                &UnityProfilerMarkerDesc {
-                    callback: std::ptr::null(),
-                    id: desc.id,
-                    flags: desc.flags.into(),
-                    categoryId: desc.category_id,
-                    name: desc.name.as_ptr(),
-                    metaDataDesc: std::ptr::null(),
-                },
+                desc.native,
                 index,
                 metadata_name.as_ptr(),
                 metadata_type as _,
@@ -321,19 +341,12 @@ mod test {
     use super::*;
 
     #[test]
-    fn size_test() {
+    fn flags_test() {
         assert_eq!(
             ::std::mem::size_of::<ProfilerMarkerFlags>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityProfilerMarkerFlags>()
         );
-        assert_eq!(
-            ::std::mem::size_of::<ProfilerMarkerData>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityProfilerMarkerData>()
-        );
-    }
 
-    #[test]
-    fn flags_test() {
         let f = [
             unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptUser,
             unity_native_plugin_sys::UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptInvoke,
@@ -360,7 +373,7 @@ mod test {
 
         for i in 0..f.len() {
             assert!(ProfilerMarkerFlags::from(f[i] as u16).has_flag(f2[i]));
-            assert_eq!(ProfilerMarkerFlags::new(f2[i]).unset_flag(f2[i]), 0);
+            assert_eq!(ProfilerMarkerFlags::new(f2[i]).unset_flag(f2[i]).flag, 0);
         }
     }
 }
