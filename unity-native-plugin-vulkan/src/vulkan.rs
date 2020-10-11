@@ -1,3 +1,4 @@
+use ash::vk::Handle;
 use unity_native_plugin::define_unity_interface;
 use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
@@ -11,24 +12,47 @@ define_unity_interface!(
 
 pub type VulkanInitCallback = UnityVulkanInitCallback;
 
-#[repr(C)]
+#[allow(non_camel_case_types)]
+pub type PFN_vkGetInstanceProcAddr = unity_native_plugin_sys::PFN_vkGetInstanceProcAddr;
+
 pub struct VulkanInstance {
-    pub pipeline_cache: ash::vk::PipelineCache,
-    pub instance: ash::vk::Instance,
-    pub physical_device: ash::vk::PhysicalDevice,
-    pub device: ash::vk::Device,
-    pub graphics_queue: ash::vk::Queue,
-    get_instance_proc_addr: ash::vk::PFN_vkGetInstanceProcAddr,
-    pub queue_family_index: ::std::os::raw::c_uint,
-    reserved: [*mut ::std::os::raw::c_void; 8usize],
+    native: UnityVulkanInstance,
 }
 
 impl VulkanInstance {
+    pub fn pipeline_cache(&self) -> ash::vk::PipelineCache {
+        ash::vk::PipelineCache::from_raw(self.native.pipelineCache as u64)
+    }
+
+    pub fn instance(&self) -> ash::vk::Instance {
+        ash::vk::Instance::from_raw(self.native.instance as u64)
+    }
+
+    pub fn physical_device(&self) -> ash::vk::PhysicalDevice {
+        ash::vk::PhysicalDevice::from_raw(self.native.physicalDevice as u64)
+    }
+
+    pub fn device(&self) -> ash::vk::Device {
+        ash::vk::Device::from_raw(self.native.device as u64)
+    }
+
+    pub fn graphics_queue(&self) -> ash::vk::Queue {
+        ash::vk::Queue::from_raw(self.native.graphicsQueue as u64)
+    }
+
+    pub fn queue_family_index(&self) -> ::std::os::raw::c_uint {
+        self.native.queueFamilyIndex
+    }
+
     pub unsafe fn get_instance_proc_addr(
         &self,
         name: *const std::os::raw::c_char,
-    ) -> ash::vk::PFN_vkVoidFunction {
-        std::mem::transmute((self.get_instance_proc_addr)(self.instance, name))
+    ) -> PFN_vkVoidFunction {
+        if let Some(f) = self.native.getInstanceProcAddr {
+            (f)(self.native.instance, name)
+        } else {
+            PFN_vkVoidFunction::None
+        }
     }
 }
 
@@ -148,7 +172,11 @@ impl UnityGraphicsVulkan {
     }
 
     pub fn instance(&self) -> VulkanInstance {
-        unsafe { std::mem::transmute(self.interface().Instance.expect("Instance")()) }
+        unsafe {
+            VulkanInstance {
+                native: self.interface().Instance.expect("Instance")(),
+            }
+        }
     }
 
     pub fn command_recording_state(
@@ -354,10 +382,6 @@ mod test {
 
     #[test]
     fn size_test() {
-        assert_eq!(
-            ::std::mem::size_of::<VulkanInstance>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanInstance>()
-        );
         assert_eq!(
             ::std::mem::size_of::<VulkanPluginEventConfig>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanPluginEventConfig>()
