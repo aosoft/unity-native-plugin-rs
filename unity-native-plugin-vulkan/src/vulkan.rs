@@ -71,34 +71,86 @@ pub enum VulkanGraphicsQueueAccess {
     Allow = UnityVulkanGraphicsQueueAccess_kUnityVulkanGraphicsQueueAccess_Allow,
 }
 
-#[repr(C)]
 pub struct VulkanPluginEventConfig {
-    pub render_pass_precondition: VulkanEventRenderPassPreCondition,
-    pub graphics_queue_access: VulkanGraphicsQueueAccess,
-    pub flags: u32,
+    native: UnityVulkanPluginEventConfig,
 }
 
-#[repr(C)]
+impl VulkanPluginEventConfig {
+    pub fn render_pass_precondition(&self) -> VulkanEventRenderPassPreCondition {
+        unsafe { std::mem::transmute(self.native.renderPassPrecondition) }
+    }
+
+    pub fn graphics_queue_access(&self) -> VulkanGraphicsQueueAccess {
+        unsafe { std::mem::transmute(self.native.graphicsQueueAccess) }
+    }
+
+    pub fn flags(&self) -> u32 {
+        unsafe { std::mem::transmute(self.native.flags) }
+    }
+}
+
 pub struct VulkanRecordingState {
-    pub command_buffer: ash::vk::CommandBuffer,
-    pub command_buffer_level: ash::vk::CommandBufferLevel,
-    pub render_pass: ash::vk::RenderPass,
-    pub framebuffer: ash::vk::Framebuffer,
-    pub sub_pass_index: ::std::os::raw::c_int,
-    pub current_frame_number: ::std::os::raw::c_ulonglong,
-    pub safe_frame_number: ::std::os::raw::c_ulonglong,
-    reserved: [*mut ::std::os::raw::c_void; 4usize],
+    native: UnityVulkanRecordingState,
 }
 
-#[repr(C)]
-pub struct VulkanMemory {
-    pub memory: ash::vk::DeviceMemory,
-    pub offset: ash::vk::DeviceSize,
-    pub size: ash::vk::DeviceSize,
-    pub mapped: *mut ::std::os::raw::c_void,
-    pub flags: ash::vk::MemoryPropertyFlags,
-    pub memory_type_index: ::std::os::raw::c_uint,
-    reserved: [*mut ::std::os::raw::c_void; 4usize],
+impl VulkanRecordingState {
+    pub fn command_buffer(&self) -> ash::vk::CommandBuffer {
+        ash::vk::CommandBuffer::from_raw(self.native.commandBuffer as u64)
+    }
+
+    pub fn command_buffer_level(&self) -> ash::vk::CommandBufferLevel {
+        unsafe { std::mem::transmute(self.native.commandBufferLevel) }
+    }
+
+    pub fn render_pass(&self) -> ash::vk::RenderPass {
+        ash::vk::RenderPass::from_raw(self.native.renderPass as u64)
+    }
+
+    pub fn framebuffer(&self) -> ash::vk::Framebuffer {
+        ash::vk::Framebuffer::from_raw(self.native.framebuffer as u64)
+    }
+
+    pub fn sub_pass_index(&self) -> ::std::os::raw::c_int {
+        self.native.subPassIndex
+    }
+
+    pub fn current_frame_number(&self) -> ::std::os::raw::c_ulonglong {
+        self.native.currentFrameNumber
+    }
+
+    pub fn safe_frame_number(&self) -> ::std::os::raw::c_ulonglong {
+        self.native.safeFrameNumber
+    }
+}
+
+pub struct VulkanMemory<'a> {
+    native: &'a UnityVulkanMemory,
+}
+
+impl VulkanMemory<'_> {
+    pub fn memory(&self) -> ash::vk::DeviceMemory {
+        ash::vk::DeviceMemory::from_raw(self.native.memory as u64)
+    }
+
+    pub fn offset(&self) -> ash::vk::DeviceSize {
+        self.native.offset
+    }
+
+    pub fn size(&self) -> ash::vk::DeviceSize {
+        self.native.size
+    }
+
+    pub fn mapped(&self) -> *mut ::std::os::raw::c_void {
+        self.native.mapped
+    }
+
+    pub fn flags(&self) -> ash::vk::MemoryPropertyFlags {
+        unsafe { std::mem::transmute(self.native.flags) }
+    }
+
+    pub fn memory_type_index(&self) -> ::std::os::raw::c_uint {
+        self.native.memoryTypeIndex
+    }
 }
 
 #[repr(u32)]
@@ -109,21 +161,60 @@ pub enum VulkanResourceAccessMode {
     Recreate = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_Recreate,
 }
 
-#[repr(C)]
 pub struct VulkanImage {
-    pub memory: VulkanMemory,
-    pub image: ash::vk::Image,
-    pub layout: ash::vk::ImageLayout,
-    pub aspect: ash::vk::ImageAspectFlags,
-    pub usage: ash::vk::ImageUsageFlags,
-    pub format: ash::vk::Format,
-    pub extent: ash::vk::Extent3D,
-    pub tiling: ash::vk::ImageTiling,
-    pub type_: ash::vk::ImageType,
-    pub samples: ash::vk::SampleCountFlags,
-    pub layers: ::std::os::raw::c_int,
-    pub mip_count: ::std::os::raw::c_int,
-    reserved: [*mut ::std::os::raw::c_void; 4usize],
+    native: UnityVulkanImage,
+}
+
+impl VulkanImage {
+    pub fn memory(&self) -> VulkanMemory {
+        VulkanMemory {
+            native: &self.native.memory,
+        }
+    }
+
+    pub fn image(&self) -> ash::vk::Image {
+        ash::vk::Image::from_raw(self.native.image as u64)
+    }
+
+    pub fn layout(&self) -> ash::vk::ImageLayout {
+        unsafe { ash::vk::ImageLayout::from_raw(std::mem::transmute(self.native.layout)) }
+    }
+
+    pub fn aspect(&self) -> ash::vk::ImageAspectFlags {
+        unsafe { std::mem::transmute(self.native.aspect) }
+    }
+
+    pub fn usage(&self) -> ash::vk::ImageUsageFlags {
+        unsafe { std::mem::transmute(self.native.usage) }
+    }
+
+    pub fn format(&self) -> ash::vk::Format {
+        unsafe { std::mem::transmute(self.native.format) }
+    }
+
+    pub fn extent(&self) -> ash::vk::Extent3D {
+        unsafe { std::mem::transmute(self.native.extent) }
+    }
+
+    pub fn tiling(&self) -> ash::vk::ImageTiling {
+        unsafe { std::mem::transmute(self.native.tiling) }
+    }
+
+    pub fn image_type(&self) -> ash::vk::ImageType {
+        unsafe { std::mem::transmute(self.native.type_) }
+    }
+
+    pub fn samples(&self) -> ash::vk::SampleCountFlags {
+        unsafe { std::mem::transmute(self.native.samples) }
+    }
+
+    pub fn layers(&self) -> ::std::os::raw::c_int {
+        self.native.layers
+    }
+
+    pub fn mip_count(&self) -> ::std::os::raw::c_int {
+        self.native.mipCount
+    }
 }
 
 #[repr(u32)]
@@ -166,7 +257,7 @@ impl UnityGraphicsVulkan {
         unsafe {
             self.interface().ConfigureEvent.expect("ConfigureEvent")(
                 event_id,
-                std::mem::transmute(plugin_event_config),
+                &plugin_event_config.native,
             )
         }
     }
@@ -184,7 +275,7 @@ impl UnityGraphicsVulkan {
         queue_access: VulkanGraphicsQueueAccess,
     ) -> Option<VulkanRecordingState> {
         unsafe {
-            let mut ret = std::mem::zeroed::<VulkanRecordingState>();
+            let mut ret = std::mem::zeroed::<UnityVulkanRecordingState>();
             if self
                 .interface()
                 .CommandRecordingState
@@ -192,7 +283,7 @@ impl UnityGraphicsVulkan {
                 std::mem::transmute(&mut ret),
                 queue_access as UnityVulkanGraphicsQueueAccess,
             ) {
-                Some(ret)
+                Some(VulkanRecordingState { native: ret })
             } else {
                 None
             }
@@ -208,7 +299,7 @@ impl UnityGraphicsVulkan {
         access_flags: ash::vk::AccessFlags,
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
-        let mut ret = std::mem::zeroed::<VulkanImage>();
+        let mut ret = std::mem::zeroed::<UnityVulkanImage>();
         if self.interface().AccessTexture.expect("AccessTexture")(
             native_texture,
             match sub_resource {
@@ -221,7 +312,7 @@ impl UnityGraphicsVulkan {
             access_mode as UnityVulkanResourceAccessMode,
             std::mem::transmute(&mut ret),
         ) {
-            Some(ret)
+            Some(VulkanImage { native: ret })
         } else {
             None
         }
@@ -236,7 +327,7 @@ impl UnityGraphicsVulkan {
         access_flags: ash::vk::AccessFlags,
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
-        let mut ret = std::mem::zeroed::<VulkanImage>();
+        let mut ret = std::mem::zeroed::<UnityVulkanImage>();
         if self
             .interface()
             .AccessRenderBufferTexture
@@ -252,7 +343,7 @@ impl UnityGraphicsVulkan {
             access_mode as UnityVulkanResourceAccessMode,
             std::mem::transmute(&mut ret),
         ) {
-            Some(ret)
+            Some(VulkanImage { native: ret })
         } else {
             None
         }
@@ -267,7 +358,7 @@ impl UnityGraphicsVulkan {
         access_flags: ash::vk::AccessFlags,
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
-        let mut ret = std::mem::zeroed::<VulkanImage>();
+        let mut ret = std::mem::zeroed::<UnityVulkanImage>();
         if self
             .interface()
             .AccessRenderBufferResolveTexture
@@ -283,7 +374,7 @@ impl UnityGraphicsVulkan {
             access_mode as UnityVulkanResourceAccessMode,
             std::mem::transmute(&mut ret),
         ) {
-            Some(ret)
+            Some(VulkanImage { native: ret })
         } else {
             None
         }
@@ -296,7 +387,7 @@ impl UnityGraphicsVulkan {
         access_flags: ash::vk::AccessFlags,
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
-        let mut ret = std::mem::zeroed::<VulkanImage>();
+        let mut ret = std::mem::zeroed::<UnityVulkanImage>();
         if self.interface().AccessBuffer.expect("AccessTexture")(
             native_buffer,
             std::mem::transmute(pipeline_stage_flags),
@@ -304,7 +395,7 @@ impl UnityGraphicsVulkan {
             access_mode as UnityVulkanResourceAccessMode,
             std::mem::transmute(&mut ret),
         ) {
-            Some(ret)
+            Some(VulkanImage { native: ret })
         } else {
             None
         }
@@ -353,7 +444,7 @@ impl UnityGraphicsVulkan {
         access_flags: ash::vk::AccessFlags,
         access_mode: VulkanResourceAccessMode,
     ) -> Option<VulkanImage> {
-        let mut ret = std::mem::zeroed::<VulkanImage>();
+        let mut ret = std::mem::zeroed::<UnityVulkanImage>();
         if self
             .interface()
             .AccessTextureByID
@@ -369,7 +460,7 @@ impl UnityGraphicsVulkan {
             access_mode as UnityVulkanResourceAccessMode,
             std::mem::transmute(&mut ret),
         ) {
-            Some(ret)
+            Some(VulkanImage { native: ret })
         } else {
             None
         }
@@ -382,22 +473,6 @@ mod test {
 
     #[test]
     fn size_test() {
-        assert_eq!(
-            ::std::mem::size_of::<VulkanPluginEventConfig>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanPluginEventConfig>()
-        );
-        assert_eq!(
-            ::std::mem::size_of::<VulkanRecordingState>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanRecordingState>()
-        );
-        assert_eq!(
-            ::std::mem::size_of::<VulkanMemory>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanMemory>()
-        );
-        assert_eq!(
-            ::std::mem::size_of::<VulkanImage>(),
-            ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanImage>()
-        );
         assert_eq!(
             ::std::mem::size_of::<VulkanSwapchainConfiguration>(),
             ::std::mem::size_of::<unity_native_plugin_sys::UnityVulkanSwapchainConfiguration>()
