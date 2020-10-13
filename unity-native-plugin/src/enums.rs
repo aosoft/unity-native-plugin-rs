@@ -1,7 +1,7 @@
 use unity_native_plugin_sys::*;
 
 #[repr(u16)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ProfilerMarkerFlag {
     ScriptEnterLeave = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptEnterLeave as u16,
     AvailabilityEditor = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor as u16,
@@ -15,7 +15,7 @@ pub enum ProfilerMarkerFlag {
 pub struct ProfilerMarkerFlags(u16);
 
 #[repr(u8)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ProfilerMarkerDataType {
     None = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeNone as u8,
     InstanceId = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInstanceId as u8,
@@ -31,7 +31,7 @@ pub enum ProfilerMarkerDataType {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum RenderingExtEventType {
     SetStereoTarget = UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoTarget,
     SetStereoEye = UnityRenderingExtEventType_kUnityRenderingExtEventSetStereoEye,
@@ -51,7 +51,7 @@ pub enum RenderingExtEventType {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum RenderingExtCustomBlitCommands {
     CustomBlitVRFlush = UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitVRFlush,
     //CustomBlitCount = UnityRenderingExtCustomBlitCommands_kUnityRenderingExtCustomBlitCount,
@@ -59,7 +59,7 @@ pub enum RenderingExtCustomBlitCommands {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[allow(non_camel_case_types)]
 pub enum RenderingExtQueryType {
     OverrideViewport = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverrideViewport,
@@ -74,7 +74,7 @@ pub enum RenderingExtQueryType {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[allow(non_camel_case_types)]
 pub enum RenderingExtTextureFormat {
     None = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatNone,
@@ -273,7 +273,7 @@ pub enum RenderingExtTextureFormat {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ShaderCompilerExtCompilerPlatform {
     Unused0 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused0,
     Unused1 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused1,
@@ -302,7 +302,7 @@ pub enum ShaderCompilerExtCompilerPlatform {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ShaderCompilerExtShaderType {
     None = UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderNone,
     Vertex = UnityShaderCompilerExtShaderType_kUnityShaderCompilerExtShaderVertex,
@@ -315,7 +315,7 @@ pub enum ShaderCompilerExtShaderType {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ShaderCompilerExtGPUProgramType {
     Unknown = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetUnknown,
     GLLegacy = UnityShaderCompilerExtGPUProgramType_kUnityShaderCompilerExtGPUProgramTargetGLLegacy,
@@ -366,7 +366,7 @@ pub enum ShaderCompilerExtGPUProgramType {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ShaderCompilerExtGPUProgram {
     VS = UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramVS,
     PS = UnityShaderCompilerExtGPUProgram_kUnityShaderCompilerExtGPUProgramPS,
@@ -377,7 +377,7 @@ pub enum ShaderCompilerExtGPUProgram {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ShaderCompilerExtEventType {
     CreateCustomSourceVariant =
         UnityShaderCompilerExtEventType_kUnityShaderCompilerExtEventCreateCustomSourceVariant,

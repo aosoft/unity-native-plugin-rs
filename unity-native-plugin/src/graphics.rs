@@ -9,7 +9,7 @@ pub type RenderingEventAndData =
     unsafe extern "system" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void);
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum GfxRenderer {
     D3D11 = UnityGfxRenderer_kUnityGfxRendererD3D11,
     Null = UnityGfxRenderer_kUnityGfxRendererNull,
@@ -26,7 +26,7 @@ pub enum GfxRenderer {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum GfxDeviceEventType {
     Initialize = UnityGfxDeviceEventType_kUnityGfxDeviceEventInitialize,
     Shutdown = UnityGfxDeviceEventType_kUnityGfxDeviceEventShutdown,

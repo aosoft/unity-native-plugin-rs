@@ -57,7 +57,7 @@ impl VulkanInstance {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum VulkanEventRenderPassPreCondition {
     DontCare = UnityVulkanEventRenderPassPreCondition_kUnityVulkanRenderPass_DontCare,
     EnsureInside = UnityVulkanEventRenderPassPreCondition_kUnityVulkanRenderPass_EnsureInside,
@@ -65,7 +65,7 @@ pub enum VulkanEventRenderPassPreCondition {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum VulkanGraphicsQueueAccess {
     DontCare = UnityVulkanGraphicsQueueAccess_kUnityVulkanGraphicsQueueAccess_DontCare,
     Allow = UnityVulkanGraphicsQueueAccess_kUnityVulkanGraphicsQueueAccess_Allow,
@@ -154,7 +154,7 @@ impl VulkanMemory<'_> {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum VulkanResourceAccessMode {
     ObserveOnly = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_ObserveOnly,
     PipelineBarrier = UnityVulkanResourceAccessMode_kUnityVulkanResourceAccess_PipelineBarrier,
@@ -218,7 +218,7 @@ impl VulkanImage {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum VulkanSwapchainMode {
     Default = UnityVulkanSwapchainMode_kUnityVulkanSwapchainMode_Default,
     Offscreen = UnityVulkanSwapchainMode_kUnityVulkanSwapchainMode_Offscreen,
