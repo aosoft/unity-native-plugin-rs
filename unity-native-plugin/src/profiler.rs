@@ -124,32 +124,24 @@ pub enum ProfilerMarkerEventType {
 pub type ProfilerMarkerId = UnityProfilerMarkerId;
 
 pub struct ProfilerMarkerDesc {
-    native: *const UnityProfilerMarkerDesc
+    native: *const UnityProfilerMarkerDesc,
 }
 
 impl ProfilerMarkerDesc {
     pub fn id(&self) -> ProfilerMarkerId {
-        unsafe {
-            (*self.native).id as ProfilerMarkerId
-        }
+        unsafe { (*self.native).id as ProfilerMarkerId }
     }
 
     pub fn flags(&self) -> ProfilerMarkerFlags {
-        unsafe {
-            ProfilerMarkerFlags::from((*self.native).flags)
-        }
+        unsafe { ProfilerMarkerFlags::from((*self.native).flags) }
     }
 
     pub fn category_id(&self) -> ProfilerCategoryId {
-        unsafe {
-            (*self.native).categoryId as ProfilerCategoryId
-        }
+        unsafe { (*self.native).categoryId as ProfilerCategoryId }
     }
 
     pub fn name(&self) -> &std::ffi::CStr {
-        unsafe {
-            std::ffi::CStr::from_ptr((*self.native).name)
-        }
+        unsafe { std::ffi::CStr::from_ptr((*self.native).name) }
     }
 }
 
@@ -184,29 +176,27 @@ pub enum ProfilerMarkerDataUnit {
 #[repr(C)]
 pub struct ProfilerMarkerData<'a> {
     native: UnityProfilerMarkerData,
-    data_ref: &'a [u8]
+    data_ref: &'a [u8],
 }
 
 impl ProfilerMarkerData<'_> {
     pub fn new<'a>(data_type: ProfilerMarkerDataType, data: &'a [u8]) -> ProfilerMarkerData<'a> {
         unsafe {
             ProfilerMarkerData {
-                native: UnityProfilerMarkerData{
+                native: UnityProfilerMarkerData {
                     type_: data_type as UnityProfilerMarkerDataType,
                     reserved0: 0,
                     reserved1: 0,
                     size: data.len() as u32,
                     ptr: &*(data.as_ptr() as *const ::std::os::raw::c_void),
                 },
-                data_ref: data
+                data_ref: data,
             }
         }
     }
 
     pub fn data_type(&self) -> ProfilerMarkerDataType {
-        unsafe {
-            std::mem::transmute(self.native.type_)
-        }
+        unsafe { std::mem::transmute(self.native.type_) }
     }
 
     pub fn data(&self) -> &'_ [u8] {
