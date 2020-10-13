@@ -44,7 +44,7 @@ define_unity_interface!(
 pub type GraphicsDeviceEventCallback = extern "system" fn(eventType: GfxDeviceEventType);
 
 impl UnityGraphics {
-    pub fn get_renderer(&self) -> GfxRenderer {
+    pub fn renderer(&self) -> GfxRenderer {
         unsafe {
             match self.interface().GetRenderer {
                 Some(intf) => std::mem::transmute(intf()),
