@@ -4,9 +4,8 @@ use unity_native_plugin_sys::*;
 
 pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
 pub type TextureID = unity_native_plugin_sys::UnityTextureID;
-pub type RenderingEvent = unsafe extern "system" fn(eventId: ::std::os::raw::c_int);
-pub type RenderingEventAndData =
-    unsafe extern "system" fn(eventId: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_void);
+pub type RenderingEvent = unity_native_plugin_sys::UnityRenderingEvent;
+pub type RenderingEventAndData = unity_native_plugin_sys::UnityRenderingEventAndData;
 
 #[repr(u32)]
 #[derive(Copy, Clone, PartialEq, Eq)]
