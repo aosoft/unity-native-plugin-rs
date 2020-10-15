@@ -10,10 +10,12 @@ define_unity_interface!(
     0x9789313dfcffcc87_u64
 );
 
-pub type VulkanInitCallback = UnityVulkanInitCallback;
-
-#[allow(non_camel_case_types)]
-pub type PFN_vkGetInstanceProcAddr = unity_native_plugin_sys::PFN_vkGetInstanceProcAddr;
+pub type VulkanInitCallback = Option<
+    unsafe extern "system" fn(
+        get_instance_proc_addr: ash::vk::PFN_vkGetInstanceProcAddr,
+        userdata: *mut ::std::os::raw::c_void,
+    ) -> Option<ash::vk::PFN_vkGetInstanceProcAddr>,
+>;
 
 pub struct VulkanInstance {
     native: UnityVulkanInstance,
@@ -237,7 +239,7 @@ impl UnityGraphicsVulkan {
     ) {
         self.interface()
             .InterceptInitialization
-            .expect("InterceptInitialization")(func, userdata);
+            .expect("InterceptInitialization")(std::mem::transmute(func), userdata);
     }
 
     pub unsafe fn intercept_vulkan_api(
