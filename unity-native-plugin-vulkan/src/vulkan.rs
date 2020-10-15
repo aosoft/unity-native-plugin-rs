@@ -14,7 +14,7 @@ pub type VulkanInitCallback = Option<
     unsafe extern "system" fn(
         get_instance_proc_addr: ash::vk::PFN_vkGetInstanceProcAddr,
         userdata: *mut ::std::os::raw::c_void,
-    ) -> Option<ash::vk::PFN_vkGetInstanceProcAddr>,
+    ) -> ash::vk::PFN_vkGetInstanceProcAddr,
 >;
 
 pub struct VulkanInstance {
