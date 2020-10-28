@@ -39,3 +39,7 @@ unity_native_plugin::unity_native_plugin_entry_point! {
 let intf = unity_native_plugin::interface::UnityInterfaces::get()
     .interface::<unity_native_plugin::d3d11::UnityGraphicsD3D11>();
 ```
+
+## Examples
+
+* [Native code (Rust) rendering plugin example for Unity](https://github.com/aosoft/unity-native-rendering-plugin-example-rs) - a port of ["C++ Rendering Plugin example for Unity"](https://github.com/Unity-Technologies/NativeRenderingPlugin)
