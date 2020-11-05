@@ -1,6 +1,6 @@
 [package]
 name = "unity-native-plugin-vulkan"
-version = "0.5.0"
+version = "0.4.0"
 authors = ["Yasuhiro Taniuchi"]
 license = "MIT"
 description = "Unity Native Plugin API (Vulkan) for Rust"
@@ -19,6 +19,6 @@ include = [
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-unity-native-plugin = { version = "0.5.0", path = "../unity-native-plugin" }
-unity-native-plugin-sys = { version = "0.5.0", path = "../unity-native-plugin-sys" }
+unity-native-plugin = { version = "0.4.0", path = "../unity-native-plugin" }
+unity-native-plugin-sys = { version = "0.4.0", path = "../unity-native-plugin-sys" }
 ash = "0.31.0"
