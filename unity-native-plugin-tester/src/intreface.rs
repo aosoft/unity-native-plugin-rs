@@ -40,12 +40,16 @@ extern "system" fn register_interface_split(
 ) {
     unsafe {
         if let Some(infs) = &mut INTERFACES {
-            infs.insert(InfKey { high, low }, ptr);
+            if ptr.is_null() {
+                infs.remove(&InfKey { high, low });
+            } else {
+                infs.insert(InfKey { high, low }, ptr);
+            }
         }
     }
 }
 
-pub fn get_interfaces() -> IUnityInterfaces {
+pub fn get_unity_interfaces() -> IUnityInterfaces {
     unsafe {
         if INTERFACES.is_none() {
             INTERFACES = Some(InfMap::new());
