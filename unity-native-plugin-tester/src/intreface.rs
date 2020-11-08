@@ -8,25 +8,83 @@ pub struct InfKey {
     pub low: c_ulonglong,
 }
 
-type InfMap = HashMap<InfKey, *mut IUnityInterface>;
+pub trait UnityInterfaceBase {
+    fn get_unity_interface(&self) -> *mut IUnityInterface;
+}
 
-static mut INTERFACES: Option<InfMap> = None;
+pub struct UnityInterfaces {
+    map: HashMap<InfKey, Box<dyn UnityInterfaceBase>>,
+}
+
+impl UnityInterfaces {
+    pub fn new() -> Self {
+        UnityInterfaces {
+            map: HashMap::<InfKey, Box<dyn UnityInterfaceBase>>::new(),
+        }
+    }
+
+    pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<&Box<dyn UnityInterfaceBase>> {
+        self.get_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow)
+    }
+
+    pub fn get_interface_split(
+        &self,
+        high: ::std::os::raw::c_ulonglong,
+        low: ::std::os::raw::c_ulonglong,
+    ) -> Option<&Box<dyn UnityInterfaceBase>> {
+        self.map.get(&InfKey { high, low })
+    }
+
+    pub fn register_interface(
+        &mut self,
+        guid: UnityInterfaceGUID,
+        interface: Option<Box<dyn UnityInterfaceBase>>,
+    ) {
+        self.register_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow, interface);
+    }
+
+    pub fn register_interface_split(
+        &mut self,
+        high: ::std::os::raw::c_ulonglong,
+        low: ::std::os::raw::c_ulonglong,
+        interface: Option<Box<dyn UnityInterfaceBase>>,
+    ) {
+        if let Some(i) = interface {
+            self.map.insert(InfKey { high, low }, i);
+        } else {
+            self.map.remove(&InfKey { high, low });
+        }
+    }
+}
+
+static INTERFACES: IUnityInterfaces = IUnityInterfaces {
+    GetInterface: Some(get_interface),
+    RegisterInterface: Some(register_interface),
+    GetInterfaceSplit: Some(get_interface_split),
+    RegisterInterfaceSplit: Some(register_interface_split),
+};
+
+static mut UNITY_INTERFACES: Option<UnityInterfaces> = None;
 
 extern "system" fn get_interface(guid: UnityInterfaceGUID) -> *mut IUnityInterface {
-    get_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow)
+    unsafe {
+        if let Some(i) = UNITY_INTERFACES.as_ref().unwrap().get_interface(guid) {
+            i.as_ref().get_unity_interface()
+        } else {
+            std::ptr::null_mut()
+        }
+    }
 }
 
-extern "system" fn register_interface(guid: UnityInterfaceGUID, ptr: *mut IUnityInterface) {
-    register_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow, ptr);
-}
+extern "system" fn register_interface(_: UnityInterfaceGUID, _: *mut IUnityInterface) {}
 
 extern "system" fn get_interface_split(
     high: ::std::os::raw::c_ulonglong,
     low: ::std::os::raw::c_ulonglong,
 ) -> *mut IUnityInterface {
     unsafe {
-        if let Some(infs) = &INTERFACES {
-            *infs.get(&InfKey { high, low }).unwrap_or(&std::ptr::null_mut())
+        if let Some(i) = UNITY_INTERFACES.as_ref().unwrap().get_interface_split(high, low) {
+            i.as_ref().get_unity_interface()
         } else {
             std::ptr::null_mut()
         }
@@ -34,32 +92,12 @@ extern "system" fn get_interface_split(
 }
 
 extern "system" fn register_interface_split(
-    high: ::std::os::raw::c_ulonglong,
-    low: ::std::os::raw::c_ulonglong,
-    ptr: *mut IUnityInterface,
+    _: ::std::os::raw::c_ulonglong,
+    _: ::std::os::raw::c_ulonglong,
+    _: *mut IUnityInterface,
 ) {
-    unsafe {
-        if let Some(infs) = &mut INTERFACES {
-            if ptr.is_null() {
-                infs.remove(&InfKey { high, low });
-            } else {
-                infs.insert(InfKey { high, low }, ptr);
-            }
-        }
-    }
 }
 
-pub fn get_unity_interfaces() -> IUnityInterfaces {
-    unsafe {
-        if INTERFACES.is_none() {
-            INTERFACES = Some(InfMap::new());
-        }
-    }
-
-    IUnityInterfaces {
-        GetInterface: Some(get_interface),
-        RegisterInterface: Some(register_interface),
-        GetInterfaceSplit: Some(get_interface_split),
-        RegisterInterfaceSplit: Some(register_interface_split),
-    }
+pub fn get_unity_interfaces() -> &'static IUnityInterfaces {
+    &INTERFACES
 }

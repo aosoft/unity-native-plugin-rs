@@ -1,9 +1,14 @@
 use unity_native_plugin_sys::*;
 
-static mut GFX_RENDERER: UnityGfxRenderer = UnityGfxRenderer_kUnityGfxRendererNull;
+struct Resources {
+    pub renderer: UnityGfxRenderer,
+    pub interfaces: IUnityGraphics,
+}
+
+static mut RESOURCES: Option<Resources> = None;
 
 extern "system" fn get_renderer() -> UnityGfxRenderer {
-    unsafe { GFX_RENDERER }
+    unsafe { RESOURCES.as_ref().unwrap().renderer }
 }
 
 extern "system" fn register_device_event_callback(_: IUnityGraphicsDeviceEventCallback) {}
@@ -14,17 +19,19 @@ extern "system" fn reserve_event_id_range(_: ::std::os::raw::c_int) -> ::std::os
     0
 }
 
-pub fn set_gfx_renderer(renderer: unity_native_plugin::graphics::GfxRenderer) {
+pub fn initialize_interface(
+    renderer: unity_native_plugin::graphics::GfxRenderer,
+) {
     unsafe {
-        GFX_RENDERER = renderer as _;
-    }
-}
+        RESOURCES = Some(Resources {
+            renderer: renderer as _,
+            interfaces: IUnityGraphics {
+                GetRenderer: Some(get_renderer),
+                RegisterDeviceEventCallback: Some(register_device_event_callback),
+                UnregisterDeviceEventCallback: Some(unregister_device_event_callback),
+                ReserveEventIDRange: Some(reserve_event_id_range),
+            },
+        });
 
-pub fn get_unity_graphics() -> IUnityGraphics {
-    IUnityGraphics {
-        GetRenderer: Some(get_renderer),
-        RegisterDeviceEventCallback: Some(register_device_event_callback),
-        UnregisterDeviceEventCallback: Some(unregister_device_event_callback),
-        ReserveEventIDRange: Some(reserve_event_id_range),
     }
 }
