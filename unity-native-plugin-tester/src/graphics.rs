@@ -1,14 +1,48 @@
+use std::any::Any;
+use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
-struct Resources {
-    pub renderer: UnityGfxRenderer,
-    pub interfaces: IUnityGraphics,
+struct UnityGraphics {
+    renderer: UnityGfxRenderer,
+    interfaces: IUnityGraphics,
 }
 
-static mut RESOURCES: Option<Resources> = None;
+impl UnityGraphics {
+    pub fn new(renderer: unity_native_plugin::graphics::GfxRenderer) -> Self {
+        UnityGraphics {
+            renderer: renderer as _,
+            interfaces: IUnityGraphics {
+                GetRenderer: Some(get_renderer),
+                RegisterDeviceEventCallback: Some(register_device_event_callback),
+                UnregisterDeviceEventCallback: Some(unregister_device_event_callback),
+                ReserveEventIDRange: Some(reserve_event_id_range),
+            },
+        }
+    }
+
+    pub fn renderer(&self) -> UnityGfxRenderer {
+        self.renderer
+    }
+}
+
+impl crate::intreface::UnityInterfaceBase for UnityGraphics {
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+
+    fn get_unity_interface(&self) -> *mut IUnityInterface {
+        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
+    }
+}
+
+impl crate::intreface::UnityInterfaceID for UnityGraphics {
+    fn get_interface_guid() -> UnityInterfaceGUID {
+        unity_native_plugin::graphics::UnityGraphics::get_interface_guid()
+    }
+}
 
 extern "system" fn get_renderer() -> UnityGfxRenderer {
-    unsafe { RESOURCES.as_ref().unwrap().renderer }
+    unsafe { crate::intreface::get_unity_interface::<UnityGraphics>().renderer() }
 }
 
 extern "system" fn register_device_event_callback(_: IUnityGraphicsDeviceEventCallback) {}
@@ -19,19 +53,31 @@ extern "system" fn reserve_event_id_range(_: ::std::os::raw::c_int) -> ::std::os
     0
 }
 
-pub fn initialize_interface(
-    renderer: unity_native_plugin::graphics::GfxRenderer,
-) {
+pub fn initialize_interface(renderer: unity_native_plugin::graphics::GfxRenderer) {
     unsafe {
-        RESOURCES = Some(Resources {
-            renderer: renderer as _,
-            interfaces: IUnityGraphics {
-                GetRenderer: Some(get_renderer),
-                RegisterDeviceEventCallback: Some(register_device_event_callback),
-                UnregisterDeviceEventCallback: Some(unregister_device_event_callback),
-                ReserveEventIDRange: Some(reserve_event_id_range),
-            },
-        });
-
+        crate::intreface::get_unity_interfaces()
+            .register_interface::<UnityGraphics>(Some(Box::new(UnityGraphics::new(renderer))));
     }
+}
+
+#[test]
+fn register_graphics() {
+    crate::intreface::initialize_unity_interfaces();
+    crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
+
+    unsafe {
+        unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
+            crate::intreface::get_unity_interfaces().interfaces(),
+        );
+    }
+
+    assert_eq!(
+        unity_native_plugin::graphics::GfxRenderer::D3D11,
+        unity_native_plugin::interface::UnityInterfaces::get()
+            .interface::<unity_native_plugin::graphics::UnityGraphics>()
+            .unwrap()
+            .renderer()
+    );
+
+    crate::intreface::finalize_unity_interfaces();
 }

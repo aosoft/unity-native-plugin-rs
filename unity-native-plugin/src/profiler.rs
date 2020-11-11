@@ -10,7 +10,7 @@ define_unity_interface!(
 );
 
 #[repr(u16)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum BuiltinProfilerCategory {
     Render = UnityBuiltinProfilerCategory__kUnityProfilerCategoryRender as u16,
     Scripts = UnityBuiltinProfilerCategory__kUnityProfilerCategoryScripts as u16,
@@ -49,7 +49,7 @@ pub enum BuiltinProfilerCategory {
 pub type ProfilerCategoryId = UnityProfilerCategoryId;
 
 #[repr(u16)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerMarkerFlag {
     Default = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault as u16,
     ScriptUser = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptUser as u16,
@@ -114,7 +114,7 @@ impl ProfilerMarkerFlags {
 }
 
 #[repr(u16)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerMarkerEventType {
     Begin = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeBegin as u16,
     End = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeEnd as u16,
@@ -146,7 +146,7 @@ impl ProfilerMarkerDesc {
 }
 
 #[repr(u8)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerMarkerDataType {
     None = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeNone as u8,
     InstanceId = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInstanceId as u8,
@@ -162,7 +162,7 @@ pub enum ProfilerMarkerDataType {
 }
 
 #[repr(u8)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerMarkerDataUnit {
     Undefined = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitUndefined as u8,
     TimeNanoseconds =
@@ -205,7 +205,7 @@ impl ProfilerMarkerData<'_> {
 }
 
 #[repr(u8)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerFlowEventType {
     Begin = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeBegin as u8,
     Next = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeNext as u8,

@@ -8,7 +8,7 @@ pub type RenderingEvent = unity_native_plugin_sys::UnityRenderingEvent;
 pub type RenderingEventAndData = unity_native_plugin_sys::UnityRenderingEventAndData;
 
 #[repr(u32)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum GfxRenderer {
     D3D11 = UnityGfxRenderer_kUnityGfxRendererD3D11,
     Null = UnityGfxRenderer_kUnityGfxRendererNull,
@@ -25,7 +25,7 @@ pub enum GfxRenderer {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum GfxDeviceEventType {
     Initialize = UnityGfxDeviceEventType_kUnityGfxDeviceEventInitialize,
     Shutdown = UnityGfxDeviceEventType_kUnityGfxDeviceEventShutdown,
