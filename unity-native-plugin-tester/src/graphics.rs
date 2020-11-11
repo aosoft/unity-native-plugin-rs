@@ -1,4 +1,3 @@
-use std::any::Any;
 use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
@@ -26,7 +25,7 @@ impl UnityGraphics {
 }
 
 impl crate::intreface::UnityInterfaceBase for UnityGraphics {
-    fn as_any(&self) -> &dyn Any {
+    fn as_any(&self) -> &dyn std::any::Any {
         self
     }
 
