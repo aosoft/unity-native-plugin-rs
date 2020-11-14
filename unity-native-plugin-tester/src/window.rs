@@ -29,7 +29,7 @@ pub fn run_window_app<
     event_loop.run_return(|event, _, control_flow| {
         *control_flow = match fn_main(&window, &mut context) {
             LoopResult::Continue => ControlFlow::WaitUntil(
-                std::time::Instant::now() + std::time::Duration::from_millis(500)),
+                std::time::Instant::now() + std::time::Duration::from_millis(50)),
             _ => ControlFlow::Exit
         };
 

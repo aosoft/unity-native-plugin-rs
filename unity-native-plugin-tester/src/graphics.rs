@@ -64,12 +64,6 @@ fn register_graphics() {
     crate::intreface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
-    unsafe {
-        unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
-            crate::intreface::get_unity_interfaces().interfaces(),
-        );
-    }
-
     assert_eq!(
         unity_native_plugin::graphics::GfxRenderer::D3D11,
         unity_native_plugin::interface::UnityInterfaces::get()
