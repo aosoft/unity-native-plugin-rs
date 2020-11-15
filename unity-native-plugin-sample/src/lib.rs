@@ -59,5 +59,5 @@ fn test() {
         |window, context| unity_native_plugin_tester::window::LoopResult::Continue,
         unity_plugin_load,
         unity_plugin_unload,
-    );
+    ).unwrap();
 }

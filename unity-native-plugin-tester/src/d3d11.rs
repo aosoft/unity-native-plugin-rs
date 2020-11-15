@@ -1,7 +1,7 @@
 use unity_native_plugin_sys::*;
 use unity_native_plugin::interface::UnityInterface;
 use winapi::shared::{dxgi, dxgiformat, dxgitype, minwindef, winerror};
-use winapi::um::{objbase, combaseapi, d3d11, d3dcommon, unknwnbase::IUnknown, winnt};
+use winapi::um::{objbase, combaseapi, d3d11, d3dcommon, winnt};
 use winit::window::Window;
 use raw_window_handle::HasRawWindowHandle;
 use wio::com::ComPtr;
@@ -24,6 +24,8 @@ impl UnityGraphicsD3D11 {
             },
         }
     }
+
+    pub fn device(&self) -> *mut d3d11::ID3D11Device { self.device.as_raw() }
 }
 
 impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
@@ -43,7 +45,7 @@ impl crate::interface::UnityInterfaceID for UnityGraphicsD3D11 {
 }
 
 extern "system" fn get_device() -> *mut ID3D11Device {
-    std::ptr::null_mut()
+    unsafe { crate::interface::get_unity_interface::<UnityGraphicsD3D11>().device() as _ }
 }
 
 extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
@@ -140,6 +142,18 @@ impl TesterContext {
                 Err(hr)
             }
         }
+    }
+
+    pub fn device(&self) -> *mut d3d11::ID3D11Device {
+        self.device.as_raw()
+    }
+
+    pub fn device_context(&self) -> *mut d3d11::ID3D11DeviceContext {
+        self.device_context.as_raw()
+    }
+
+    pub fn swap_chain(&self) -> *mut dxgi::IDXGISwapChain {
+        self.swap_chain.as_raw()
     }
 }
 
