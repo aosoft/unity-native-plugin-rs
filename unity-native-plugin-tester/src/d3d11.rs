@@ -74,7 +74,7 @@ pub fn initialize_interface(device: ComPtr<d3d11::ID3D11Device>) {
     }
 }
 
-struct TesterContext {
+pub struct TesterContext {
     device: ComPtr<d3d11::ID3D11Device>,
     device_context: ComPtr<d3d11::ID3D11DeviceContext>,
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
@@ -147,26 +147,25 @@ pub fn test_plugin_d3d11<
     FnMain: FnMut(&Window, &mut TesterContext) -> crate::window::LoopResult,
 >(
     mut fn_main: FnMain,
+    fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
+    fn_unity_plugin_unload: fn()
 ) -> Result<(), winnt::HRESULT> {
     unsafe { objbase::CoInitialize(std::ptr::null_mut()); }
 
     crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
+    fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
     crate::window::run_window_app(
         |window| TesterContext::new(window).unwrap(),
         fn_main,
         |window, context| {},
     );
+    fn_unity_plugin_unload();
 
     crate::interface::finalize_unity_interfaces();
 
     unsafe { combaseapi::CoUninitialize(); }
 
     Ok(())
-}
-
-#[test]
-fn test() {
-    test_plugin_d3d11(|window, context| crate::window::LoopResult::Continue).unwrap();
 }
