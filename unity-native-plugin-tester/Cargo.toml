@@ -17,3 +17,5 @@ unity-native-plugin = { version = "0.4.1",  path = "../unity-native-plugin", fea
 winapi = { version = "0.3.9", features = ["winuser", "dxgi", "d3d11", "dxgiformat", "dxgitype", "d3dcommon"] }
 winit = "0.23.0"
 wio = "0.2.2"
+raw-window-handle = "0.3.3"
+

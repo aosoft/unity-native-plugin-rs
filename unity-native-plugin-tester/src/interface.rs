@@ -129,7 +129,7 @@ pub fn initialize_unity_interfaces() {
     unsafe {
         UNITY_INTERFACES = Some(UnityInterfaces::new());
         unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
-            crate::intreface::get_unity_interfaces().interfaces(),
+            crate::interface::get_unity_interfaces().interfaces(),
         );
     }
 }

@@ -24,7 +24,7 @@ impl UnityGraphics {
     }
 }
 
-impl crate::intreface::UnityInterfaceBase for UnityGraphics {
+impl crate::interface::UnityInterfaceBase for UnityGraphics {
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }
@@ -34,14 +34,14 @@ impl crate::intreface::UnityInterfaceBase for UnityGraphics {
     }
 }
 
-impl crate::intreface::UnityInterfaceID for UnityGraphics {
+impl crate::interface::UnityInterfaceID for UnityGraphics {
     fn get_interface_guid() -> UnityInterfaceGUID {
         unity_native_plugin::graphics::UnityGraphics::get_interface_guid()
     }
 }
 
 extern "system" fn get_renderer() -> UnityGfxRenderer {
-    unsafe { crate::intreface::get_unity_interface::<UnityGraphics>().renderer() }
+    unsafe { crate::interface::get_unity_interface::<UnityGraphics>().renderer() }
 }
 
 extern "system" fn register_device_event_callback(_: IUnityGraphicsDeviceEventCallback) {}
@@ -54,14 +54,14 @@ extern "system" fn reserve_event_id_range(_: ::std::os::raw::c_int) -> ::std::os
 
 pub fn initialize_interface(renderer: unity_native_plugin::graphics::GfxRenderer) {
     unsafe {
-        crate::intreface::get_unity_interfaces()
+        crate::interface::get_unity_interfaces()
             .register_interface::<UnityGraphics>(Some(Box::new(UnityGraphics::new(renderer))));
     }
 }
 
 #[test]
 fn register_graphics() {
-    crate::intreface::initialize_unity_interfaces();
+    crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
     assert_eq!(
@@ -72,5 +72,5 @@ fn register_graphics() {
             .renderer()
     );
 
-    crate::intreface::finalize_unity_interfaces();
+    crate::interface::finalize_unity_interfaces();
 }
