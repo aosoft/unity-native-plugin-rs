@@ -1,7 +1,7 @@
 use unity_native_plugin_sys::*;
 use unity_native_plugin::interface::UnityInterface;
 use winapi::shared::{dxgi, dxgiformat, dxgitype, minwindef, winerror};
-use winapi::um::{d3d11, d3dcommon, unknwnbase::IUnknown, winnt};
+use winapi::um::{objbase, combaseapi, d3d11, d3dcommon, unknwnbase::IUnknown, winnt};
 use winit::window::Window;
 use raw_window_handle::HasRawWindowHandle;
 use wio::com::ComPtr;
@@ -97,7 +97,7 @@ impl TesterContext {
                     Scaling: dxgitype::DXGI_MODE_SCALING_UNSPECIFIED,
                 },
                 SampleDesc: dxgitype::DXGI_SAMPLE_DESC {
-                    Count: 0,
+                    Count: 1,
                     Quality: 0,
                 },
                 BufferUsage: dxgitype::DXGI_USAGE_RENDER_TARGET_OUTPUT,
@@ -148,6 +148,8 @@ pub fn test_plugin_d3d11<
 >(
     mut fn_main: FnMain,
 ) -> Result<(), winnt::HRESULT> {
+    unsafe { objbase::CoInitialize(std::ptr::null_mut()); }
+
     crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
@@ -158,6 +160,8 @@ pub fn test_plugin_d3d11<
     );
 
     crate::interface::finalize_unity_interfaces();
+
+    unsafe { combaseapi::CoUninitialize(); }
 
     Ok(())
 }
