@@ -1,9 +1,9 @@
-use unity_native_plugin_sys::*;
-use unity_native_plugin::interface::UnityInterface;
-use winapi::shared::{dxgi, dxgiformat, dxgitype, minwindef, winerror};
-use winapi::um::{objbase, combaseapi, d3d11, d3dcommon, winnt};
-use winit::window::Window;
 use raw_window_handle::HasRawWindowHandle;
+use unity_native_plugin::interface::UnityInterface;
+use unity_native_plugin_sys::*;
+use winapi::shared::{dxgi, dxgiformat, dxgitype, minwindef, winerror};
+use winapi::um::{combaseapi, d3d11, d3dcommon, objbase, winnt};
+use winit::window::Window;
 use wio::com::ComPtr;
 
 struct UnityGraphicsD3D11 {
@@ -12,9 +12,9 @@ struct UnityGraphicsD3D11 {
 }
 
 impl UnityGraphicsD3D11 {
-    pub fn new(device: ComPtr<d3d11::ID3D11Device>) -> UnityGraphicsD3D11 {
+    pub fn new(context: &TesterContext) -> UnityGraphicsD3D11 {
         UnityGraphicsD3D11 {
-            device: device,
+            device: context.device().clone(),
             interfaces: IUnityGraphicsD3D11 {
                 GetDevice: Some(get_device),
                 TextureFromRenderBuffer: Some(texture_from_render_buffer),
@@ -25,7 +25,9 @@ impl UnityGraphicsD3D11 {
         }
     }
 
-    pub fn device(&self) -> *mut d3d11::ID3D11Device { self.device.as_raw() }
+    pub fn device(&self) -> *mut d3d11::ID3D11Device {
+        self.device.as_raw()
+    }
 }
 
 impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
@@ -68,17 +70,16 @@ extern "system" fn srv_from_native_texture(
     std::ptr::null_mut()
 }
 
-pub fn initialize_interface(device: ComPtr<d3d11::ID3D11Device>) {
+pub fn initialize_interface(context: &TesterContext) {
     unsafe {
         crate::interface::get_unity_interfaces().register_interface::<UnityGraphicsD3D11>(Some(
-            Box::new(UnityGraphicsD3D11::new(device)),
+            Box::new(UnityGraphicsD3D11::new(context)),
         ));
     }
 }
 
 pub struct TesterContext {
     device: ComPtr<d3d11::ID3D11Device>,
-    device_context: ComPtr<d3d11::ID3D11DeviceContext>,
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
 }
 
@@ -106,7 +107,7 @@ impl TesterContext {
                 BufferCount: 2,
                 OutputWindow: match window.raw_window_handle() {
                     raw_window_handle::RawWindowHandle::Windows(h) => h.hwnd,
-                    _ => std::ptr::null_mut()
+                    _ => std::ptr::null_mut(),
                 } as _,
                 Windowed: minwindef::TRUE,
                 SwapEffect: dxgi::DXGI_SWAP_EFFECT_DISCARD,
@@ -115,8 +116,6 @@ impl TesterContext {
 
             let mut device: *mut d3d11::ID3D11Device = std::ptr::null_mut();
             let mut swap_chain: *mut dxgi::IDXGISwapChain = std::ptr::null_mut();
-            let mut feature: d3d11::D3D11_FEATURE = 0;
-            let mut dc: *mut d3d11::ID3D11DeviceContext = std::ptr::null_mut();
 
             let hr = d3d11::D3D11CreateDeviceAndSwapChain(
                 std::ptr::null_mut(),
@@ -129,13 +128,12 @@ impl TesterContext {
                 &desc,
                 &mut swap_chain,
                 &mut device,
-                &mut feature,
-                &mut dc,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
             );
             if winerror::SUCCEEDED(hr) {
                 Ok(TesterContext {
                     device: ComPtr::from_raw(device),
-                    device_context: ComPtr::from_raw(dc),
                     swap_chain: ComPtr::from_raw(swap_chain),
                 })
             } else {
@@ -144,16 +142,12 @@ impl TesterContext {
         }
     }
 
-    pub fn device(&self) -> *mut d3d11::ID3D11Device {
-        self.device.as_raw()
+    pub fn device(&self) -> &ComPtr<d3d11::ID3D11Device> {
+        &self.device
     }
 
-    pub fn device_context(&self) -> *mut d3d11::ID3D11DeviceContext {
-        self.device_context.as_raw()
-    }
-
-    pub fn swap_chain(&self) -> *mut dxgi::IDXGISwapChain {
-        self.swap_chain.as_raw()
+    pub fn swap_chain(&self) -> &ComPtr<dxgi::IDXGISwapChain> {
+        &self.swap_chain
     }
 }
 
@@ -162,24 +156,32 @@ pub fn test_plugin_d3d11<
 >(
     mut fn_main: FnMain,
     fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
-    fn_unity_plugin_unload: fn()
+    fn_unity_plugin_unload: fn(),
 ) -> Result<(), winnt::HRESULT> {
-    unsafe { objbase::CoInitialize(std::ptr::null_mut()); }
+    unsafe {
+        objbase::CoInitialize(std::ptr::null_mut());
+    }
 
     crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
     fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
     crate::window::run_window_app(
-        |window| TesterContext::new(window).unwrap(),
+        |window| {
+            let context = TesterContext::new(window).unwrap();
+            initialize_interface(&context);
+            context
+        },
         fn_main,
-        |window, context| {},
+        |_window, _context| {},
     );
     fn_unity_plugin_unload();
 
     crate::interface::finalize_unity_interfaces();
 
-    unsafe { combaseapi::CoUninitialize(); }
+    unsafe {
+        combaseapi::CoUninitialize();
+    }
 
     Ok(())
 }
