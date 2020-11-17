@@ -9,81 +9,10 @@ use wio::com::ComPtr;
 struct UnityGraphicsD3D11 {
     device: ComPtr<d3d11::ID3D11Device>,
     interfaces: IUnityGraphicsD3D11,
-}
-
-impl UnityGraphicsD3D11 {
-    pub fn new(context: &TesterContext) -> UnityGraphicsD3D11 {
-        UnityGraphicsD3D11 {
-            device: context.device().clone(),
-            interfaces: IUnityGraphicsD3D11 {
-                GetDevice: Some(get_device),
-                TextureFromRenderBuffer: Some(texture_from_render_buffer),
-                TextureFromNativeTexture: Some(texture_from_native_texture),
-                RTVFromRenderBuffer: Some(rtv_from_render_buffer),
-                SRVFromNativeTexture: Some(srv_from_native_texture),
-            },
-        }
-    }
-
-    pub fn device(&self) -> *mut d3d11::ID3D11Device {
-        self.device.as_raw()
-    }
-}
-
-impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-
-    fn get_unity_interface(&self) -> *mut IUnityInterface {
-        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
-    }
-}
-
-impl crate::interface::UnityInterfaceID for UnityGraphicsD3D11 {
-    fn get_interface_guid() -> UnityInterfaceGUID {
-        unity_native_plugin::d3d11::UnityGraphicsD3D11::get_interface_guid()
-    }
-}
-
-extern "system" fn get_device() -> *mut ID3D11Device {
-    unsafe { crate::interface::get_unity_interface::<UnityGraphicsD3D11>().device() as _ }
-}
-
-extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
-    std::ptr::null_mut()
-}
-
-extern "system" fn texture_from_native_texture(texture: UnityTextureID) -> *mut ID3D11Resource {
-    std::ptr::null_mut()
-}
-
-extern "system" fn rtv_from_render_buffer(
-    surface: UnityRenderBuffer,
-) -> *mut ID3D11RenderTargetView {
-    std::ptr::null_mut()
-}
-
-extern "system" fn srv_from_native_texture(
-    texture: UnityTextureID,
-) -> *mut ID3D11ShaderResourceView {
-    std::ptr::null_mut()
-}
-
-pub fn initialize_interface(context: &TesterContext) {
-    unsafe {
-        crate::interface::get_unity_interfaces().register_interface::<UnityGraphicsD3D11>(Some(
-            Box::new(UnityGraphicsD3D11::new(context)),
-        ));
-    }
-}
-
-pub struct TesterContext {
-    device: ComPtr<d3d11::ID3D11Device>,
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
 }
 
-impl TesterContext {
+impl UnityGraphicsD3D11 {
     fn new(window: &Window) -> Result<Self, winnt::HRESULT> {
         unsafe {
             let size = window.inner_size();
@@ -132,9 +61,16 @@ impl TesterContext {
                 std::ptr::null_mut(),
             );
             if winerror::SUCCEEDED(hr) {
-                Ok(TesterContext {
+                Ok(UnityGraphicsD3D11 {
                     device: ComPtr::from_raw(device),
                     swap_chain: ComPtr::from_raw(swap_chain),
+                    interfaces: IUnityGraphicsD3D11 {
+                        GetDevice: Some(get_device),
+                        TextureFromRenderBuffer: Some(texture_from_render_buffer),
+                        TextureFromNativeTexture: Some(texture_from_native_texture),
+                        RTVFromRenderBuffer: Some(rtv_from_render_buffer),
+                        SRVFromNativeTexture: Some(srv_from_native_texture),
+                    },
                 })
             } else {
                 Err(hr)
@@ -151,8 +87,49 @@ impl TesterContext {
     }
 }
 
+impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
+    }
+
+    fn get_unity_interface(&self) -> *mut IUnityInterface {
+        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
+    }
+}
+
+impl crate::interface::UnityInterfaceID for UnityGraphicsD3D11 {
+    fn get_interface_guid() -> UnityInterfaceGUID {
+        unity_native_plugin::d3d11::UnityGraphicsD3D11::get_interface_guid()
+    }
+}
+
+extern "system" fn get_device() -> *mut ID3D11Device {
+    unsafe { crate::interface::get_unity_interface::<UnityGraphicsD3D11>().device().as_raw() as _ }
+}
+
+extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
+    std::ptr::null_mut()
+}
+
+extern "system" fn texture_from_native_texture(texture: UnityTextureID) -> *mut ID3D11Resource {
+    std::ptr::null_mut()
+}
+
+extern "system" fn rtv_from_render_buffer(
+    surface: UnityRenderBuffer,
+) -> *mut ID3D11RenderTargetView {
+    std::ptr::null_mut()
+}
+
+extern "system" fn srv_from_native_texture(
+    texture: UnityTextureID,
+) -> *mut ID3D11ShaderResourceView {
+    std::ptr::null_mut()
+}
+
+
 pub fn test_plugin_d3d11<
-    FnMain: FnMut(&Window, &mut TesterContext) -> crate::window::LoopResult,
+    FnMain: FnMut(&Window) -> crate::window::LoopResult,
 >(
     mut fn_main: FnMain,
     fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
@@ -165,17 +142,13 @@ pub fn test_plugin_d3d11<
     crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
-    fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
     crate::window::run_window_app(
-        |window| {
-            let context = TesterContext::new(window).unwrap();
-            initialize_interface(&context);
-            context
-        },
+        |window| UnityGraphicsD3D11::new(window).unwrap(),
         fn_main,
-        |_window, _context| {},
+        |_window| {},
+        fn_unity_plugin_load,
+        fn_unity_plugin_unload,
     );
-    fn_unity_plugin_unload();
 
     crate::interface::finalize_unity_interfaces();
 

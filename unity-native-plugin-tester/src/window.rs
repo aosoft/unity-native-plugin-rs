@@ -12,22 +12,28 @@ pub enum LoopResult {
 }
 
 pub fn run_window_app<
-    Context,
+    Context: 'static + crate::interface::UnityInterfaceBase + crate::interface::UnityInterfaceID,
     FnInit: FnOnce(&Window) -> Context,
-    FnMain: FnMut(&Window, &mut Context) -> LoopResult,
-    FnFinalize: FnOnce(&Window, &mut Context),
+    FnMain: FnMut(&Window) -> LoopResult,
+    FnFinalize: FnOnce(&Window),
 >(
     fn_initialize: FnInit,
     mut fn_main: FnMain,
     fn_finalize: FnFinalize,
+    fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
+    fn_unity_plugin_unload: fn(),
 ) {
     let mut event_loop = EventLoop::<u32>::new_any_thread();
     let window = WindowBuilder::new().build(&event_loop).unwrap();
 
-    let mut context = fn_initialize(&window);
+    unsafe {
+        crate::interface::get_unity_interfaces().register_interface::<Context>(Some(Box::new(fn_initialize(&window))));
+    }
+
+    fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
 
     event_loop.run_return(|event, _, control_flow| {
-        *control_flow = match fn_main(&window, &mut context) {
+        *control_flow = match fn_main(&window) {
             LoopResult::Continue => ControlFlow::WaitUntil(
                 std::time::Instant::now() + std::time::Duration::from_millis(50)),
             _ => ControlFlow::Exit
@@ -42,6 +48,7 @@ pub fn run_window_app<
         }
     });
 
-    fn_finalize(&window, &mut context);
+    fn_unity_plugin_unload();
+    fn_finalize(&window);
 }
 

@@ -56,7 +56,7 @@ extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: 
 #[test]
 fn test() {
     unity_native_plugin_tester::d3d11::test_plugin_d3d11(
-        |window, context| unity_native_plugin_tester::window::LoopResult::Continue,
+        |window| unity_native_plugin_tester::window::LoopResult::Continue,
         unity_plugin_load,
         unity_plugin_unload,
     ).unwrap();
