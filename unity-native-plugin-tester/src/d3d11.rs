@@ -6,13 +6,14 @@ use winapi::um::{combaseapi, d3d11, d3dcommon, objbase, winnt};
 use winit::window::Window;
 use wio::com::ComPtr;
 
-struct UnityGraphicsD3D11 {
+pub struct TesterContextGraphicsD3D11 {
     device: ComPtr<d3d11::ID3D11Device>,
     interfaces: IUnityGraphicsD3D11,
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
+    back_buffer: ComPtr<d3d11::ID3D11Texture2D>
 }
 
-impl UnityGraphicsD3D11 {
+impl TesterContextGraphicsD3D11 {
     fn new(window: &Window) -> Result<Self, winnt::HRESULT> {
         unsafe {
             let size = window.inner_size();
@@ -61,9 +62,14 @@ impl UnityGraphicsD3D11 {
                 std::ptr::null_mut(),
             );
             if winerror::SUCCEEDED(hr) {
-                Ok(UnityGraphicsD3D11 {
+                let mut back_buffer: *mut d3d11::ID3D11Texture2D = std::ptr::null_mut();
+
+                (*swap_chain).GetBuffer(0, &d3d11::IID_ID3D11Texture2D, &mut back_buffer as *mut *mut d3d11::ID3D11Texture2D as _);
+
+                Ok(TesterContextGraphicsD3D11 {
                     device: ComPtr::from_raw(device),
                     swap_chain: ComPtr::from_raw(swap_chain),
+                    back_buffer: ComPtr::from_raw(back_buffer),
                     interfaces: IUnityGraphicsD3D11 {
                         GetDevice: Some(get_device),
                         TextureFromRenderBuffer: Some(texture_from_render_buffer),
@@ -85,9 +91,15 @@ impl UnityGraphicsD3D11 {
     pub fn swap_chain(&self) -> &ComPtr<dxgi::IDXGISwapChain> {
         &self.swap_chain
     }
+
+    pub fn back_buffer(&self) -> &ComPtr<d3d11::ID3D11Texture2D> { &self.back_buffer }
+
+    pub fn unity_back_buffer(&self) -> UnityRenderBuffer {
+        self.back_buffer.as_raw() as _
+    }
 }
 
-impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
+impl crate::interface::UnityInterfaceBase for TesterContextGraphicsD3D11 {
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }
@@ -97,14 +109,14 @@ impl crate::interface::UnityInterfaceBase for UnityGraphicsD3D11 {
     }
 }
 
-impl crate::interface::UnityInterfaceID for UnityGraphicsD3D11 {
+impl crate::interface::UnityInterfaceID for TesterContextGraphicsD3D11 {
     fn get_interface_guid() -> UnityInterfaceGUID {
         unity_native_plugin::d3d11::UnityGraphicsD3D11::get_interface_guid()
     }
 }
 
 extern "system" fn get_device() -> *mut ID3D11Device {
-    unsafe { crate::interface::get_unity_interface::<UnityGraphicsD3D11>().device().as_raw() as _ }
+    unsafe { crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>().device().as_raw() as _ }
 }
 
 extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
@@ -129,7 +141,7 @@ extern "system" fn srv_from_native_texture(
 
 
 pub fn test_plugin_d3d11<
-    FnMain: FnMut(&Window) -> crate::window::LoopResult,
+    FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
 >(
     mut fn_main: FnMain,
     fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
@@ -143,8 +155,13 @@ pub fn test_plugin_d3d11<
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
     crate::window::run_window_app(
-        |window| UnityGraphicsD3D11::new(window).unwrap(),
-        fn_main,
+        |window| TesterContextGraphicsD3D11::new(window).unwrap(),
+        |window, context| {
+            let ret = fn_main(window, context);
+
+            unsafe { context.swap_chain().Present(0, 0); }
+            ret
+        },
         |_window| {},
         fn_unity_plugin_load,
         fn_unity_plugin_unload,

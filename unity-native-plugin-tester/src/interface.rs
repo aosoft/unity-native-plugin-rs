@@ -2,6 +2,7 @@ use std::any::Any;
 use std::collections::HashMap;
 use std::os::raw::c_ulonglong;
 use unity_native_plugin_sys::*;
+use std::rc::Rc;
 
 #[derive(Default, Copy, Clone, Eq, PartialEq, Hash)]
 pub struct InfKey {
@@ -18,15 +19,15 @@ pub trait UnityInterfaceID {
     fn get_interface_guid() -> UnityInterfaceGUID;
 }
 
-pub struct UnityInterfaces {
-    map: HashMap<InfKey, Box<dyn UnityInterfaceBase>>,
+pub struct TesterContextInterfaces {
+    map: HashMap<InfKey, Rc<dyn UnityInterfaceBase>>,
     interfaces: IUnityInterfaces,
 }
 
-impl UnityInterfaces {
+impl TesterContextInterfaces {
     pub fn new() -> Self {
-        UnityInterfaces {
-            map: HashMap::<InfKey, Box<dyn UnityInterfaceBase>>::new(),
+        TesterContextInterfaces {
+            map: HashMap::<InfKey, Rc<dyn UnityInterfaceBase>>::new(),
             interfaces: IUnityInterfaces {
                 GetInterface: Some(get_interface),
                 RegisterInterface: Some(register_interface),
@@ -40,7 +41,7 @@ impl UnityInterfaces {
         unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
     }
 
-    pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<&Box<dyn UnityInterfaceBase>> {
+    pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<&Rc<dyn UnityInterfaceBase>> {
         self.get_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow)
     }
 
@@ -48,13 +49,13 @@ impl UnityInterfaces {
         &self,
         high: ::std::os::raw::c_ulonglong,
         low: ::std::os::raw::c_ulonglong,
-    ) -> Option<&Box<dyn UnityInterfaceBase>> {
+    ) -> Option<&Rc<dyn UnityInterfaceBase>> {
         self.map.get(&InfKey { high, low })
     }
 
     pub fn register_interface<T: UnityInterfaceBase + UnityInterfaceID>(
         &mut self,
-        interface: Option<Box<dyn UnityInterfaceBase>>,
+        interface: Option<Rc<dyn UnityInterfaceBase>>,
     ) {
         let guid = T::get_interface_guid();
         self.register_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow, interface);
@@ -64,7 +65,7 @@ impl UnityInterfaces {
         &mut self,
         high: ::std::os::raw::c_ulonglong,
         low: ::std::os::raw::c_ulonglong,
-        interface: Option<Box<dyn UnityInterfaceBase>>,
+        interface: Option<Rc<dyn UnityInterfaceBase>>,
     ) {
         if let Some(i) = interface {
             self.map.insert(InfKey { high, low }, i);
@@ -74,7 +75,7 @@ impl UnityInterfaces {
     }
 }
 
-static mut UNITY_INTERFACES: Option<UnityInterfaces> = None;
+static mut UNITY_INTERFACES: Option<TesterContextInterfaces> = None;
 
 extern "system" fn get_interface(guid: UnityInterfaceGUID) -> *mut IUnityInterface {
     unsafe {
@@ -112,7 +113,7 @@ extern "system" fn register_interface_split(
 ) {
 }
 
-pub unsafe fn get_unity_interfaces() -> &'static mut UnityInterfaces {
+pub unsafe fn get_unity_interfaces() -> &'static mut TesterContextInterfaces {
     UNITY_INTERFACES.as_mut().unwrap()
 }
 
@@ -127,7 +128,7 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID>() ->
 
 pub fn initialize_unity_interfaces() {
     unsafe {
-        UNITY_INTERFACES = Some(UnityInterfaces::new());
+        UNITY_INTERFACES = Some(TesterContextInterfaces::new());
         unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
             crate::interface::get_unity_interfaces().interfaces(),
         );

@@ -1,14 +1,14 @@
 use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
-struct UnityGraphics {
+struct TesterContextGraphics {
     renderer: UnityGfxRenderer,
     interfaces: IUnityGraphics,
 }
 
-impl UnityGraphics {
+impl TesterContextGraphics {
     pub fn new(renderer: unity_native_plugin::graphics::GfxRenderer) -> Self {
-        UnityGraphics {
+        TesterContextGraphics {
             renderer: renderer as _,
             interfaces: IUnityGraphics {
                 GetRenderer: Some(get_renderer),
@@ -24,7 +24,7 @@ impl UnityGraphics {
     }
 }
 
-impl crate::interface::UnityInterfaceBase for UnityGraphics {
+impl crate::interface::UnityInterfaceBase for TesterContextGraphics {
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }
@@ -34,14 +34,14 @@ impl crate::interface::UnityInterfaceBase for UnityGraphics {
     }
 }
 
-impl crate::interface::UnityInterfaceID for UnityGraphics {
+impl crate::interface::UnityInterfaceID for TesterContextGraphics {
     fn get_interface_guid() -> UnityInterfaceGUID {
         unity_native_plugin::graphics::UnityGraphics::get_interface_guid()
     }
 }
 
 extern "system" fn get_renderer() -> UnityGfxRenderer {
-    unsafe { crate::interface::get_unity_interface::<UnityGraphics>().renderer() }
+    unsafe { crate::interface::get_unity_interface::<TesterContextGraphics>().renderer() }
 }
 
 extern "system" fn register_device_event_callback(_: IUnityGraphicsDeviceEventCallback) {}
@@ -55,7 +55,7 @@ extern "system" fn reserve_event_id_range(_: ::std::os::raw::c_int) -> ::std::os
 pub fn initialize_interface(renderer: unity_native_plugin::graphics::GfxRenderer) {
     unsafe {
         crate::interface::get_unity_interfaces()
-            .register_interface::<UnityGraphics>(Some(Box::new(UnityGraphics::new(renderer))));
+            .register_interface::<TesterContextGraphics>(Some(std::rc::Rc::new(TesterContextGraphics::new(renderer))));
     }
 }
 
