@@ -10,7 +10,8 @@ pub struct TesterContextGraphicsD3D11 {
     device: ComPtr<d3d11::ID3D11Device>,
     interfaces: IUnityGraphicsD3D11,
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
-    back_buffer: ComPtr<d3d11::ID3D11Texture2D>
+    back_buffer: ComPtr<d3d11::ID3D11Texture2D>,
+    back_buffer_desc: d3d11::D3D11_TEXTURE2D_DESC,
 }
 
 impl TesterContextGraphicsD3D11 {
@@ -63,13 +64,22 @@ impl TesterContextGraphicsD3D11 {
             );
             if winerror::SUCCEEDED(hr) {
                 let mut back_buffer: *mut d3d11::ID3D11Texture2D = std::ptr::null_mut();
+                let mut desc = std::mem::zeroed::<d3d11::D3D11_TEXTURE2D_DESC>();
 
-                (*swap_chain).GetBuffer(0, &d3d11::IID_ID3D11Texture2D, &mut back_buffer as *mut *mut d3d11::ID3D11Texture2D as _);
+                (*swap_chain).GetBuffer(
+                    0,
+                    &d3d11::IID_ID3D11Texture2D,
+                    &mut back_buffer as *mut *mut d3d11::ID3D11Texture2D as _,
+                );
+                if !back_buffer.is_null() {
+                    (*back_buffer).GetDesc(&mut desc);
+                }
 
                 Ok(TesterContextGraphicsD3D11 {
                     device: ComPtr::from_raw(device),
                     swap_chain: ComPtr::from_raw(swap_chain),
                     back_buffer: ComPtr::from_raw(back_buffer),
+                    back_buffer_desc: desc,
                     interfaces: IUnityGraphicsD3D11 {
                         GetDevice: Some(get_device),
                         TextureFromRenderBuffer: Some(texture_from_render_buffer),
@@ -92,7 +102,13 @@ impl TesterContextGraphicsD3D11 {
         &self.swap_chain
     }
 
-    pub fn back_buffer(&self) -> &ComPtr<d3d11::ID3D11Texture2D> { &self.back_buffer }
+    pub fn back_buffer(&self) -> &ComPtr<d3d11::ID3D11Texture2D> {
+        &self.back_buffer
+    }
+
+    pub fn back_buffer_desc(&self) -> &d3d11::D3D11_TEXTURE2D_DESC {
+        &self.back_buffer_desc
+    }
 
     pub fn unity_back_buffer(&self) -> UnityRenderBuffer {
         self.back_buffer.as_raw() as _
@@ -116,7 +132,11 @@ impl crate::interface::UnityInterfaceID for TesterContextGraphicsD3D11 {
 }
 
 extern "system" fn get_device() -> *mut ID3D11Device {
-    unsafe { crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>().device().as_raw() as _ }
+    unsafe {
+        crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .device()
+            .as_raw() as _
+    }
 }
 
 extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
@@ -139,10 +159,11 @@ extern "system" fn srv_from_native_texture(
     std::ptr::null_mut()
 }
 
-
 pub fn test_plugin_d3d11<
+    FnInit: FnOnce(&Window, &TesterContextGraphicsD3D11),
     FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
 >(
+    fn_init: FnInit,
     mut fn_main: FnMain,
     fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
     fn_unity_plugin_unload: fn(),
@@ -155,11 +176,17 @@ pub fn test_plugin_d3d11<
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
     crate::window::run_window_app(
-        |window| TesterContextGraphicsD3D11::new(window).unwrap(),
+        |window| {
+            let ret = TesterContextGraphicsD3D11::new(window).unwrap();
+            fn_init(window, &ret);
+            ret
+        },
         |window, context| {
             let ret = fn_main(window, context);
 
-            unsafe { context.swap_chain().Present(0, 0); }
+            unsafe {
+                context.swap_chain().Present(0, 0);
+            }
             ret
         },
         |_window| {},

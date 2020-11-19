@@ -1,8 +1,8 @@
 use std::any::Any;
 use std::collections::HashMap;
 use std::os::raw::c_ulonglong;
-use unity_native_plugin_sys::*;
 use std::rc::Rc;
+use unity_native_plugin_sys::*;
 
 #[derive(Default, Copy, Clone, Eq, PartialEq, Hash)]
 pub struct InfKey {

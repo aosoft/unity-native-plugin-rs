@@ -54,8 +54,9 @@ extern "system" fn reserve_event_id_range(_: ::std::os::raw::c_int) -> ::std::os
 
 pub fn initialize_interface(renderer: unity_native_plugin::graphics::GfxRenderer) {
     unsafe {
-        crate::interface::get_unity_interfaces()
-            .register_interface::<TesterContextGraphics>(Some(std::rc::Rc::new(TesterContextGraphics::new(renderer))));
+        crate::interface::get_unity_interfaces().register_interface::<TesterContextGraphics>(Some(
+            std::rc::Rc::new(TesterContextGraphics::new(renderer)),
+        ));
     }
 }
 

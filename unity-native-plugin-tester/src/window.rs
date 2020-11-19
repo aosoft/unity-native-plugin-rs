@@ -2,10 +2,10 @@ use winit::event::{Event, WindowEvent};
 use winit::event_loop::{ControlFlow, EventLoop};
 use winit::window::{Window, WindowBuilder};
 
+use std::ops::Deref;
+use winit::platform::desktop::EventLoopExtDesktop;
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopExtWindows;
-use winit::platform::desktop::EventLoopExtDesktop;
-use std::ops::Deref;
 
 pub enum LoopResult {
     Continue,
@@ -29,7 +29,8 @@ pub fn run_window_app<
 
     let context = std::rc::Rc::new(fn_initialize(&window));
     unsafe {
-        crate::interface::get_unity_interfaces().register_interface::<Context>(Some(context.clone()));
+        crate::interface::get_unity_interfaces()
+            .register_interface::<Context>(Some(context.clone()));
     }
 
     fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
@@ -37,8 +38,9 @@ pub fn run_window_app<
     event_loop.run_return(|event, _, control_flow| {
         *control_flow = match fn_main(&window, context.deref()) {
             LoopResult::Continue => ControlFlow::WaitUntil(
-                std::time::Instant::now() + std::time::Duration::from_millis(50)),
-            _ => ControlFlow::Exit
+                std::time::Instant::now() + std::time::Duration::from_millis(50),
+            ),
+            _ => ControlFlow::Exit,
         };
 
         match event {
@@ -53,4 +55,3 @@ pub fn run_window_app<
     fn_unity_plugin_unload();
     fn_finalize(&window);
 }
-

@@ -57,6 +57,7 @@ extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: 
 fn test() {
     let instant = std::time::Instant::now();
     unity_native_plugin_tester::d3d11::test_plugin_d3d11(
+        |window, context| {},
         |window, context| {
             let n = (instant.elapsed().as_millis() % 1000) as f32 / 1000.0;
             FillTexture(context.back_buffer().as_raw() as _, 0.0, 0.0, n, 1.0);
@@ -64,5 +65,6 @@ fn test() {
         },
         unity_plugin_load,
         unity_plugin_unload,
-    ).unwrap();
+    )
+    .unwrap();
 }
