@@ -162,9 +162,11 @@ extern "system" fn srv_from_native_texture(
 pub fn test_plugin_d3d11<
     FnInit: FnOnce(&Window, &TesterContextGraphicsD3D11),
     FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
+    FnFinalize: FnOnce(&Window, &TesterContextGraphicsD3D11),
 >(
     fn_init: FnInit,
     mut fn_main: FnMain,
+    fn_finalize: FnFinalize,
     fn_unity_plugin_load: fn(interfaces: &unity_native_plugin::interface::UnityInterfaces),
     fn_unity_plugin_unload: fn(),
 ) -> Result<(), winnt::HRESULT> {
@@ -189,7 +191,7 @@ pub fn test_plugin_d3d11<
             }
             ret
         },
-        |_window| {},
+        fn_finalize,
         fn_unity_plugin_load,
         fn_unity_plugin_unload,
     );

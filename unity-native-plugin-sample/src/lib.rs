@@ -63,6 +63,7 @@ fn test() {
             FillTexture(context.back_buffer().as_raw() as _, 0.0, 0.0, n, 1.0);
             unity_native_plugin_tester::window::LoopResult::Continue
         },
+        |_, _| {},
         unity_plugin_load,
         unity_plugin_unload,
     )

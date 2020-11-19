@@ -16,7 +16,7 @@ pub fn run_window_app<
     Context: 'static + crate::interface::UnityInterfaceBase + crate::interface::UnityInterfaceID,
     FnInit: FnOnce(&Window) -> Context,
     FnMain: FnMut(&Window, &Context) -> LoopResult,
-    FnFinalize: FnOnce(&Window),
+    FnFinalize: FnOnce(&Window, &Context),
 >(
     fn_initialize: FnInit,
     mut fn_main: FnMain,
@@ -36,22 +36,24 @@ pub fn run_window_app<
     fn_unity_plugin_load(unity_native_plugin::interface::UnityInterfaces::get());
 
     event_loop.run_return(|event, _, control_flow| {
-        *control_flow = match fn_main(&window, context.deref()) {
-            LoopResult::Continue => ControlFlow::WaitUntil(
-                std::time::Instant::now() + std::time::Duration::from_millis(50),
-            ),
-            _ => ControlFlow::Exit,
-        };
-
         match event {
-            Event::WindowEvent {
-                event: WindowEvent::CloseRequested,
-                window_id,
-            } if window_id == window.id() => *control_flow = ControlFlow::Exit,
+            Event::WindowEvent { window_id, event} => {
+                if window_id == window.id() {
+                    match event {
+                        WindowEvent::CloseRequested => *control_flow = ControlFlow::Exit,
+                        _ => {
+                            *control_flow = match fn_main(&window, context.deref()) {
+                                LoopResult::Continue => ControlFlow::Wait,
+                                _ => ControlFlow::Exit,
+                            };
+                        }
+                    }
+                }
+            }
             _ => (),
         }
     });
 
     fn_unity_plugin_unload();
-    fn_finalize(&window);
+    fn_finalize(&window, context.deref());
 }
