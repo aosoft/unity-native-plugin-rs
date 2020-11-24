@@ -164,6 +164,7 @@ pub fn test_plugin_d3d11<
     FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
     FnFinalize: FnOnce(&Window, &TesterContextGraphicsD3D11),
 >(
+    client_size: (u32, u32),
     fn_init: FnInit,
     mut fn_main: FnMain,
     fn_finalize: FnFinalize,
@@ -178,6 +179,7 @@ pub fn test_plugin_d3d11<
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 
     crate::window::run_window_app(
+        client_size,
         |window| {
             let ret = TesterContextGraphicsD3D11::new(window).unwrap();
             fn_init(window, &ret);
