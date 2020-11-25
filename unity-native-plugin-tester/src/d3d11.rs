@@ -12,6 +12,15 @@ pub struct TesterContextGraphicsD3D11 {
     swap_chain: ComPtr<dxgi::IDXGISwapChain>,
     back_buffer: ComPtr<d3d11::ID3D11Texture2D>,
     back_buffer_desc: d3d11::D3D11_TEXTURE2D_DESC,
+
+    textures_render_buffer:
+        std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11Texture2D>>,
+    textures_native_texture:
+        std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11Texture2D>>,
+    rtvs_render_buffer:
+        std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11RenderTargetView>>,
+    srvs_native_texture:
+        std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11ShaderResourceView>>,
 }
 
 impl TesterContextGraphicsD3D11 {
@@ -80,6 +89,9 @@ impl TesterContextGraphicsD3D11 {
                     swap_chain: ComPtr::from_raw(swap_chain),
                     back_buffer: ComPtr::from_raw(back_buffer),
                     back_buffer_desc: desc,
+                    textures_render_buffer: std::collections::HashMap::new(),
+                    textures_native_texture: std::collections::HashMap::new(),
+                    rtvs_render_buffer: std::collections::HashMap::new(),
                     interfaces: IUnityGraphicsD3D11 {
                         GetDevice: Some(get_device),
                         TextureFromRenderBuffer: Some(texture_from_render_buffer),
@@ -87,6 +99,7 @@ impl TesterContextGraphicsD3D11 {
                         RTVFromRenderBuffer: Some(rtv_from_render_buffer),
                         SRVFromNativeTexture: Some(srv_from_native_texture),
                     },
+                    srvs_native_texture: std::collections::HashMap::new(),
                 })
             } else {
                 Err(hr)
@@ -112,6 +125,56 @@ impl TesterContextGraphicsD3D11 {
 
     pub fn unity_back_buffer(&self) -> UnityRenderBuffer {
         self.back_buffer.as_raw() as _
+    }
+
+    pub fn textures_render_buffer(
+        &self,
+    ) -> &std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11Texture2D>> {
+        &self.textures_render_buffer
+    }
+
+    pub fn textures_render_buffer_mut(
+        &mut self,
+    ) -> &mut std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11Texture2D>> {
+        &mut self.textures_render_buffer
+    }
+
+    pub fn textures_native_texture(
+        &self,
+    ) -> &std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11Texture2D>> {
+        &self.textures_native_texture
+    }
+
+    pub fn textures_native_texture_mut(
+        &mut self,
+    ) -> &mut std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11Texture2D>> {
+        &mut self.textures_native_texture
+    }
+
+    pub fn rtvs_render_buffer(
+        &self,
+    ) -> &std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11RenderTargetView>> {
+        &self.rtvs_render_buffer
+    }
+
+    pub fn rtvs_render_buffer_mut(
+        &mut self,
+    ) -> &mut std::collections::HashMap<UnityRenderBuffer, ComPtr<d3d11::ID3D11RenderTargetView>>
+    {
+        &mut self.rtvs_render_buffer
+    }
+
+    pub fn srvs_native_texture(
+        &self,
+    ) -> &std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11ShaderResourceView>> {
+        &self.srvs_native_texture
+    }
+
+    pub fn srvs_native_texture_mut(
+        &mut self,
+    ) -> &mut std::collections::HashMap<UnityTextureID, ComPtr<d3d11::ID3D11ShaderResourceView>>
+    {
+        &mut self.srvs_native_texture
     }
 }
 
@@ -140,27 +203,59 @@ extern "system" fn get_device() -> *mut ID3D11Device {
 }
 
 extern "system" fn texture_from_render_buffer(buffer: UnityRenderBuffer) -> *mut ID3D11Resource {
-    std::ptr::null_mut()
+    unsafe {
+        match crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .textures_render_buffer()
+            .get(&buffer)
+        {
+            Some(v) => v.as_raw() as _,
+            None => std::ptr::null_mut(),
+        }
+    }
 }
 
 extern "system" fn texture_from_native_texture(texture: UnityTextureID) -> *mut ID3D11Resource {
-    std::ptr::null_mut()
+    unsafe {
+        match crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .textures_native_texture()
+            .get(&texture)
+        {
+            Some(v) => v.as_raw() as _,
+            None => std::ptr::null_mut(),
+        }
+    }
 }
 
 extern "system" fn rtv_from_render_buffer(
     surface: UnityRenderBuffer,
 ) -> *mut ID3D11RenderTargetView {
-    std::ptr::null_mut()
+    unsafe {
+        match crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .rtvs_render_buffer()
+            .get(&surface)
+        {
+            Some(v) => v.as_raw() as _,
+            None => std::ptr::null_mut(),
+        }
+    }
 }
 
 extern "system" fn srv_from_native_texture(
     texture: UnityTextureID,
 ) -> *mut ID3D11ShaderResourceView {
-    std::ptr::null_mut()
+    unsafe {
+        match crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .srvs_native_texture()
+            .get(&texture)
+        {
+            Some(v) => v.as_raw() as _,
+            None => std::ptr::null_mut(),
+        }
+    }
 }
 
 pub fn test_plugin_d3d11<
-    FnInit: FnOnce(&Window, &TesterContextGraphicsD3D11),
+    FnInit: FnOnce(&Window, &mut TesterContextGraphicsD3D11),
     FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
     FnFinalize: FnOnce(&Window, &TesterContextGraphicsD3D11),
 >(
@@ -181,8 +276,8 @@ pub fn test_plugin_d3d11<
     crate::window::run_window_app(
         client_size,
         |window| {
-            let ret = TesterContextGraphicsD3D11::new(window).unwrap();
-            fn_init(window, &ret);
+            let mut ret = TesterContextGraphicsD3D11::new(window).unwrap();
+            fn_init(window, &mut ret);
             ret
         },
         |window, context| {
