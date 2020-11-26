@@ -15,6 +15,11 @@ Unity Native Plugin API for Rust
 ```cargo
 [dependencies]
 unity-native-plugin = { version = "*", features = ["d3d11"] }
+
+# * Support features
+#    * d3d11 - IUnityGraphicsD3D11
+#    * d3d12 - IUnityGraphicsD3D12
+#    * profiler - IUnityProfiler
 ```
 * If you use Vulkan, define "unity-native-plugin-vulkan" in your dependencies.
 ```cargo

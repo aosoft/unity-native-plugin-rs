@@ -3,6 +3,18 @@ name = "unity-native-plugin-tester"
 version = "0.4.1"
 authors = ["Yasuhiro Taniuchi"]
 edition = "2018"
+license = "MIT"
+description = "Unity Native Plugin API Tester Library"
+homepage = "https://github.com/aosoft/unity-native-plugin-rs"
+repository = "https://github.com/aosoft/unity-native-plugin-rs"
+readme = "README.md"
+categories = ["api-bindings", "game-engines"]
+keywords = ["unity", "ffi"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "../LICENSE"
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
