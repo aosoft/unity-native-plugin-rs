@@ -39,8 +39,8 @@ fn test() {
     * (b) Initialize function
     * (c) Test code function
     * (d) Finalize function
-    * (e) "unity_plugin_load" method (Defined by the unity_native_plugin_entry_point macro)
-    * (f) "unity_plugin_unload" method (Defined by the unity_native_plugin_entry_point macro)
+    * (e) "unity_plugin_load" function (Defined by the unity_native_plugin_entry_point macro)
+    * (f) "unity_plugin_unload" function (Defined by the unity_native_plugin_entry_point macro)
 
 * Run the test
 ```

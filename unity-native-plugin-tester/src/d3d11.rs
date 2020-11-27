@@ -254,6 +254,28 @@ extern "system" fn srv_from_native_texture(
     }
 }
 
+/// Running tests for D3D11.
+///
+/// * 'TestContextGraphicsD3D11' manages the resources used for testing.
+/// * Implement test initialization in the 'fn_init' function.
+///     * Set the resource settings for the context.
+/// * Implement the test in the 'fn_main' function.
+///     * Drawing to 'TestContextGraphicsD3D11::back_buffer()' is displayed in a window.
+///     * Returns whether to continue with 'fn_main'.
+/// * Implement the finalization process with 'fn_finalize'.
+/// * The 'fn_unity_plugin_load' and 'fn_unity_plugin_unload'
+///   specify the loading and unloading functions of the plugins specified
+///   by the unity_native_plugin_entry_point macro.
+///
+/// # Arguments
+///
+///    * `client_size` - Size of the client area (back buffer)
+///    * `fn_init` - Initialize function
+///    * `fn_main` - Test code function
+///    * `fn_finalize` - Finalize function
+///    * `fn_unity_plugin_load` - "unity_plugin_load" function (Defined by the unity_native_plugin_entry_point macro)
+///    * `fn_unity_plugin_unload` - "unity_plugin_unload" function (Defined by the unity_native_plugin_entry_point macro)
+///
 pub fn test_plugin_d3d11<
     FnInit: FnOnce(&Window, &mut TesterContextGraphicsD3D11),
     FnMain: FnMut(&Window, &TesterContextGraphicsD3D11) -> crate::window::LoopResult,
