@@ -6,7 +6,7 @@ edition = "2018"
 license = "MIT"
 description = "Unity Native Plugin API Tester Library"
 homepage = "https://github.com/aosoft/unity-native-plugin-rs"
-repository = "https://github.com/aosoft/unity-native-plugin-rs"
+repository = "https://github.com/aosoft/unity-native-plugin-tester"
 readme = "README.md"
 categories = ["api-bindings", "game-engines"]
 keywords = ["unity", "ffi"]
@@ -15,6 +15,7 @@ include = [
     "Cargo.toml",
     "../LICENSE"
 ]
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

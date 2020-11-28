@@ -3,6 +3,7 @@ name = "unity-native-plugin-sample"
 version = "0.4.1"
 authors = ["Yasuhiro Taniuchi"]
 edition = "2018"
+publish = false
 
 [lib]
 crate-type = ["cdylib"]

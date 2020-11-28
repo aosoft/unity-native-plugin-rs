@@ -8,7 +8,7 @@ This library is for test runs of native plugin code written in Rust without Unit
 * Define in Cargo.toml
 ```cargo
 [dev-dependencies]
-unity-native-plugin-tester = { version = "*", features = ["d3d11"] }
+unity-native-plugin-tester = { git = "https://github.com/aosoft/unity-native-plugin-tester", branch = "main", features = ["d3d11"] }
 
 # * Support features
 #    * d3d11 - IUnityGraphicsD3D11
