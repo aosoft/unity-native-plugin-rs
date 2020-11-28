@@ -3,6 +3,10 @@ Unity Native Plugin API Tester Library
 
 This library is for test runs of native plugin code written in Rust without Unity.
 
+## Notice
+
+It should only be used for testing and debugging of native plugins.
+
 ## How to use
 
 * Define in Cargo.toml
