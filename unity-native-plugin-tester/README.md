@@ -10,6 +10,7 @@ It should only be used for testing and debugging of native plugins.
 ## How to use
 
 * Define in Cargo.toml
+    * The branch should match the version of "unity-native-plugin" crate.
 ```cargo
 [dev-dependencies]
 unity-native-plugin-tester = { git = "https://github.com/aosoft/unity-native-plugin-tester", branch = "main", features = ["d3d11"] }
