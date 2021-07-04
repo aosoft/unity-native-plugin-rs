@@ -20,14 +20,17 @@ unity-native-plugin = { version = "*", features = ["d3d11"] }
 #    * d3d11 - IUnityGraphicsD3D11
 #    * d3d12 - IUnityGraphicsD3D12
 #    * profiler - IUnityProfiler
+#    * profiler_callbacks - IUnityProfilerCallbacks
+#    * profiler_callbacks_v2 - IUnityProfilerCallbacksV2
 ```
+
 * If you use Vulkan, define "unity-native-plugin-vulkan" in your dependencies.
 ```cargo
 [dependencies]
 unity-native-plugin = "*"
 unity-native-plugin-vulkan = "*"
 ```
-    
+
 * Use a macro in lib.rs to define your entry points. Without this definition, UnityInterfaces cannot be used.
 ```rust
 unity_native_plugin::unity_native_plugin_entry_point! {
@@ -39,6 +42,7 @@ unity_native_plugin::unity_native_plugin_entry_point! {
     }
 }
 ```
+
 * Use UnityInterface::interface, which is equivalent to IUnityInterfaces::GetInterface, to get the interface.
 ```rust
 let intf = unity_native_plugin::interface::UnityInterfaces::get()

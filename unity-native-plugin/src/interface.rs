@@ -19,9 +19,7 @@ impl UnityInterfaces {
     pub fn set_native_unity_interfaces(interfaces: *mut unity_native_plugin_sys::IUnityInterfaces) {
         unsafe {
             UNITY_INTERFACES = if !interfaces.is_null() {
-                Some(UnityInterfaces {
-                    interfaces: interfaces,
-                })
+                Some(UnityInterfaces { interfaces })
             } else {
                 None
             }
@@ -30,8 +28,9 @@ impl UnityInterfaces {
 
     pub fn interface<T: UnityInterface>(&self) -> Option<T> {
         unsafe {
-            if let Some(intf) = (&*self.interfaces).GetInterface {
-                let r = intf(T::get_interface_guid());
+            if let Some(intf) = (&*self.interfaces).GetInterfaceSplit {
+                let guid = T::get_interface_guid();
+                let r = intf(guid.m_GUIDHigh, guid.m_GUIDLow);
                 if !r.is_null() {
                     return Some(T::new(r));
                 }

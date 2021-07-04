@@ -23,8 +23,8 @@ default = []
 d3d11 = []
 d3d12 = []
 profiler = []
+profiler_callbacks = ["profiler"]
+profiler_callbacks_v2 = ["profiler_callbacks"]
 
 [dependencies]
 unity-native-plugin-sys = { version = "0.4.0", path = "../unity-native-plugin-sys" }
-
-
