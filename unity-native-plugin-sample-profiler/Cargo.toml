@@ -15,3 +15,4 @@ unity-native-plugin = { version = "0.4.1",  path = "../unity-native-plugin", fea
 unity-native-plugin-sys = { version = "0.4.0", path = "../unity-native-plugin-sys" }
 log = "0.4"
 env_logger = "0.8"
+flume = "0.10"
