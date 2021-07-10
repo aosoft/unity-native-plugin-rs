@@ -80,94 +80,404 @@ where
         }
     }
 }
-pub const _LIBCPP_TYPEINFO_COMPARISON_IMPLEMENTATION: u32 = 1;
-pub const _LIBCPP_VERSION: u32 = 12000;
-pub const _LIBCPP_ABI_VERSION: u32 = 1;
-pub const _LIBCPP_STD_VER: u32 = 11;
-pub const _LIBCPP_OBJECT_FORMAT_MACHO: u32 = 1;
-pub const _LIBCPP_HIDE_FROM_ABI_PER_TU: u32 = 1;
-pub const _LIBCPP_DEBUG_LEVEL: u32 = 0;
-pub const _LIBCPP_LOCALE__L_EXTENSIONS: u32 = 1;
-pub const _LIBCPP_HAS_CATOPEN: u32 = 1;
-pub const __STDCPP_THREADS__: u32 = 1;
+pub const _GLIBCXX_CSTDINT: u32 = 1;
+pub const _GLIBCXX_CXX_CONFIG_H: u32 = 1;
+pub const _GLIBCXX_RELEASE: u32 = 9;
+pub const __GLIBCXX__: u32 = 20200808;
+pub const _GLIBCXX_HAVE_ATTRIBUTE_VISIBILITY: u32 = 1;
+pub const _GLIBCXX_USE_DEPRECATED: u32 = 1;
+pub const _GLIBCXX_EXTERN_TEMPLATE: u32 = 1;
+pub const _GLIBCXX_USE_DUAL_ABI: u32 = 1;
+pub const _GLIBCXX_USE_CXX11_ABI: u32 = 1;
+pub const _GLIBCXX_INLINE_VERSION: u32 = 0;
+pub const _GLIBCXX_USE_ALLOCATOR_NEW: u32 = 1;
+pub const _GLIBCXX_OS_DEFINES: u32 = 1;
+pub const __NO_CTYPE: u32 = 1;
+pub const _FEATURES_H: u32 = 1;
+pub const _ISOC95_SOURCE: u32 = 1;
+pub const _ISOC99_SOURCE: u32 = 1;
+pub const _ISOC11_SOURCE: u32 = 1;
+pub const _ISOC2X_SOURCE: u32 = 1;
+pub const _POSIX_SOURCE: u32 = 1;
+pub const _POSIX_C_SOURCE: u32 = 200809;
+pub const _XOPEN_SOURCE: u32 = 700;
+pub const _XOPEN_SOURCE_EXTENDED: u32 = 1;
+pub const _LARGEFILE64_SOURCE: u32 = 1;
+pub const _DEFAULT_SOURCE: u32 = 1;
+pub const _ATFILE_SOURCE: u32 = 1;
+pub const __GLIBC_USE_ISOC2X: u32 = 1;
+pub const __USE_ISOC11: u32 = 1;
+pub const __USE_ISOC99: u32 = 1;
+pub const __USE_ISOC95: u32 = 1;
+pub const __USE_ISOCXX11: u32 = 1;
+pub const __USE_POSIX: u32 = 1;
+pub const __USE_POSIX2: u32 = 1;
+pub const __USE_POSIX199309: u32 = 1;
+pub const __USE_POSIX199506: u32 = 1;
+pub const __USE_XOPEN2K: u32 = 1;
+pub const __USE_XOPEN2K8: u32 = 1;
+pub const __USE_XOPEN: u32 = 1;
+pub const __USE_XOPEN_EXTENDED: u32 = 1;
+pub const __USE_UNIX98: u32 = 1;
+pub const _LARGEFILE_SOURCE: u32 = 1;
+pub const __USE_XOPEN2K8XSI: u32 = 1;
+pub const __USE_XOPEN2KXSI: u32 = 1;
+pub const __USE_LARGEFILE: u32 = 1;
+pub const __USE_LARGEFILE64: u32 = 1;
+pub const __USE_MISC: u32 = 1;
+pub const __USE_ATFILE: u32 = 1;
+pub const __USE_GNU: u32 = 1;
+pub const __USE_FORTIFY_LEVEL: u32 = 0;
+pub const __GLIBC_USE_DEPRECATED_GETS: u32 = 0;
+pub const __GLIBC_USE_DEPRECATED_SCANF: u32 = 0;
+pub const _STDC_PREDEF_H: u32 = 1;
+pub const __STDC_IEC_559__: u32 = 1;
+pub const __STDC_IEC_559_COMPLEX__: u32 = 1;
+pub const __STDC_ISO_10646__: u32 = 201706;
+pub const __GNU_LIBRARY__: u32 = 6;
+pub const __GLIBC__: u32 = 2;
+pub const __GLIBC_MINOR__: u32 = 31;
+pub const _SYS_CDEFS_H: u32 = 1;
+pub const __glibc_c99_flexarr_available: u32 = 1;
 pub const __WORDSIZE: u32 = 64;
-pub const __DARWIN_ONLY_64_BIT_INO_T: u32 = 1;
-pub const __DARWIN_ONLY_UNIX_CONFORMANCE: u32 = 1;
-pub const __DARWIN_ONLY_VERS_1050: u32 = 1;
-pub const __DARWIN_UNIX03: u32 = 1;
-pub const __DARWIN_64_BIT_INO_T: u32 = 1;
-pub const __DARWIN_VERS_1050: u32 = 1;
-pub const __DARWIN_NON_CANCELABLE: u32 = 0;
-pub const __DARWIN_SUF_EXTSN: &'static [u8; 14usize] = b"$DARWIN_EXTSN\0";
-pub const __DARWIN_C_ANSI: u32 = 4096;
-pub const __DARWIN_C_FULL: u32 = 900000;
-pub const __DARWIN_C_LEVEL: u32 = 900000;
-pub const __STDC_WANT_LIB_EXT1__: u32 = 1;
-pub const __DARWIN_NO_LONG_LONG: u32 = 0;
-pub const _DARWIN_FEATURE_64_BIT_INODE: u32 = 1;
-pub const _DARWIN_FEATURE_ONLY_64_BIT_INODE: u32 = 1;
-pub const _DARWIN_FEATURE_ONLY_VERS_1050: u32 = 1;
-pub const _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE: u32 = 1;
-pub const _DARWIN_FEATURE_UNIX_CONFORMANCE: u32 = 3;
-pub const __PTHREAD_SIZE__: u32 = 8176;
-pub const __PTHREAD_ATTR_SIZE__: u32 = 56;
-pub const __PTHREAD_MUTEXATTR_SIZE__: u32 = 8;
-pub const __PTHREAD_MUTEX_SIZE__: u32 = 56;
-pub const __PTHREAD_CONDATTR_SIZE__: u32 = 8;
-pub const __PTHREAD_COND_SIZE__: u32 = 40;
-pub const __PTHREAD_ONCE_SIZE__: u32 = 8;
-pub const __PTHREAD_RWLOCK_SIZE__: u32 = 192;
-pub const __PTHREAD_RWLOCKATTR_SIZE__: u32 = 16;
-pub const INT8_MAX: u32 = 127;
-pub const INT16_MAX: u32 = 32767;
-pub const INT32_MAX: u32 = 2147483647;
-pub const INT64_MAX: u64 = 9223372036854775807;
+pub const __WORDSIZE_TIME64_COMPAT32: u32 = 1;
+pub const __SYSCALL_WORDSIZE: u32 = 64;
+pub const __LONG_DOUBLE_USES_FLOAT128: u32 = 0;
+pub const __HAVE_GENERIC_SELECTION: u32 = 0;
+pub const _GLIBCXX_CPU_DEFINES: u32 = 1;
+pub const _GLIBCXX_FAST_MATH: u32 = 0;
+pub const _GLIBCXX_USE_FLOAT128: u32 = 1;
+pub const _GLIBCXX_HAVE_BUILTIN_HAS_UNIQ_OBJ_REP: u32 = 1;
+pub const _GLIBCXX_HAVE_BUILTIN_IS_AGGREGATE: u32 = 1;
+pub const _GLIBCXX_HAVE_BUILTIN_LAUNDER: u32 = 1;
+pub const _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED: u32 = 1;
+pub const _GLIBCXX_HAVE_ACOSF: u32 = 1;
+pub const _GLIBCXX_HAVE_ACOSL: u32 = 1;
+pub const _GLIBCXX_HAVE_ALIGNED_ALLOC: u32 = 1;
+pub const _GLIBCXX_HAVE_ARPA_INET_H: u32 = 1;
+pub const _GLIBCXX_HAVE_ASINF: u32 = 1;
+pub const _GLIBCXX_HAVE_ASINL: u32 = 1;
+pub const _GLIBCXX_HAVE_AS_SYMVER_DIRECTIVE: u32 = 1;
+pub const _GLIBCXX_HAVE_ATAN2F: u32 = 1;
+pub const _GLIBCXX_HAVE_ATAN2L: u32 = 1;
+pub const _GLIBCXX_HAVE_ATANF: u32 = 1;
+pub const _GLIBCXX_HAVE_ATANL: u32 = 1;
+pub const _GLIBCXX_HAVE_ATOMIC_LOCK_POLICY: u32 = 1;
+pub const _GLIBCXX_HAVE_AT_QUICK_EXIT: u32 = 1;
+pub const _GLIBCXX_HAVE_CEILF: u32 = 1;
+pub const _GLIBCXX_HAVE_CEILL: u32 = 1;
+pub const _GLIBCXX_HAVE_COMPLEX_H: u32 = 1;
+pub const _GLIBCXX_HAVE_COSF: u32 = 1;
+pub const _GLIBCXX_HAVE_COSHF: u32 = 1;
+pub const _GLIBCXX_HAVE_COSHL: u32 = 1;
+pub const _GLIBCXX_HAVE_COSL: u32 = 1;
+pub const _GLIBCXX_HAVE_DIRENT_H: u32 = 1;
+pub const _GLIBCXX_HAVE_DLFCN_H: u32 = 1;
+pub const _GLIBCXX_HAVE_EBADMSG: u32 = 1;
+pub const _GLIBCXX_HAVE_ECANCELED: u32 = 1;
+pub const _GLIBCXX_HAVE_ECHILD: u32 = 1;
+pub const _GLIBCXX_HAVE_EIDRM: u32 = 1;
+pub const _GLIBCXX_HAVE_ENDIAN_H: u32 = 1;
+pub const _GLIBCXX_HAVE_ENODATA: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOLINK: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOSPC: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOSR: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOSTR: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOTRECOVERABLE: u32 = 1;
+pub const _GLIBCXX_HAVE_ENOTSUP: u32 = 1;
+pub const _GLIBCXX_HAVE_EOVERFLOW: u32 = 1;
+pub const _GLIBCXX_HAVE_EOWNERDEAD: u32 = 1;
+pub const _GLIBCXX_HAVE_EPERM: u32 = 1;
+pub const _GLIBCXX_HAVE_EPROTO: u32 = 1;
+pub const _GLIBCXX_HAVE_ETIME: u32 = 1;
+pub const _GLIBCXX_HAVE_ETIMEDOUT: u32 = 1;
+pub const _GLIBCXX_HAVE_ETXTBSY: u32 = 1;
+pub const _GLIBCXX_HAVE_EWOULDBLOCK: u32 = 1;
+pub const _GLIBCXX_HAVE_EXCEPTION_PTR_SINCE_GCC46: u32 = 1;
+pub const _GLIBCXX_HAVE_EXECINFO_H: u32 = 1;
+pub const _GLIBCXX_HAVE_EXPF: u32 = 1;
+pub const _GLIBCXX_HAVE_EXPL: u32 = 1;
+pub const _GLIBCXX_HAVE_FABSF: u32 = 1;
+pub const _GLIBCXX_HAVE_FABSL: u32 = 1;
+pub const _GLIBCXX_HAVE_FCNTL_H: u32 = 1;
+pub const _GLIBCXX_HAVE_FENV_H: u32 = 1;
+pub const _GLIBCXX_HAVE_FINITE: u32 = 1;
+pub const _GLIBCXX_HAVE_FINITEF: u32 = 1;
+pub const _GLIBCXX_HAVE_FINITEL: u32 = 1;
+pub const _GLIBCXX_HAVE_FLOAT_H: u32 = 1;
+pub const _GLIBCXX_HAVE_FLOORF: u32 = 1;
+pub const _GLIBCXX_HAVE_FLOORL: u32 = 1;
+pub const _GLIBCXX_HAVE_FMODF: u32 = 1;
+pub const _GLIBCXX_HAVE_FMODL: u32 = 1;
+pub const _GLIBCXX_HAVE_FREXPF: u32 = 1;
+pub const _GLIBCXX_HAVE_FREXPL: u32 = 1;
+pub const _GLIBCXX_HAVE_GETIPINFO: u32 = 1;
+pub const _GLIBCXX_HAVE_GETS: u32 = 1;
+pub const _GLIBCXX_HAVE_HYPOT: u32 = 1;
+pub const _GLIBCXX_HAVE_HYPOTF: u32 = 1;
+pub const _GLIBCXX_HAVE_HYPOTL: u32 = 1;
+pub const _GLIBCXX_HAVE_ICONV: u32 = 1;
+pub const _GLIBCXX_HAVE_INT64_T: u32 = 1;
+pub const _GLIBCXX_HAVE_INT64_T_LONG: u32 = 1;
+pub const _GLIBCXX_HAVE_INTTYPES_H: u32 = 1;
+pub const _GLIBCXX_HAVE_ISINFF: u32 = 1;
+pub const _GLIBCXX_HAVE_ISINFL: u32 = 1;
+pub const _GLIBCXX_HAVE_ISNANF: u32 = 1;
+pub const _GLIBCXX_HAVE_ISNANL: u32 = 1;
+pub const _GLIBCXX_HAVE_ISWBLANK: u32 = 1;
+pub const _GLIBCXX_HAVE_LC_MESSAGES: u32 = 1;
+pub const _GLIBCXX_HAVE_LDEXPF: u32 = 1;
+pub const _GLIBCXX_HAVE_LDEXPL: u32 = 1;
+pub const _GLIBCXX_HAVE_LIBINTL_H: u32 = 1;
+pub const _GLIBCXX_HAVE_LIMIT_AS: u32 = 1;
+pub const _GLIBCXX_HAVE_LIMIT_DATA: u32 = 1;
+pub const _GLIBCXX_HAVE_LIMIT_FSIZE: u32 = 1;
+pub const _GLIBCXX_HAVE_LIMIT_RSS: u32 = 1;
+pub const _GLIBCXX_HAVE_LIMIT_VMEM: u32 = 0;
+pub const _GLIBCXX_HAVE_LINK: u32 = 1;
+pub const _GLIBCXX_HAVE_LINUX_FUTEX: u32 = 1;
+pub const _GLIBCXX_HAVE_LINUX_RANDOM_H: u32 = 1;
+pub const _GLIBCXX_HAVE_LINUX_TYPES_H: u32 = 1;
+pub const _GLIBCXX_HAVE_LOCALE_H: u32 = 1;
+pub const _GLIBCXX_HAVE_LOG10F: u32 = 1;
+pub const _GLIBCXX_HAVE_LOG10L: u32 = 1;
+pub const _GLIBCXX_HAVE_LOGF: u32 = 1;
+pub const _GLIBCXX_HAVE_LOGL: u32 = 1;
+pub const _GLIBCXX_HAVE_MBSTATE_T: u32 = 1;
+pub const _GLIBCXX_HAVE_MEMALIGN: u32 = 1;
+pub const _GLIBCXX_HAVE_MEMORY_H: u32 = 1;
+pub const _GLIBCXX_HAVE_MODF: u32 = 1;
+pub const _GLIBCXX_HAVE_MODFF: u32 = 1;
+pub const _GLIBCXX_HAVE_MODFL: u32 = 1;
+pub const _GLIBCXX_HAVE_NETDB_H: u32 = 1;
+pub const _GLIBCXX_HAVE_NETINET_IN_H: u32 = 1;
+pub const _GLIBCXX_HAVE_NETINET_TCP_H: u32 = 1;
+pub const _GLIBCXX_HAVE_POLL: u32 = 1;
+pub const _GLIBCXX_HAVE_POLL_H: u32 = 1;
+pub const _GLIBCXX_HAVE_POSIX_MEMALIGN: u32 = 1;
+pub const _GLIBCXX_HAVE_POWF: u32 = 1;
+pub const _GLIBCXX_HAVE_POWL: u32 = 1;
+pub const _GLIBCXX_HAVE_QUICK_EXIT: u32 = 1;
+pub const _GLIBCXX_HAVE_READLINK: u32 = 1;
+pub const _GLIBCXX_HAVE_SETENV: u32 = 1;
+pub const _GLIBCXX_HAVE_SINCOS: u32 = 1;
+pub const _GLIBCXX_HAVE_SINCOSF: u32 = 1;
+pub const _GLIBCXX_HAVE_SINCOSL: u32 = 1;
+pub const _GLIBCXX_HAVE_SINF: u32 = 1;
+pub const _GLIBCXX_HAVE_SINHF: u32 = 1;
+pub const _GLIBCXX_HAVE_SINHL: u32 = 1;
+pub const _GLIBCXX_HAVE_SINL: u32 = 1;
+pub const _GLIBCXX_HAVE_SOCKATMARK: u32 = 1;
+pub const _GLIBCXX_HAVE_SQRTF: u32 = 1;
+pub const _GLIBCXX_HAVE_SQRTL: u32 = 1;
+pub const _GLIBCXX_HAVE_STDALIGN_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STDBOOL_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STDINT_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STDLIB_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STRERROR_L: u32 = 1;
+pub const _GLIBCXX_HAVE_STRERROR_R: u32 = 1;
+pub const _GLIBCXX_HAVE_STRINGS_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STRING_H: u32 = 1;
+pub const _GLIBCXX_HAVE_STRTOF: u32 = 1;
+pub const _GLIBCXX_HAVE_STRTOLD: u32 = 1;
+pub const _GLIBCXX_HAVE_STRUCT_DIRENT_D_TYPE: u32 = 1;
+pub const _GLIBCXX_HAVE_STRXFRM_L: u32 = 1;
+pub const _GLIBCXX_HAVE_SYMLINK: u32 = 1;
+pub const _GLIBCXX_HAVE_SYMVER_SYMBOL_RENAMING_RUNTIME_SUPPORT: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_IOCTL_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_IPC_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_PARAM_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_RESOURCE_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_SDT_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_SEM_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_SOCKET_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_STATVFS_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_STAT_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_SYSINFO_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_TIME_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_TYPES_H: u32 = 1;
+pub const _GLIBCXX_HAVE_SYS_UIO_H: u32 = 1;
+pub const _GLIBCXX_HAVE_S_ISREG: u32 = 1;
+pub const _GLIBCXX_HAVE_TANF: u32 = 1;
+pub const _GLIBCXX_HAVE_TANHF: u32 = 1;
+pub const _GLIBCXX_HAVE_TANHL: u32 = 1;
+pub const _GLIBCXX_HAVE_TANL: u32 = 1;
+pub const _GLIBCXX_HAVE_TGMATH_H: u32 = 1;
+pub const _GLIBCXX_HAVE_TIMESPEC_GET: u32 = 1;
+pub const _GLIBCXX_HAVE_TLS: u32 = 1;
+pub const _GLIBCXX_HAVE_TRUNCATE: u32 = 1;
+pub const _GLIBCXX_HAVE_UCHAR_H: u32 = 1;
+pub const _GLIBCXX_HAVE_UNISTD_H: u32 = 1;
+pub const _GLIBCXX_HAVE_UTIME_H: u32 = 1;
+pub const _GLIBCXX_HAVE_VFWSCANF: u32 = 1;
+pub const _GLIBCXX_HAVE_VSWSCANF: u32 = 1;
+pub const _GLIBCXX_HAVE_VWSCANF: u32 = 1;
+pub const _GLIBCXX_HAVE_WCHAR_H: u32 = 1;
+pub const _GLIBCXX_HAVE_WCSTOF: u32 = 1;
+pub const _GLIBCXX_HAVE_WCTYPE_H: u32 = 1;
+pub const _GLIBCXX_HAVE_WRITEV: u32 = 1;
+pub const _GLIBCXX_HAVE___CXA_THREAD_ATEXIT_IMPL: u32 = 1;
+pub const LT_OBJDIR: &'static [u8; 7usize] = b".libs/\0";
+pub const _GLIBCXX_PACKAGE_BUGREPORT: &'static [u8; 1usize] = b"\0";
+pub const _GLIBCXX_PACKAGE_NAME: &'static [u8; 15usize] = b"package-unused\0";
+pub const _GLIBCXX_PACKAGE_STRING: &'static [u8; 30usize] = b"package-unused version-unused\0";
+pub const _GLIBCXX_PACKAGE_TARNAME: &'static [u8; 10usize] = b"libstdc++\0";
+pub const _GLIBCXX_PACKAGE_URL: &'static [u8; 1usize] = b"\0";
+pub const _GLIBCXX_PACKAGE__GLIBCXX_VERSION: &'static [u8; 15usize] = b"version-unused\0";
+pub const STDC_HEADERS: u32 = 1;
+pub const _GLIBCXX_DARWIN_USE_64_BIT_INODE: u32 = 1;
+pub const _GLIBCXX11_USE_C99_COMPLEX: u32 = 1;
+pub const _GLIBCXX11_USE_C99_MATH: u32 = 1;
+pub const _GLIBCXX11_USE_C99_STDIO: u32 = 1;
+pub const _GLIBCXX11_USE_C99_STDLIB: u32 = 1;
+pub const _GLIBCXX11_USE_C99_WCHAR: u32 = 1;
+pub const _GLIBCXX98_USE_C99_COMPLEX: u32 = 1;
+pub const _GLIBCXX98_USE_C99_MATH: u32 = 1;
+pub const _GLIBCXX98_USE_C99_STDIO: u32 = 1;
+pub const _GLIBCXX98_USE_C99_STDLIB: u32 = 1;
+pub const _GLIBCXX98_USE_C99_WCHAR: u32 = 1;
+pub const _GLIBCXX_ATOMIC_BUILTINS: u32 = 1;
+pub const _GLIBCXX_FULLY_DYNAMIC_STRING: u32 = 0;
+pub const _GLIBCXX_HAS_GTHREADS: u32 = 1;
+pub const _GLIBCXX_HOSTED: u32 = 1;
+pub const _GLIBCXX_RES_LIMITS: u32 = 1;
+pub const _GLIBCXX_STDIO_EOF: i32 = -1;
+pub const _GLIBCXX_STDIO_SEEK_CUR: u32 = 1;
+pub const _GLIBCXX_STDIO_SEEK_END: u32 = 2;
+pub const _GLIBCXX_SYMVER: u32 = 1;
+pub const _GLIBCXX_SYMVER_GNU: u32 = 1;
+pub const _GLIBCXX_USE_C11_UCHAR_CXX11: u32 = 1;
+pub const _GLIBCXX_USE_C99: u32 = 1;
+pub const _GLIBCXX_USE_C99_COMPLEX_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_CTYPE_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_FENV_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_INTTYPES_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_INTTYPES_WCHAR_T_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_MATH_TR1: u32 = 1;
+pub const _GLIBCXX_USE_C99_STDINT_TR1: u32 = 1;
+pub const _GLIBCXX_USE_CLOCK_MONOTONIC: u32 = 1;
+pub const _GLIBCXX_USE_CLOCK_REALTIME: u32 = 1;
+pub const _GLIBCXX_USE_DECIMAL_FLOAT: u32 = 1;
+pub const _GLIBCXX_USE_DEV_RANDOM: u32 = 1;
+pub const _GLIBCXX_USE_FCHMOD: u32 = 1;
+pub const _GLIBCXX_USE_FCHMODAT: u32 = 1;
+pub const _GLIBCXX_USE_GETTIMEOFDAY: u32 = 1;
+pub const _GLIBCXX_USE_GET_NPROCS: u32 = 1;
+pub const _GLIBCXX_USE_INT128: u32 = 1;
+pub const _GLIBCXX_USE_LFS: u32 = 1;
+pub const _GLIBCXX_USE_LONG_LONG: u32 = 1;
+pub const _GLIBCXX_USE_LSTAT: u32 = 1;
+pub const _GLIBCXX_USE_NANOSLEEP: u32 = 1;
+pub const _GLIBCXX_USE_NLS: u32 = 1;
+pub const _GLIBCXX_USE_PTHREAD_RWLOCK_T: u32 = 1;
+pub const _GLIBCXX_USE_RANDOM_TR1: u32 = 1;
+pub const _GLIBCXX_USE_REALPATH: u32 = 1;
+pub const _GLIBCXX_USE_SCHED_YIELD: u32 = 1;
+pub const _GLIBCXX_USE_SC_NPROCESSORS_ONLN: u32 = 1;
+pub const _GLIBCXX_USE_SENDFILE: u32 = 1;
+pub const _GLIBCXX_USE_ST_MTIM: u32 = 1;
+pub const _GLIBCXX_USE_TMPNAM: u32 = 1;
+pub const _GLIBCXX_USE_UTIME: u32 = 1;
+pub const _GLIBCXX_USE_UTIMENSAT: u32 = 1;
+pub const _GLIBCXX_USE_WCHAR_T: u32 = 1;
+pub const _GLIBCXX_VERBOSE: u32 = 1;
+pub const _GLIBCXX_X86_RDRAND: u32 = 1;
+pub const _GTHREAD_USE_MUTEX_TIMEDLOCK: u32 = 1;
+pub const _STDINT_H: u32 = 1;
+pub const __GLIBC_USE_LIB_EXT2: u32 = 1;
+pub const __GLIBC_USE_IEC_60559_BFP_EXT: u32 = 1;
+pub const __GLIBC_USE_IEC_60559_BFP_EXT_C2X: u32 = 1;
+pub const __GLIBC_USE_IEC_60559_FUNCS_EXT: u32 = 1;
+pub const __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X: u32 = 1;
+pub const __GLIBC_USE_IEC_60559_TYPES_EXT: u32 = 1;
+pub const _BITS_TYPES_H: u32 = 1;
+pub const __TIMESIZE: u32 = 64;
+pub const _BITS_TYPESIZES_H: u32 = 1;
+pub const __OFF_T_MATCHES_OFF64_T: u32 = 1;
+pub const __INO_T_MATCHES_INO64_T: u32 = 1;
+pub const __RLIM_T_MATCHES_RLIM64_T: u32 = 1;
+pub const __STATFS_MATCHES_STATFS64: u32 = 1;
+pub const __FD_SETSIZE: u32 = 1024;
+pub const _BITS_TIME64_H: u32 = 1;
+pub const _BITS_WCHAR_H: u32 = 1;
+pub const _BITS_STDINT_INTN_H: u32 = 1;
+pub const _BITS_STDINT_UINTN_H: u32 = 1;
 pub const INT8_MIN: i32 = -128;
 pub const INT16_MIN: i32 = -32768;
 pub const INT32_MIN: i32 = -2147483648;
-pub const INT64_MIN: i64 = -9223372036854775808;
+pub const INT8_MAX: u32 = 127;
+pub const INT16_MAX: u32 = 32767;
+pub const INT32_MAX: u32 = 2147483647;
 pub const UINT8_MAX: u32 = 255;
 pub const UINT16_MAX: u32 = 65535;
 pub const UINT32_MAX: u32 = 4294967295;
-pub const UINT64_MAX: i32 = -1;
 pub const INT_LEAST8_MIN: i32 = -128;
 pub const INT_LEAST16_MIN: i32 = -32768;
 pub const INT_LEAST32_MIN: i32 = -2147483648;
-pub const INT_LEAST64_MIN: i64 = -9223372036854775808;
 pub const INT_LEAST8_MAX: u32 = 127;
 pub const INT_LEAST16_MAX: u32 = 32767;
 pub const INT_LEAST32_MAX: u32 = 2147483647;
-pub const INT_LEAST64_MAX: u64 = 9223372036854775807;
 pub const UINT_LEAST8_MAX: u32 = 255;
 pub const UINT_LEAST16_MAX: u32 = 65535;
 pub const UINT_LEAST32_MAX: u32 = 4294967295;
-pub const UINT_LEAST64_MAX: i32 = -1;
 pub const INT_FAST8_MIN: i32 = -128;
-pub const INT_FAST16_MIN: i32 = -32768;
-pub const INT_FAST32_MIN: i32 = -2147483648;
-pub const INT_FAST64_MIN: i64 = -9223372036854775808;
+pub const INT_FAST16_MIN: i64 = -9223372036854775808;
+pub const INT_FAST32_MIN: i64 = -9223372036854775808;
 pub const INT_FAST8_MAX: u32 = 127;
-pub const INT_FAST16_MAX: u32 = 32767;
-pub const INT_FAST32_MAX: u32 = 2147483647;
-pub const INT_FAST64_MAX: u64 = 9223372036854775807;
+pub const INT_FAST16_MAX: u64 = 9223372036854775807;
+pub const INT_FAST32_MAX: u64 = 9223372036854775807;
 pub const UINT_FAST8_MAX: u32 = 255;
-pub const UINT_FAST16_MAX: u32 = 65535;
-pub const UINT_FAST32_MAX: u32 = 4294967295;
-pub const UINT_FAST64_MAX: i32 = -1;
-pub const INTPTR_MAX: u64 = 9223372036854775807;
+pub const UINT_FAST16_MAX: i32 = -1;
+pub const UINT_FAST32_MAX: i32 = -1;
 pub const INTPTR_MIN: i64 = -9223372036854775808;
+pub const INTPTR_MAX: u64 = 9223372036854775807;
 pub const UINTPTR_MAX: i32 = -1;
-pub const SIZE_MAX: i32 = -1;
-pub const RSIZE_MAX: i32 = -1;
-pub const WINT_MIN: i32 = -2147483648;
-pub const WINT_MAX: u32 = 2147483647;
+pub const PTRDIFF_MIN: i64 = -9223372036854775808;
+pub const PTRDIFF_MAX: u64 = 9223372036854775807;
 pub const SIG_ATOMIC_MIN: i32 = -2147483648;
 pub const SIG_ATOMIC_MAX: u32 = 2147483647;
+pub const SIZE_MAX: i32 = -1;
+pub const WINT_MIN: u32 = 0;
+pub const WINT_MAX: u32 = 4294967295;
+pub const INT8_WIDTH: u32 = 8;
+pub const UINT8_WIDTH: u32 = 8;
+pub const INT16_WIDTH: u32 = 16;
+pub const UINT16_WIDTH: u32 = 16;
+pub const INT32_WIDTH: u32 = 32;
+pub const UINT32_WIDTH: u32 = 32;
+pub const INT64_WIDTH: u32 = 64;
+pub const UINT64_WIDTH: u32 = 64;
+pub const INT_LEAST8_WIDTH: u32 = 8;
+pub const UINT_LEAST8_WIDTH: u32 = 8;
+pub const INT_LEAST16_WIDTH: u32 = 16;
+pub const UINT_LEAST16_WIDTH: u32 = 16;
+pub const INT_LEAST32_WIDTH: u32 = 32;
+pub const UINT_LEAST32_WIDTH: u32 = 32;
+pub const INT_LEAST64_WIDTH: u32 = 64;
+pub const UINT_LEAST64_WIDTH: u32 = 64;
+pub const INT_FAST8_WIDTH: u32 = 8;
+pub const UINT_FAST8_WIDTH: u32 = 8;
+pub const INT_FAST16_WIDTH: u32 = 64;
+pub const UINT_FAST16_WIDTH: u32 = 64;
+pub const INT_FAST32_WIDTH: u32 = 64;
+pub const UINT_FAST32_WIDTH: u32 = 64;
+pub const INT_FAST64_WIDTH: u32 = 64;
+pub const UINT_FAST64_WIDTH: u32 = 64;
+pub const INTPTR_WIDTH: u32 = 64;
+pub const UINTPTR_WIDTH: u32 = 64;
+pub const INTMAX_WIDTH: u32 = 64;
+pub const UINTMAX_WIDTH: u32 = 64;
+pub const PTRDIFF_WIDTH: u32 = 64;
+pub const SIG_ATOMIC_WIDTH: u32 = 32;
+pub const SIZE_WIDTH: u32 = 64;
+pub const WCHAR_WIDTH: u32 = 32;
+pub const WINT_WIDTH: u32 = 32;
+pub const _GLIBCXX_CSTDDEF: u32 = 1;
 pub const VULKAN_H_: u32 = 1;
 pub const VULKAN_CORE_H_: u32 = 1;
 pub const VK_VERSION_1_0: u32 = 1;
 pub const VK_USE_64_BIT_PTR_DEFINES: u32 = 1;
-pub const VK_HEADER_VERSION: u32 = 183;
+pub const VK_HEADER_VERSION: u32 = 182;
 pub const VK_ATTACHMENT_UNUSED: i32 = -1;
 pub const VK_FALSE: u32 = 0;
 pub const VK_LOD_CLAMP_NONE: f64 = 1000.0;
@@ -1026,992 +1336,161 @@ pub const VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME: &'static [u8; 28usize] =
 pub const VK_KHR_ray_query: u32 = 1;
 pub const VK_KHR_RAY_QUERY_SPEC_VERSION: u32 = 1;
 pub const VK_KHR_RAY_QUERY_EXTENSION_NAME: &'static [u8; 17usize] = b"VK_KHR_ray_query\0";
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct std_nullptr_t {
-    pub __lx: *mut ::std::os::raw::c_void,
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct std_nullptr_t___nat {
-    pub __for_bool_: ::std::os::raw::c_int,
-}
-#[test]
-fn bindgen_test_layout_std_nullptr_t___nat() {
-    assert_eq!(
-        ::std::mem::size_of::<std_nullptr_t___nat>(),
-        4usize,
-        concat!("Size of: ", stringify!(std_nullptr_t___nat))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std_nullptr_t___nat>(),
-        4usize,
-        concat!("Alignment of ", stringify!(std_nullptr_t___nat))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<std_nullptr_t___nat>())).__for_bool_ as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(std_nullptr_t___nat),
-            "::",
-            stringify!(__for_bool_)
-        )
-    );
-}
-#[test]
-fn bindgen_test_layout_std_nullptr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<std_nullptr_t>(),
-        8usize,
-        concat!("Size of: ", stringify!(std_nullptr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std_nullptr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(std_nullptr_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<std_nullptr_t>())).__lx as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(std_nullptr_t),
-            "::",
-            stringify!(__lx)
-        )
-    );
-}
-impl Default for std_nullptr_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct std___libcpp_is_integral {
-    pub _address: u8,
-}
-pub const std___libcpp_is_integral_value: i32 = 0;
-pub type std___libcpp_is_integral__bindgen_ty_1 = i32;
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_bool__close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_char_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_signed_char_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned_char_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_wchar_t_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_char16_t_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_char32_t_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_short_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned_short_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_int_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned_int_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_long_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned_long_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_long_long_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned_long_long_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0___int128_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-#[test]
-fn __bindgen_test_layout_std___libcpp_is_integral_open0_unsigned___int128_close0_instantiation() {
-    assert_eq!(
-        ::std::mem::size_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Size of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<std___libcpp_is_integral>(),
-        1usize,
-        concat!(
-            "Alignment of template specialization: ",
-            stringify!(std___libcpp_is_integral)
-        )
-    );
-}
-pub type int_least8_t = i8;
-pub type int_least16_t = i16;
-pub type int_least32_t = i32;
-pub type int_least64_t = i64;
-pub type uint_least8_t = u8;
-pub type uint_least16_t = u16;
-pub type uint_least32_t = u32;
-pub type uint_least64_t = u64;
-pub type int_fast8_t = i8;
-pub type int_fast16_t = i16;
-pub type int_fast32_t = i32;
-pub type int_fast64_t = i64;
-pub type uint_fast8_t = u8;
-pub type uint_fast16_t = u16;
-pub type uint_fast32_t = u32;
-pub type uint_fast64_t = u64;
+pub type std_size_t = ::std::os::raw::c_ulong;
+pub type std_nullptr_t = *const ::std::os::raw::c_void;
+pub type __u_char = ::std::os::raw::c_uchar;
+pub type __u_short = ::std::os::raw::c_ushort;
+pub type __u_int = ::std::os::raw::c_uint;
+pub type __u_long = ::std::os::raw::c_ulong;
 pub type __int8_t = ::std::os::raw::c_schar;
 pub type __uint8_t = ::std::os::raw::c_uchar;
 pub type __int16_t = ::std::os::raw::c_short;
 pub type __uint16_t = ::std::os::raw::c_ushort;
 pub type __int32_t = ::std::os::raw::c_int;
 pub type __uint32_t = ::std::os::raw::c_uint;
-pub type __int64_t = ::std::os::raw::c_longlong;
-pub type __uint64_t = ::std::os::raw::c_ulonglong;
-pub type __darwin_intptr_t = ::std::os::raw::c_long;
-pub type __darwin_natural_t = ::std::os::raw::c_uint;
-pub type __darwin_ct_rune_t = ::std::os::raw::c_int;
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union __mbstate_t {
-    pub __mbstate8: [::std::os::raw::c_char; 128usize],
-    pub _mbstateL: ::std::os::raw::c_longlong,
-}
-#[test]
-fn bindgen_test_layout___mbstate_t() {
-    assert_eq!(
-        ::std::mem::size_of::<__mbstate_t>(),
-        128usize,
-        concat!("Size of: ", stringify!(__mbstate_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__mbstate_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__mbstate_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__mbstate_t>())).__mbstate8 as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t),
-            "::",
-            stringify!(__mbstate8)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__mbstate_t>()))._mbstateL as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t),
-            "::",
-            stringify!(_mbstateL)
-        )
-    );
-}
-impl Default for __mbstate_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub type __darwin_mbstate_t = __mbstate_t;
-pub type __darwin_ptrdiff_t = ::std::os::raw::c_long;
-pub type __darwin_size_t = ::std::os::raw::c_ulong;
-pub type __darwin_va_list = __builtin_va_list;
-pub type __darwin_wchar_t = ::std::os::raw::c_int;
-pub type __darwin_rune_t = __darwin_wchar_t;
-pub type __darwin_wint_t = ::std::os::raw::c_int;
-pub type __darwin_clock_t = ::std::os::raw::c_ulong;
-pub type __darwin_socklen_t = __uint32_t;
-pub type __darwin_ssize_t = ::std::os::raw::c_long;
-pub type __darwin_time_t = ::std::os::raw::c_long;
-pub type __darwin_blkcnt_t = __int64_t;
-pub type __darwin_blksize_t = __int32_t;
-pub type __darwin_dev_t = __int32_t;
-pub type __darwin_fsblkcnt_t = ::std::os::raw::c_uint;
-pub type __darwin_fsfilcnt_t = ::std::os::raw::c_uint;
-pub type __darwin_gid_t = __uint32_t;
-pub type __darwin_id_t = __uint32_t;
-pub type __darwin_ino64_t = __uint64_t;
-pub type __darwin_ino_t = __darwin_ino64_t;
-pub type __darwin_mach_port_name_t = __darwin_natural_t;
-pub type __darwin_mach_port_t = __darwin_mach_port_name_t;
-pub type __darwin_mode_t = __uint16_t;
-pub type __darwin_off_t = __int64_t;
-pub type __darwin_pid_t = __int32_t;
-pub type __darwin_sigset_t = __uint32_t;
-pub type __darwin_suseconds_t = __int32_t;
-pub type __darwin_uid_t = __uint32_t;
-pub type __darwin_useconds_t = __uint32_t;
-pub type __darwin_uuid_t = [::std::os::raw::c_uchar; 16usize];
-pub type __darwin_uuid_string_t = [::std::os::raw::c_char; 37usize];
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct __darwin_pthread_handler_rec {
-    pub __routine: ::std::option::Option<unsafe extern "system" fn(arg1: *mut ::std::os::raw::c_void)>,
-    pub __arg: *mut ::std::os::raw::c_void,
-    pub __next: *mut __darwin_pthread_handler_rec,
-}
-#[test]
-fn bindgen_test_layout___darwin_pthread_handler_rec() {
-    assert_eq!(
-        ::std::mem::size_of::<__darwin_pthread_handler_rec>(),
-        24usize,
-        concat!("Size of: ", stringify!(__darwin_pthread_handler_rec))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__darwin_pthread_handler_rec>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__darwin_pthread_handler_rec))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__darwin_pthread_handler_rec>())).__routine as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__darwin_pthread_handler_rec),
-            "::",
-            stringify!(__routine)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__darwin_pthread_handler_rec>())).__arg as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__darwin_pthread_handler_rec),
-            "::",
-            stringify!(__arg)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__darwin_pthread_handler_rec>())).__next as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__darwin_pthread_handler_rec),
-            "::",
-            stringify!(__next)
-        )
-    );
-}
-impl Default for __darwin_pthread_handler_rec {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct _opaque_pthread_attr_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 56usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_attr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_attr_t>(),
-        64usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_attr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_attr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_attr_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_attr_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_attr_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_attr_t>())).__opaque as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_attr_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-impl Default for _opaque_pthread_attr_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct _opaque_pthread_cond_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 40usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_cond_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_cond_t>(),
-        48usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_cond_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_cond_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_cond_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_cond_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_cond_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_cond_t>())).__opaque as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_cond_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-impl Default for _opaque_pthread_cond_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
+pub type __int64_t = ::std::os::raw::c_long;
+pub type __uint64_t = ::std::os::raw::c_ulong;
+pub type __int_least8_t = __int8_t;
+pub type __uint_least8_t = __uint8_t;
+pub type __int_least16_t = __int16_t;
+pub type __uint_least16_t = __uint16_t;
+pub type __int_least32_t = __int32_t;
+pub type __uint_least32_t = __uint32_t;
+pub type __int_least64_t = __int64_t;
+pub type __uint_least64_t = __uint64_t;
+pub type __quad_t = ::std::os::raw::c_long;
+pub type __u_quad_t = ::std::os::raw::c_ulong;
+pub type __intmax_t = ::std::os::raw::c_long;
+pub type __uintmax_t = ::std::os::raw::c_ulong;
+pub type __dev_t = ::std::os::raw::c_ulong;
+pub type __uid_t = ::std::os::raw::c_uint;
+pub type __gid_t = ::std::os::raw::c_uint;
+pub type __ino_t = ::std::os::raw::c_ulong;
+pub type __ino64_t = ::std::os::raw::c_ulong;
+pub type __mode_t = ::std::os::raw::c_uint;
+pub type __nlink_t = ::std::os::raw::c_ulong;
+pub type __off_t = ::std::os::raw::c_long;
+pub type __off64_t = ::std::os::raw::c_long;
+pub type __pid_t = ::std::os::raw::c_int;
 #[repr(C)]
 #[derive(Default, Copy, Clone)]
-pub struct _opaque_pthread_condattr_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 8usize],
+pub struct __fsid_t {
+    pub __val: [::std::os::raw::c_int; 2usize],
 }
 #[test]
-fn bindgen_test_layout__opaque_pthread_condattr_t() {
+fn bindgen_test_layout___fsid_t() {
     assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_condattr_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_condattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_condattr_t>(),
+        ::std::mem::size_of::<__fsid_t>(),
         8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_condattr_t))
+        concat!("Size of: ", stringify!(__fsid_t))
     );
     assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_condattr_t>())).__sig as *const _ as usize
-        },
+        ::std::mem::align_of::<__fsid_t>(),
+        4usize,
+        concat!("Alignment of ", stringify!(__fsid_t))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<__fsid_t>())).__val as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(_opaque_pthread_condattr_t),
+            stringify!(__fsid_t),
             "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_condattr_t>())).__opaque as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_condattr_t),
-            "::",
-            stringify!(__opaque)
+            stringify!(__val)
         )
     );
 }
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct _opaque_pthread_mutex_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 56usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_mutex_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_mutex_t>(),
-        64usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_mutex_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_mutex_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_mutex_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_mutex_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_mutex_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_mutex_t>())).__opaque as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_mutex_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-impl Default for _opaque_pthread_mutex_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct _opaque_pthread_mutexattr_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 8usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_mutexattr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_mutexattr_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_mutexattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_mutexattr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_mutexattr_t))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_mutexattr_t>())).__sig as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_mutexattr_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_mutexattr_t>())).__opaque as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_mutexattr_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct _opaque_pthread_once_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 8usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_once_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_once_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_once_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_once_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_once_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_once_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_once_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_once_t>())).__opaque as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_once_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct _opaque_pthread_rwlock_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 192usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_rwlock_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_rwlock_t>(),
-        200usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_rwlock_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_rwlock_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_rwlock_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_rwlock_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_rwlock_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_rwlock_t>())).__opaque as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_rwlock_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-impl Default for _opaque_pthread_rwlock_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-#[repr(C)]
-#[derive(Default, Copy, Clone)]
-pub struct _opaque_pthread_rwlockattr_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __opaque: [::std::os::raw::c_char; 16usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_rwlockattr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_rwlockattr_t>(),
-        24usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_rwlockattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_rwlockattr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_rwlockattr_t))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_rwlockattr_t>())).__sig as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_rwlockattr_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_rwlockattr_t>())).__opaque as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_rwlockattr_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct _opaque_pthread_t {
-    pub __sig: ::std::os::raw::c_long,
-    pub __cleanup_stack: *mut __darwin_pthread_handler_rec,
-    pub __opaque: [::std::os::raw::c_char; 8176usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_t>(),
-        8192usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_t))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_t>())).__sig as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_t),
-            "::",
-            stringify!(__sig)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_opaque_pthread_t>())).__cleanup_stack as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_t),
-            "::",
-            stringify!(__cleanup_stack)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_opaque_pthread_t>())).__opaque as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_opaque_pthread_t),
-            "::",
-            stringify!(__opaque)
-        )
-    );
-}
-impl Default for _opaque_pthread_t {
-    fn default() -> Self {
-        unsafe { ::std::mem::zeroed() }
-    }
-}
-pub type __darwin_pthread_attr_t = _opaque_pthread_attr_t;
-pub type __darwin_pthread_cond_t = _opaque_pthread_cond_t;
-pub type __darwin_pthread_condattr_t = _opaque_pthread_condattr_t;
-pub type __darwin_pthread_key_t = ::std::os::raw::c_ulong;
-pub type __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
-pub type __darwin_pthread_mutexattr_t = _opaque_pthread_mutexattr_t;
-pub type __darwin_pthread_once_t = _opaque_pthread_once_t;
-pub type __darwin_pthread_rwlock_t = _opaque_pthread_rwlock_t;
-pub type __darwin_pthread_rwlockattr_t = _opaque_pthread_rwlockattr_t;
-pub type __darwin_pthread_t = *mut _opaque_pthread_t;
-pub type u_int8_t = ::std::os::raw::c_uchar;
-pub type u_int16_t = ::std::os::raw::c_ushort;
-pub type u_int32_t = ::std::os::raw::c_uint;
-pub type u_int64_t = ::std::os::raw::c_ulonglong;
-pub type register_t = i64;
-pub type user_addr_t = u_int64_t;
-pub type user_size_t = u_int64_t;
-pub type user_ssize_t = i64;
-pub type user_long_t = i64;
-pub type user_ulong_t = u_int64_t;
-pub type user_time_t = i64;
-pub type user_off_t = i64;
-pub type syscall_arg_t = u_int64_t;
-pub type intmax_t = ::std::os::raw::c_long;
-pub type uintmax_t = ::std::os::raw::c_ulong;
+pub type __clock_t = ::std::os::raw::c_long;
+pub type __rlim_t = ::std::os::raw::c_ulong;
+pub type __rlim64_t = ::std::os::raw::c_ulong;
+pub type __id_t = ::std::os::raw::c_uint;
+pub type __time_t = ::std::os::raw::c_long;
+pub type __useconds_t = ::std::os::raw::c_uint;
+pub type __suseconds_t = ::std::os::raw::c_long;
+pub type __daddr_t = ::std::os::raw::c_int;
+pub type __key_t = ::std::os::raw::c_int;
+pub type __clockid_t = ::std::os::raw::c_int;
+pub type __timer_t = *mut ::std::os::raw::c_void;
+pub type __blksize_t = ::std::os::raw::c_long;
+pub type __blkcnt_t = ::std::os::raw::c_long;
+pub type __blkcnt64_t = ::std::os::raw::c_long;
+pub type __fsblkcnt_t = ::std::os::raw::c_ulong;
+pub type __fsblkcnt64_t = ::std::os::raw::c_ulong;
+pub type __fsfilcnt_t = ::std::os::raw::c_ulong;
+pub type __fsfilcnt64_t = ::std::os::raw::c_ulong;
+pub type __fsword_t = ::std::os::raw::c_long;
+pub type __ssize_t = ::std::os::raw::c_long;
+pub type __syscall_slong_t = ::std::os::raw::c_long;
+pub type __syscall_ulong_t = ::std::os::raw::c_ulong;
+pub type __loff_t = __off64_t;
+pub type __caddr_t = *mut ::std::os::raw::c_char;
+pub type __intptr_t = ::std::os::raw::c_long;
+pub type __socklen_t = ::std::os::raw::c_uint;
+pub type __sig_atomic_t = ::std::os::raw::c_int;
+pub type int_least8_t = __int_least8_t;
+pub type int_least16_t = __int_least16_t;
+pub type int_least32_t = __int_least32_t;
+pub type int_least64_t = __int_least64_t;
+pub type uint_least8_t = __uint_least8_t;
+pub type uint_least16_t = __uint_least16_t;
+pub type uint_least32_t = __uint_least32_t;
+pub type uint_least64_t = __uint_least64_t;
+pub type int_fast8_t = ::std::os::raw::c_schar;
+pub type int_fast16_t = ::std::os::raw::c_long;
+pub type int_fast32_t = ::std::os::raw::c_long;
+pub type int_fast64_t = ::std::os::raw::c_long;
+pub type uint_fast8_t = ::std::os::raw::c_uchar;
+pub type uint_fast16_t = ::std::os::raw::c_ulong;
+pub type uint_fast32_t = ::std::os::raw::c_ulong;
+pub type uint_fast64_t = ::std::os::raw::c_ulong;
+pub type intmax_t = __intmax_t;
+pub type uintmax_t = __uintmax_t;
 pub type size_t = ::std::os::raw::c_ulong;
-pub type rsize_t = ::std::os::raw::c_ulong;
+#[repr(C)]
+#[repr(align(16))]
+#[derive(Default, Copy, Clone)]
+pub struct max_align_t {
+    pub __clang_max_align_nonce1: ::std::os::raw::c_longlong,
+    pub __bindgen_padding_0: u64,
+    pub __clang_max_align_nonce2: u128,
+}
+#[test]
+fn bindgen_test_layout_max_align_t() {
+    assert_eq!(
+        ::std::mem::size_of::<max_align_t>(),
+        32usize,
+        concat!("Size of: ", stringify!(max_align_t))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<max_align_t>(),
+        16usize,
+        concat!("Alignment of ", stringify!(max_align_t))
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce1 as *const _ as usize
+        },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(max_align_t),
+            "::",
+            stringify!(__clang_max_align_nonce1)
+        )
+    );
+    assert_eq!(
+        unsafe {
+            &(*(::std::ptr::null::<max_align_t>())).__clang_max_align_nonce2 as *const _ as usize
+        },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(max_align_t),
+            "::",
+            stringify!(__clang_max_align_nonce2)
+        )
+    );
+}
 #[doc = ""]
 #[repr(C)]
 #[derive(Default, Copy, Clone)]
@@ -4479,7 +3958,7 @@ pub const VkStructureType_VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_ZIRCON_HANDLE_INFO_
     VkStructureType = 1000365000;
 pub const VkStructureType_VK_STRUCTURE_TYPE_SEMAPHORE_GET_ZIRCON_HANDLE_INFO_FUCHSIA:
     VkStructureType = 1000365001;
-pub const VkStructureType_VK_STRUCTURE_TYPE_SUBPASS_SHADING_PIPELINE_CREATE_INFO_HUAWEI:
+pub const VkStructureType_VK_STRUCTURE_TYPE_SUBPASSS_SHADING_PIPELINE_CREATE_INFO_HUAWEI:
     VkStructureType = 1000369000;
 pub const VkStructureType_VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI:
     VkStructureType = 1000369001;
@@ -34101,7 +33580,7 @@ impl Default for VkAcquireNextImageInfoKHR {
 #[derive(Copy, Clone)]
 pub struct VkDeviceGroupPresentCapabilitiesKHR {
     pub sType: VkStructureType,
-    pub pNext: *mut ::std::os::raw::c_void,
+    pub pNext: *const ::std::os::raw::c_void,
     pub presentMask: [u32; 32usize],
     pub modes: VkDeviceGroupPresentModeFlagsKHR,
 }
@@ -36880,7 +36359,7 @@ impl Default for VkPhysicalDevicePerformanceQueryPropertiesKHR {
 #[derive(Copy, Clone)]
 pub struct VkPerformanceCounterKHR {
     pub sType: VkStructureType,
-    pub pNext: *mut ::std::os::raw::c_void,
+    pub pNext: *const ::std::os::raw::c_void,
     pub unit: VkPerformanceCounterUnitKHR,
     pub scope: VkPerformanceCounterScopeKHR,
     pub storage: VkPerformanceCounterStorageKHR,
@@ -36968,7 +36447,7 @@ impl Default for VkPerformanceCounterKHR {
 #[derive(Copy, Clone)]
 pub struct VkPerformanceCounterDescriptionKHR {
     pub sType: VkStructureType,
-    pub pNext: *mut ::std::os::raw::c_void,
+    pub pNext: *const ::std::os::raw::c_void,
     pub flags: VkPerformanceCounterDescriptionFlagsKHR,
     pub name: [::std::os::raw::c_char; 256usize],
     pub category: [::std::os::raw::c_char; 256usize],
@@ -63061,7 +62540,7 @@ impl Default for VkPhysicalDeviceDeviceMemoryReportFeaturesEXT {
 #[derive(Copy, Clone)]
 pub struct VkDeviceMemoryReportCallbackDataEXT {
     pub sType: VkStructureType,
-    pub pNext: *mut ::std::os::raw::c_void,
+    pub pNext: *const ::std::os::raw::c_void,
     pub flags: VkDeviceMemoryReportFlagsEXT,
     pub type_: VkDeviceMemoryReportEventTypeEXT,
     pub memoryObjectId: u64,
@@ -65390,7 +64869,7 @@ impl Default for VkAccelerationStructureMotionInstanceNV {
 #[derive(Copy, Clone)]
 pub struct VkPhysicalDeviceRayTracingMotionBlurFeaturesNV {
     pub sType: VkStructureType,
-    pub pNext: *mut ::std::os::raw::c_void,
+    pub pNext: *const ::std::os::raw::c_void,
     pub rayTracingMotionBlur: VkBool32,
     pub rayTracingMotionBlurPipelineTraceRaysIndirect: VkBool32,
 }
@@ -71417,7 +70896,7 @@ impl Default for UnityVulkanPluginEventConfig {
     }
 }
 extern "system" {
-    #[link_name = "\u{1}__ZL21UnityVulkanWholeImage"]
+    #[link_name = "\u{1}_ZL21UnityVulkanWholeImage"]
     pub static UnityVulkanWholeImage: *const VkImageSubresource;
 }
 pub type UnityVulkanInitCallback = ::std::option::Option<
@@ -74044,4 +73523,3 @@ fn bindgen_test_layout_IUnityProfilerCallbacks() {
         )
     );
 }
-pub type __builtin_va_list = *mut ::std::os::raw::c_char;
