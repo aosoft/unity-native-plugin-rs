@@ -274,60 +274,57 @@ macro_rules! common_impl {
 
 common_impl!(UnityProfilerCallbacks);
 
-pub mod v2 {
-    use super::*;
-    define_unity_interface!(
-        UnityProfilerCallbacksV2,
-        unity_native_plugin_sys::IUnityProfilerCallbacksV2,
-        0x5DEB59E88F2D4571_u64,
-        0x81E8583069A5E33C_u64
-    );
+define_unity_interface!(
+    UnityProfilerCallbacksV2,
+    unity_native_plugin_sys::IUnityProfilerCallbacksV2,
+    0x5DEB59E88F2D4571_u64,
+    0x81E8583069A5E33C_u64
+);
 
-    #[derive(Clone, Copy, Debug)]
-    pub struct ProfilerFlowEvent {
-        pub ty: ProfilerFlowEventType,
-        pub flow_id: u32,
-    }
+#[derive(Clone, Copy, Debug)]
+pub struct ProfilerFlowEvent {
+    pub ty: ProfilerFlowEventType,
+    pub flow_id: u32,
+}
 
-    extern "system" fn flow_event_bridge(
-        ty: UnityProfilerFlowEventType,
-        flow_id: u32,
-        _userdata: *mut c_void,
-    ) {
-        let ty = match ProfilerFlowEventType::from(ty) {
-            Some(ty) => ty,
-            None => return,
-        };
+extern "system" fn flow_event_bridge(
+    ty: UnityProfilerFlowEventType,
+    flow_id: u32,
+    _userdata: *mut c_void,
+) {
+    let ty = match ProfilerFlowEventType::from(ty) {
+        Some(ty) => ty,
+        None => return,
+    };
 
-        let desc = ProfilerFlowEvent { ty, flow_id };
+    let desc = ProfilerFlowEvent { ty, flow_id };
 
-        let ptr = _userdata as *mut Box<dyn FnMut(&ProfilerFlowEvent)>;
-        let mut cb = unsafe { Box::from_raw(ptr) };
+    let ptr = _userdata as *mut Box<dyn FnMut(&ProfilerFlowEvent)>;
+    let mut cb = unsafe { Box::from_raw(ptr) };
 
-        cb(&desc);
-        std::mem::forget(cb);
-    }
+    cb(&desc);
+    std::mem::forget(cb);
+}
 
-    pub struct FlowEventRegister(*mut c_void);
+pub struct FlowEventRegister(*mut c_void);
 
-    common_impl!(UnityProfilerCallbacksV2);
-    impl UnityProfilerCallbacksV2 {
-        pub fn register_flow_event(
-            &self,
-            f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
-        ) -> FlowEventRegister {
-            let ptr = Box::into_raw(Box::new(f)) as *mut c_void;
+common_impl!(UnityProfilerCallbacksV2);
+impl UnityProfilerCallbacksV2 {
+    pub fn register_flow_event(
+        &self,
+        f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
+    ) -> FlowEventRegister {
+        let ptr = Box::into_raw(Box::new(f)) as *mut c_void;
 
-            unsafe {
-                iface_fn!(self, RegisterFlowEventCallback)(Some(flow_event_bridge), ptr);
-            }
-            FlowEventRegister(ptr)
+        unsafe {
+            iface_fn!(self, RegisterFlowEventCallback)(Some(flow_event_bridge), ptr);
         }
+        FlowEventRegister(ptr)
+    }
 
-        pub fn unregister_flow_event(&self, register: FlowEventRegister) {
-            unsafe {
-                iface_fn!(self, UnregisterFlowEventCallback)(Some(flow_event_bridge), register.0);
-            }
+    pub fn unregister_flow_event(&self, register: FlowEventRegister) {
+        unsafe {
+            iface_fn!(self, UnregisterFlowEventCallback)(Some(flow_event_bridge), register.0);
         }
     }
 }
