@@ -68,10 +68,12 @@ pub fn run_window_app<
                 if last_result == LoopResult::Continue {
                     last_result = fn_main(&window, context.deref());
                 }
-            },
+            }
         }
         *control_flow = match last_result {
-            LoopResult::Continue => ControlFlow::WaitUntil(instant + std::time::Duration::from_millis(50)),
+            LoopResult::Continue => {
+                ControlFlow::WaitUntil(instant + std::time::Duration::from_millis(50))
+            }
             LoopResult::ContinueOnWindowEvent => ControlFlow::Wait,
             _ => ControlFlow::Exit,
         };
