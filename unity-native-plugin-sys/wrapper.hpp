@@ -1,4 +1,7 @@
 #include <cstdint>
+#include <cstddef>
+
+#define UINT32 uint32_t
 
 #include <IUnityGraphics.h>
 #include <IUnityInterface.h>
@@ -28,4 +31,4 @@ struct ID3D12CommandQueue {};
 #endif
 
 #include <IUnityProfiler.h>
-//#include <IUnityProfilerCallbacks.h>
+#include <IUnityProfilerCallbacks.h>

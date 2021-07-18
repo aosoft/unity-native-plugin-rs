@@ -7,6 +7,9 @@ pub mod d3d12;
 #[cfg(feature = "profiler")]
 pub mod profiler;
 
+#[cfg(feature = "profiler_callbacks")]
+pub mod profiler_callbacks;
+
 pub mod enums;
 pub mod graphics;
 pub mod interface;
@@ -41,9 +44,14 @@ macro_rules! unity_native_plugin_entry_point {
 #[macro_export]
 macro_rules! define_unity_interface {
     ($s:ident, $intf:ty, $guid_high:expr, $guid_low:expr) => {
+        #[derive(Clone, Copy)]
         pub struct $s {
             interface: *const $intf,
         }
+
+        // unity plugin interface should be thread-safe
+        unsafe impl Send for $s {}
+        unsafe impl Sync for $s {}
 
         impl UnityInterface for $s {
             fn get_interface_guid() -> unity_native_plugin_sys::UnityInterfaceGUID {

@@ -4,5 +4,6 @@ members = [
     "unity-native-plugin-vulkan",
     "unity-native-plugin-sys",
     "unity-native-plugin-tester",
-    "unity-native-plugin-sample"
+    "unity-native-plugin-sample",
+    "unity-native-plugin-sample-profiler",
 ]

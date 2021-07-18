@@ -64,7 +64,7 @@ pub enum ProfilerMarkerFlag {
     VerbosityAdvanced = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced as u16,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct ProfilerMarkerFlags {
     pub flag: u16,
 }
@@ -121,10 +121,34 @@ pub enum ProfilerMarkerEventType {
     Single = UnityProfilerMarkerEventType__kUnityProfilerMarkerEventTypeSingle as u16,
 }
 
+impl ProfilerMarkerEventType {
+    pub fn from(value: u16) -> Option<Self> {
+        use ProfilerMarkerEventType::*;
+        if value <= Single as u16 {
+            Some(unsafe { std::mem::transmute(value) })
+        } else {
+            None
+        }
+    }
+}
+
 pub type ProfilerMarkerId = UnityProfilerMarkerId;
 
 pub struct ProfilerMarkerDesc {
-    native: *const UnityProfilerMarkerDesc,
+    pub(crate) native: *const UnityProfilerMarkerDesc,
+}
+
+impl std::fmt::Debug for ProfilerMarkerDesc {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(
+            fmt,
+            "[desc id={}, flags={}, cat={}, name={:?}]",
+            self.id(),
+            self.flags().flag,
+            self.category_id(),
+            self.name()
+        )
+    }
 }
 
 impl ProfilerMarkerDesc {
@@ -161,6 +185,17 @@ pub enum ProfilerMarkerDataType {
     Blob8 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8 as u8,
 }
 
+impl ProfilerMarkerDataType {
+    #[allow(unused)]
+    pub(crate) fn from(value: u8) -> Option<Self> {
+        if value <= ProfilerMarkerDataType::Blob8 as u8 {
+            Some(unsafe { std::mem::transmute(value) })
+        } else {
+            None
+        }
+    }
+}
+
 #[repr(u8)]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ProfilerMarkerDataUnit {
@@ -171,6 +206,17 @@ pub enum ProfilerMarkerDataUnit {
     Count = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitCount as u8,
     Percent = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitPercent as u8,
     FrequencyHz = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitFrequencyHz as u8,
+}
+
+impl ProfilerMarkerDataUnit {
+    #[allow(unused)]
+    pub(crate) fn from(value: u8) -> Option<Self> {
+        if value <= ProfilerMarkerDataUnit::FrequencyHz as u8 {
+            Some(unsafe { std::mem::transmute(value) })
+        } else {
+            None
+        }
+    }
 }
 
 #[repr(C)]
@@ -212,7 +258,17 @@ pub enum ProfilerFlowEventType {
     End = UnityProfilerFlowEventType__kUnityProfilerFlowEventTypeEnd as u8,
 }
 
-type ProfilerThreadId = UnityProfilerThreadId;
+impl ProfilerFlowEventType {
+    pub fn from(value: u8) -> Option<Self> {
+        if value <= ProfilerFlowEventType::End as u8 {
+            Some(unsafe { std::mem::transmute(value) })
+        } else {
+            None
+        }
+    }
+}
+
+pub type ProfilerThreadId = UnityProfilerThreadId;
 
 impl UnityProfiler {
     pub fn emit_event(
