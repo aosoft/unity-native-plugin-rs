@@ -50,7 +50,7 @@ impl ProfilerThreadDesc {
 }
 
 pub struct ProfilerMarkerEvent<'a> {
-    pub desc: &'a ProfilerMarkerDesc,
+    pub desc: ProfilerMarkerDesc,
     pub event_type: ProfilerMarkerEventType,
     event_data: &'a [UnityProfilerMarkerData],
 }
@@ -107,7 +107,7 @@ extern "system" fn marker_event_bridge(
     let event_data = unsafe { std::slice::from_raw_parts(_event_data, _event_data_count as usize) };
 
     let desc = ProfilerMarkerEvent {
-        desc: &desc,
+        desc,
         event_type,
         event_data,
     };
