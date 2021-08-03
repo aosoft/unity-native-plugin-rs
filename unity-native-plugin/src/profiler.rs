@@ -134,9 +134,12 @@ impl ProfilerMarkerEventType {
 
 pub type ProfilerMarkerId = UnityProfilerMarkerId;
 
+#[derive(Clone)]
 pub struct ProfilerMarkerDesc {
     pub(crate) native: *const UnityProfilerMarkerDesc,
 }
+
+unsafe impl Send for ProfilerMarkerDesc {}
 
 impl std::fmt::Debug for ProfilerMarkerDesc {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
