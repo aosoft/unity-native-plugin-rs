@@ -21,7 +21,6 @@ unity-native-plugin = { version = "*", features = ["d3d11"] }
 #    * d3d12 - IUnityGraphicsD3D12
 #    * profiler - IUnityProfiler
 #    * profiler_callbacks - IUnityProfilerCallbacks
-#    * profiler_callbacks_v2 - IUnityProfilerCallbacksV2
 ```
 
 * If you use Vulkan, define "unity-native-plugin-vulkan" in your dependencies.
