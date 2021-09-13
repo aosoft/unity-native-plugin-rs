@@ -50,5 +50,6 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 
 ## Examples
 
+* [unity-native-plugin-sample](./unity-native-plugin-sample)
 * [Native code (Rust) rendering plugin example for Unity](https://github.com/aosoft/unity-native-rendering-plugin-example-rs) - a port of ["C++ Rendering Plugin example for Unity"](https://github.com/Unity-Technologies/NativeRenderingPlugin)
-* [Event tracing example for unity](./unity-native-plugin-sample-profiler) - a port of ["TraceEventProfiler from Unity-Technologies"](https://github.com/Unity-Technologies/TraceEventProfiler)
+* [Event tracing example for unity](./unity-native-plugin-sample-profiler) - similar to ["TraceEventProfiler from Unity-Technologies"](https://github.com/Unity-Technologies/TraceEventProfiler)
