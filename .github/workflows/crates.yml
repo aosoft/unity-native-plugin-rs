@@ -13,4 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: publish dry-run
-      run: cargo publish --dry-run --verbose
+      run: |
+        cargo publish --dry-run --verbose --manifest-path unity-native-plugin-sys/Cargo.toml
+        cargo publish --dry-run --verbose --manifest-path unity-native-plugin/Cargo.toml
+        cargo publish --dry-run --verbose --manifest-path unity-native-plugin-vulkan/Cargo.toml
