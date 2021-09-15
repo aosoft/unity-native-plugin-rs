@@ -1,0 +1,29 @@
+name: 3. unity-native-plugin-vulkan
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "publish (set to \"publish\")"
+        required: false
+        default: ""
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      PUBLISH: ${{ github.event.inputs.publish }}
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CRATESIO_TOKEN }}
+      MANIFEST_PATH: unity-native-plugin-vulkan
+    steps:
+    - uses: actions/checkout@v2
+    - name: publish dry-run
+      if: ${{ env.PUBLISH != 'publish' }}
+      run: |
+        cargo package --list --verbose --manifest-path ${{ env.MANIFEST_PATH }}/Cargo.toml
+        cargo publish --dry-run --verbose --manifest-path ${{ env.MANIFEST_PATH }}/Cargo.toml
+    - name: publish
+      if: ${{ env.PUBLISH == 'publish' }}
+      run: |
+        cargo publish --verbose --manifest-path ${{ env.MANIFEST_PATH }}/Cargo.toml
