@@ -12,6 +12,7 @@ pub enum ProfilerMarkerFlag {
     VerbosityAdvanced = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced as u16,
 }
 
+#[allow(dead_code)]
 pub struct ProfilerMarkerFlags(u16);
 
 #[repr(u8)]
@@ -194,8 +195,8 @@ pub enum RenderingExtTextureFormat {
     D24_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm,
     D24_UNorm_S8_UInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD24_UNorm_S8_UInt,
     D32_SFloat = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat,
-    D32_SFloat_S8_Uint = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat_S8_Uint,
-    S8_Uint = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatS8_Uint,
+    D32_SFloat_S8_UInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatD32_SFloat_S8_UInt,
+    S8_UInt = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatS8_UInt,
     RGBA_DXT1_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_SRGB,
     RGBA_DXT1_UNorm = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT1_UNorm,
     RGBA_DXT3_SRGB = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_DXT3_SRGB,
@@ -254,9 +255,6 @@ pub enum RenderingExtTextureFormat {
     RGBA_ASTC12X12_UNorm =
         UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC12X12_UNorm,
     YUV2 = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatYUV2,
-    DepthAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatDepthAuto,
-    ShadowAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatShadowAuto,
-    VideoAuto = UnityRenderingExtTextureFormat_kUnityRenderingExtFormatVideoAuto,
     RGBA_ASTC4X4_UFloat =
         UnityRenderingExtTextureFormat_kUnityRenderingExtFormatRGBA_ASTC4X4_UFloat,
     RGBA_ASTC5X5_UFloat =
@@ -280,7 +278,6 @@ pub enum ShaderCompilerExtCompilerPlatform {
     Unused2 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused2,
     Unused3 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused3,
     D3D11 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformD3D11,
-    GLES20 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformGLES20,
     Unused6 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused6,
     Unused7 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused7,
     Unused8 = UnityShaderCompilerExtCompilerPlatform_kUnityShaderCompilerExtCompPlatformUnused8,
