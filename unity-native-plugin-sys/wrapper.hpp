@@ -36,6 +36,8 @@ struct ID3D12CommandQueue {};
 #include <IUnityProfilerCallbacks.h>
 
 #include <IUnityMemoryManager.h>
-Assert(bool);
+
+#define Assert(x)
+
 #include <IUnityEventQueue.h>
 #include <IUnityLog.h>
