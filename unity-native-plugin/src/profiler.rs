@@ -58,7 +58,7 @@ pub enum ProfilerMarkerFlag {
     AvailabilityEditor = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor as u16,
     AvailabilityNonDev = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityNonDev as u16,
     Warning = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagWarning as u16,
-    Counter = UnityProfilerMarkerFlag__kCounter as u16,
+    Counter = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagCounter as u16,
     VerbosityDebug = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityDebug as u16,
     VerbosityInternal = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityInternal as u16,
     VerbosityAdvanced = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced as u16,

@@ -12,7 +12,6 @@ pub type RenderingEventAndData = unity_native_plugin_sys::UnityRenderingEventAnd
 pub enum GfxRenderer {
     D3D11 = UnityGfxRenderer_kUnityGfxRendererD3D11,
     Null = UnityGfxRenderer_kUnityGfxRendererNull,
-    OpenGLES20 = UnityGfxRenderer_kUnityGfxRendererOpenGLES20,
     OpenGLES30 = UnityGfxRenderer_kUnityGfxRendererOpenGLES30,
     PS4 = UnityGfxRenderer_kUnityGfxRendererPS4,
     XboxOne = UnityGfxRenderer_kUnityGfxRendererXboxOne,

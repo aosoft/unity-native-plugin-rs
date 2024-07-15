@@ -98,6 +98,9 @@ impl TesterContextGraphicsD3D11 {
                         TextureFromNativeTexture: Some(texture_from_native_texture),
                         RTVFromRenderBuffer: Some(rtv_from_render_buffer),
                         SRVFromNativeTexture: Some(srv_from_native_texture),
+                        GetSwapChain: Some(get_swap_chain),
+                        GetSyncInterval: Some(get_sync_interval),
+                        GetPresentFlags: Some(get_present_flags),
                     },
                     srvs_native_texture: std::collections::HashMap::new(),
                 })
@@ -184,7 +187,8 @@ impl crate::interface::UnityInterfaceBase for TesterContextGraphicsD3D11 {
     }
 
     fn get_unity_interface(&self) -> *mut IUnityInterface {
-        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
+        &self.interfaces as *const unity_native_plugin_sys::IUnityGraphicsD3D11
+            as *mut unity_native_plugin_sys::IUnityInterface
     }
 }
 
@@ -252,6 +256,22 @@ extern "system" fn srv_from_native_texture(
             None => std::ptr::null_mut(),
         }
     }
+}
+
+extern "system" fn get_swap_chain() -> *mut IDXGISwapChain {
+    unsafe {
+        crate::interface::get_unity_interface::<TesterContextGraphicsD3D11>()
+            .swap_chain()
+            .as_raw() as _
+    }
+}
+
+extern "system" fn get_sync_interval() -> u32 {
+    1
+}
+
+extern "system" fn get_present_flags() -> u32 {
+    0
 }
 
 /// Running tests for D3D11.

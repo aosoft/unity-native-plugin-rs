@@ -2,6 +2,7 @@
 #include <cstddef>
 
 #define UINT32 uint32_t
+#define UINT uint32_t
 
 #include <IUnityGraphics.h>
 #include <IUnityInterface.h>
@@ -10,6 +11,7 @@ struct ID3D11Device {};
 struct ID3D11Resource {};
 struct ID3D11RenderTargetView {};
 struct ID3D11ShaderResourceView {};
+struct IDXGISwapChain {};
 #include <IUnityGraphicsD3D11.h>
 
 typedef std::int32_t D3D12_RESOURCE_STATES;
@@ -32,3 +34,8 @@ struct ID3D12CommandQueue {};
 
 #include <IUnityProfiler.h>
 #include <IUnityProfilerCallbacks.h>
+
+#include <IUnityMemoryManager.h>
+Assert(bool);
+#include <IUnityEventQueue.h>
+#include <IUnityLog.h>
