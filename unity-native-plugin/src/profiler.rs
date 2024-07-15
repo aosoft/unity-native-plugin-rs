@@ -44,6 +44,13 @@ pub enum BuiltinProfilerCategory {
     BuildInterface = UnityBuiltinProfilerCategory__kUnityProfilerCategoryBuildInterface as u16,
     Input = UnityBuiltinProfilerCategory__kUnityProfilerCategoryInput as u16,
     VirtualTexturing = UnityBuiltinProfilerCategory__kUnityProfilerCategoryVirtualTexturing as u16,
+    GPU = UnityBuiltinProfilerCategory__kUnityProfilerCategoryGPU as u16,
+    Physics2D = UnityBuiltinProfilerCategory__kUnityProfilerCategoryPhysics2D as u16,
+    NetworkOperations = UnityBuiltinProfilerCategory__kUnityProfilerCategoryNetworkOperations as u16,
+    UIDetails = UnityBuiltinProfilerCategory__kUnityProfilerCategoryUIDetails as u16,
+    Debug = UnityBuiltinProfilerCategory__kUnityProfilerCategoryDebug as u16,
+    Jobs = UnityBuiltinProfilerCategory__kUnityProfilerCategoryJobs as u16,
+    Text = UnityBuiltinProfilerCategory__kUnityProfilerCategoryText as u16,
 }
 
 pub type ProfilerCategoryId = UnityProfilerCategoryId;
@@ -186,6 +193,7 @@ pub enum ProfilerMarkerDataType {
     String = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString as u8,
     String16 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString16 as u8,
     Blob8 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8 as u8,
+    GfxResourceId = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeGfxResourceId as u8,
 }
 
 impl ProfilerMarkerDataType {

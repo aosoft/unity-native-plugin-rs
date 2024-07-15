@@ -39,4 +39,24 @@ impl UnityGraphicsD3D11 {
             .SRVFromNativeTexture
             .expect("SRVFromNativeTexture")(texture) as ComPtr
     }
+
+    pub unsafe fn swap_chain(&self) -> ComPtr {
+        self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+    }
+
+    pub fn sync_interval(&self) -> u32 {
+        unsafe {
+            self.interface()
+                .GetSyncInterval
+                .expect("GetSyncInterval")()
+        }
+    }
+
+    pub fn present_flags(&self) -> u32 {
+        unsafe {
+            self.interface()
+                .GetPresentFlags
+                .expect("GetPresentFlags")()
+        }
+    }
 }
