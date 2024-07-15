@@ -1,36 +1,5 @@
 use unity_native_plugin_sys::*;
 
-#[repr(u16)]
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum ProfilerMarkerFlag {
-    ScriptEnterLeave = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagScriptEnterLeave as u16,
-    AvailabilityEditor = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityEditor as u16,
-    AvailabilityNonDev = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagAvailabilityNonDev as u16,
-    Warning = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagWarning as u16,
-    VerbosityDebug = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityDebug as u16,
-    VerbosityInternal = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityInternal as u16,
-    VerbosityAdvanced = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced as u16,
-}
-
-#[allow(dead_code)]
-pub struct ProfilerMarkerFlags(u16);
-
-#[repr(u8)]
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum ProfilerMarkerDataType {
-    None = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeNone as u8,
-    InstanceId = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInstanceId as u8,
-    Int32 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt32 as u8,
-    UInt32 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt32 as u8,
-    Int64 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeInt64 as u8,
-    UInt64 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeUInt64 as u8,
-    Float = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeFloat as u8,
-    Double = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeDouble as u8,
-    String = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString as u8,
-    String16 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeString16 as u8,
-    Blob8 = UnityProfilerMarkerDataType__kUnityProfilerMarkerDataTypeBlob8 as u8,
-}
-
 #[repr(u32)]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum RenderingExtEventType {

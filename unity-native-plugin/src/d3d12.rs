@@ -29,7 +29,7 @@ impl UnityGraphicsD3D12 {
         unsafe {
             self.interface()
                 .GetNextFrameFenceValue
-                .expect("GetNextFrameFenceValue")()
+                .expect("GetNextFrameFenceValue")() as u64
         }
     }
 
@@ -79,7 +79,7 @@ impl UnityGraphicsD3D12v2 {
         unsafe {
             self.interface()
                 .GetNextFrameFenceValue
-                .expect("GetNextFrameFenceValue")()
+                .expect("GetNextFrameFenceValue")() as u64
         }
     }
 
@@ -94,7 +94,7 @@ impl UnityGraphicsD3D12v2 {
             command_list as *mut ID3D12GraphicsCommandList,
             states.len() as ::std::os::raw::c_int,
             states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
-        )
+        ) as u64
     }
 }
 
@@ -120,7 +120,7 @@ impl UnityGraphicsD3D12v3 {
         unsafe {
             self.interface()
                 .GetNextFrameFenceValue
-                .expect("GetNextFrameFenceValue")()
+                .expect("GetNextFrameFenceValue")() as u64
         }
     }
 
@@ -135,7 +135,7 @@ impl UnityGraphicsD3D12v3 {
             command_list as *mut ID3D12GraphicsCommandList,
             states.len() as ::std::os::raw::c_int,
             states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
-        )
+        ) as u64
     }
 
     pub fn set_physical_video_memory_control_values(
@@ -172,7 +172,7 @@ impl UnityGraphicsD3D12v4 {
         unsafe {
             self.interface()
                 .GetNextFrameFenceValue
-                .expect("GetNextFrameFenceValue")()
+                .expect("GetNextFrameFenceValue")() as u64
         }
     }
 
@@ -187,7 +187,7 @@ impl UnityGraphicsD3D12v4 {
             command_list as *mut ID3D12GraphicsCommandList,
             states.len() as ::std::os::raw::c_int,
             states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
-        )
+        ) as u64
     }
 
     pub fn set_physical_video_memory_control_values(
@@ -228,7 +228,7 @@ impl UnityGraphicsD3D12v5 {
         unsafe {
             self.interface()
                 .GetNextFrameFenceValue
-                .expect("GetNextFrameFenceValue")()
+                .expect("GetNextFrameFenceValue")() as u64
         }
     }
 
@@ -243,7 +243,7 @@ impl UnityGraphicsD3D12v5 {
             command_list as *mut ID3D12GraphicsCommandList,
             states.len() as ::std::os::raw::c_int,
             states.as_ptr() as *mut UnityGraphicsD3D12ResourceState,
-        )
+        ) as u64
     }
 
     pub fn set_physical_video_memory_control_values(

@@ -1,7 +1,7 @@
 unity-native-plugin-rs
 ====
 
-* based on Unity 6000.0.5f1
-* Vulkan SDK 1.3.268.1
+* based on Unity 6000.0.10f1
+* Vulkan SDK 1.3.283.0
 * bindgen 0.69.4
-* clang version 10.0.0-4ubuntu1
+* clang version 14.0.0-1ubuntu1.1

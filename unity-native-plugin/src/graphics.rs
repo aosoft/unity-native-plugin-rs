@@ -12,6 +12,7 @@ pub type RenderingEventAndData = unity_native_plugin_sys::UnityRenderingEventAnd
 pub enum GfxRenderer {
     D3D11 = UnityGfxRenderer_kUnityGfxRendererD3D11,
     Null = UnityGfxRenderer_kUnityGfxRendererNull,
+    OpenGLES20 = 8, // OpenGL ES 2.0, removed
     OpenGLES30 = UnityGfxRenderer_kUnityGfxRendererOpenGLES30,
     PS4 = UnityGfxRenderer_kUnityGfxRendererPS4,
     XboxOne = UnityGfxRenderer_kUnityGfxRendererXboxOne,
@@ -21,6 +22,11 @@ pub enum GfxRenderer {
     Vulkan = UnityGfxRenderer_kUnityGfxRendererVulkan,
     Nvn = UnityGfxRenderer_kUnityGfxRendererNvn,
     XboxOneD3D12 = UnityGfxRenderer_kUnityGfxRendererXboxOneD3D12,
+    GameCoreXboxOne = UnityGfxRenderer_kUnityGfxRendererGameCoreXboxOne,
+    GameCoreXboxSeries = UnityGfxRenderer_kUnityGfxRendererGameCoreXboxSeries,
+    PS5 = UnityGfxRenderer_kUnityGfxRendererPS5,
+    PS5NGGC = UnityGfxRenderer_kUnityGfxRendererPS5NGGC,
+    ReservedCFE = UnityGfxRenderer_kUnityGfxRendererReservedCFE,
 }
 
 #[repr(u32)]

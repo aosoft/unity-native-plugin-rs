@@ -13,6 +13,9 @@ pub mod profiler_callbacks;
 pub mod enums;
 pub mod graphics;
 pub mod interface;
+pub mod log;
+pub mod memory_manager;
+
 pub type IUnityInterfaces = unity_native_plugin_sys::IUnityInterfaces;
 
 #[macro_export]
