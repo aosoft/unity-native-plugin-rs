@@ -1,10 +1,11 @@
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
+use crate::bitflag;
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
     UnityProfiler,
-    unity_native_plugin_sys::IUnityProfiler,
+    IUnityProfiler,
     0x2CE79ED8316A4833_u64,
     0x87076B2013E1571F_u64
 );
@@ -71,54 +72,8 @@ pub enum ProfilerMarkerFlag {
     VerbosityAdvanced = UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagVerbosityAdvanced as u16,
 }
 
-#[derive(Copy, Clone, Debug)]
-pub struct ProfilerMarkerFlags {
-    pub flag: u16,
-}
+bitflag!(ProfilerMarkerFlags, ProfilerMarkerFlag, UnityProfilerMarkerFlags);
 
-impl From<ProfilerMarkerFlag> for ProfilerMarkerFlags {
-    fn from(value: ProfilerMarkerFlag) -> Self {
-        ProfilerMarkerFlags::new(value)
-    }
-}
-
-impl From<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
-    fn from(value: u16) -> Self {
-        ProfilerMarkerFlags { flag: value }
-    }
-}
-
-impl Into<UnityProfilerMarkerFlags> for ProfilerMarkerFlags {
-    fn into(self) -> UnityProfilerMarkerFlags {
-        self.flag as UnityProfilerMarkerFlags
-    }
-}
-
-impl ProfilerMarkerFlags {
-    pub fn new(flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
-        ProfilerMarkerFlags { flag: flag as u16 }
-    }
-
-    pub const fn is_default(&self) -> bool {
-        self.flag == UnityProfilerMarkerFlag__kUnityProfilerMarkerFlagDefault as u16
-    }
-
-    pub const fn has_flag(&self, flag: ProfilerMarkerFlag) -> bool {
-        (self.flag & flag as u16) != 0
-    }
-
-    pub const fn set_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
-        ProfilerMarkerFlags {
-            flag: self.flag | flag as u16,
-        }
-    }
-
-    pub const fn unset_flag(&self, flag: ProfilerMarkerFlag) -> ProfilerMarkerFlags {
-        ProfilerMarkerFlags {
-            flag: self.flag & !(flag as u16),
-        }
-    }
-}
 
 #[repr(u16)]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
@@ -392,6 +347,19 @@ impl UnityProfiler {
         }
     }
 }
+
+
+define_unity_interface!(
+    UnityProfilerV2,
+    IUnityProfilerV2,
+    0xB957E0189CB6A30B_u64,
+    0x83CE589AE85B9068_u64
+);
+
+impl UnityProfilerV2 {
+
+}
+
 
 #[cfg(test)]
 mod test {
