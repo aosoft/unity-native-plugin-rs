@@ -220,3 +220,39 @@ macro_rules! impl_d3d12_v6 {
 impl UnityGraphicsD3D12v6 {
     impl_d3d12_v6!();
 }
+
+define_unity_interface!(
+    UnityGraphicsD3D12v7,
+    IUnityGraphicsD3D12v7,
+    0x4624B0DA41B64AAC_u64,
+    0x915AABCB9BC3F0D3_u64
+);
+
+macro_rules! impl_d3d12_v7 {
+    () => {
+        impl_d3d12_v6!();
+
+        pub unsafe fn swap_chain(&self) -> crate::d3d11::ComPtr {
+            self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+        }
+
+        pub fn sync_interval(&self) -> u32 {
+            unsafe {
+                self.interface()
+                    .GetSyncInterval
+                    .expect("GetSyncInterval")()
+            }
+        }
+
+        pub fn present_flags(&self) -> u32 {
+            unsafe {
+                self.interface()
+                    .GetPresentFlags
+                    .expect("GetPresentFlags")()
+            }
+        }
+    }
+}
+impl UnityGraphicsD3D12v7 {
+    impl_d3d12_v7!();
+}
