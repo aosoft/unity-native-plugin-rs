@@ -1,4 +1,4 @@
-use crate::define_unity_interface;
+use crate::{bitflag, define_unity_interface};
 use crate::graphics;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
@@ -11,6 +11,31 @@ define_unity_interface!(
 );
 
 pub type ComPtr = *mut std::ffi::c_void;
+
+#[repr(u32)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub enum GraphicsQueueAccess {
+    DontCare = UnityD3D12GraphicsQueueAccess_kUnityD3D12GraphicsQueueAccess_DontCare,
+    Allow = UnityD3D12GraphicsQueueAccess_kUnityD3D12GraphicsQueueAccess_Allow,
+}
+
+#[repr(u32)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub enum EventConfigFlagBit {
+    EnsurePreviousFrameSubmission = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_EnsurePreviousFrameSubmission,
+    FlushCommandBuffers = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_FlushCommandBuffers,
+    SyncWorkerThreads = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_SyncWorkerThreads,
+    ModifiesCommandBuffersState = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_ModifiesCommandBuffersState,
+}
+
+bitflag!(EventConfigFlagBits, EventConfigFlagBit, u32);
+
+#[derive(Copy, Clone)]
+pub struct PluginEventConfig {
+    pub graphics_queue_access: GraphicsQueueAccess,
+    pub flags: EventConfigFlagBits,
+    pub ensure_active_render_texture_is_bound: bool,
+}
 
 macro_rules! impl_d3d12_v2 {
     () => {
@@ -156,4 +181,42 @@ macro_rules! impl_d3d12_v5 {
 
 impl UnityGraphicsD3D12v5 {
     impl_d3d12_v5!();
+}
+
+define_unity_interface!(
+    UnityGraphicsD3D12v6,
+    IUnityGraphicsD3D12v6,
+    0xA396DCE58CAC4D78_u64,
+    0xAFDD9B281F20B840_u64
+);
+
+macro_rules! impl_d3d12_v6 {
+    () => {
+        impl_d3d12_v5!();
+
+        pub fn configure_event(&self, event_id: i32, plugin_event_config: &PluginEventConfig) {
+            unsafe {
+                let cfg = UnityD3D12PluginEventConfig {
+                    graphicsQueueAccess: plugin_event_config.graphics_queue_access as UnityD3D12GraphicsQueueAccess,
+                    flags: plugin_event_config.flags.flag,
+                    ensureActiveRenderTextureIsBound: plugin_event_config.ensure_active_render_texture_is_bound,
+                };
+                self.interface()
+                    .ConfigureEvent
+                    .expect("ConfigureEvent")(event_id, &cfg)
+            }
+        }
+
+        pub unsafe fn command_recording_state(&self) -> Option<ComPtr> {
+            let mut state: UnityGraphicsD3D12RecordingState = std::mem::zeroed();
+            if self.interface().CommandRecordingState.expect("CommandRecordingState")(&mut state) {
+                Some(state.commandList as ComPtr)
+            } else {
+                None
+            }
+        }
+    }
+}
+impl UnityGraphicsD3D12v6 {
+    impl_d3d12_v6!();
 }
