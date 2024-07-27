@@ -234,118 +234,137 @@ impl ProfilerFlowEventType {
     }
 }
 
+#[repr(u16)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub enum ProfilerCounterFlag {
+    None = UnityProfilerCounterFlags__kUnityProfilerCounterFlagNone as u16,
+    FlashOnEndOfFrame = UnityProfilerCounterFlags__kUnityProfilerCounterFlushOnEndOfFrame as u16,
+    ResetToZeroOnFlush = UnityProfilerCounterFlags__kUnityProfilerCounterFlagResetToZeroOnFlush as u16,
+    Atomic = UnityProfilerCounterFlags__kUnityProfilerCounterFlagAtomic as u16,
+    Getter = UnityProfilerCounterFlags__kUnityProfilerCounterFlagGetter as u16,
+}
+
+bitflag!(ProfilerCounterFlags, ProfilerCounterFlag, UnityProfilerCounterFlags);
+
+
 pub type ProfilerThreadId = UnityProfilerThreadId;
 
+macro_rules! impl_profiler {
+    () => {
+        pub fn emit_event(
+            &self,
+            marker_desc: &ProfilerMarkerDesc,
+            event_type: ProfilerMarkerEventType,
+            event_data: &[ProfilerMarkerData],
+        ) {
+            unsafe {
+                self.interface().EmitEvent.expect("EmitEvent")(
+                    marker_desc.native,
+                    event_type as UnityProfilerMarkerEventType,
+                    event_data.len() as u16,
+                    event_data.as_ptr() as *const _,
+                );
+            }
+        }
+
+        pub fn is_enabled(&self) -> bool {
+            unsafe { self.interface().IsEnabled.expect("IsEnabled")() != 0 }
+        }
+
+        pub fn is_available(&self) -> bool {
+            unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
+        }
+
+        pub fn create_marker<'a>(
+            &'a self,
+            name: &std::ffi::CStr,
+            category: ProfilerCategoryId,
+            flags: ProfilerMarkerFlags,
+            event_data_count: ::std::os::raw::c_int,
+        ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int> {
+            unsafe {
+                let mut ret = std::ptr::null::<UnityProfilerMarkerDesc>();
+                let result = self.interface().CreateMarker.expect("CreateMarker")(
+                    &mut ret,
+                    name.as_ptr(),
+                    category as _,
+                    flags.flag as _,
+                    event_data_count,
+                );
+                if result > 0 {
+                    Err(result)
+                } else {
+                    Ok(ProfilerMarkerDesc { native: ret })
+                }
+            }
+        }
+
+        pub fn set_marker_metadata_name(
+            &self,
+            desc: &ProfilerMarkerDesc,
+            index: ::std::os::raw::c_int,
+            metadata_name: &std::ffi::CStr,
+            metadata_type: ProfilerMarkerDataType,
+            metadata_unit: ProfilerMarkerDataUnit,
+        ) -> Result<(), ::std::os::raw::c_int> {
+            unsafe {
+                let result = self
+                    .interface()
+                    .SetMarkerMetadataName
+                    .expect("SetMarkerMetadataName")(
+                    desc.native,
+                    index,
+                    metadata_name.as_ptr(),
+                    metadata_type as _,
+                    metadata_unit as _,
+                );
+                if result > 0 {
+                    Err(result)
+                } else {
+                    Ok(())
+                }
+            }
+        }
+
+        pub fn register_thread(
+            &self,
+            group_name: &std::ffi::CStr,
+            name: &std::ffi::CStr,
+        ) -> Result<ProfilerThreadId, ::std::os::raw::c_int> {
+            unsafe {
+                let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
+
+                let result = self.interface().RegisterThread.expect("RegisterThread")(
+                    &mut thread_id,
+                    group_name.as_ptr(),
+                    name.as_ptr(),
+                );
+                if result > 0 {
+                    Err(result)
+                } else {
+                    Ok(thread_id)
+                }
+            }
+        }
+
+        pub fn unregister_thread(
+            &self,
+            thread_id: ProfilerThreadId,
+        ) -> Result<(), ::std::os::raw::c_int> {
+            unsafe {
+                let result = self.interface().UnregisterThread.expect("UnregisterThread")(thread_id);
+                if result > 0 {
+                    Err(result)
+                } else {
+                    Ok(())
+                }
+            }
+        }
+    };
+}
+
 impl UnityProfiler {
-    pub fn emit_event(
-        &self,
-        marker_desc: &ProfilerMarkerDesc,
-        event_type: ProfilerMarkerEventType,
-        event_data: &[ProfilerMarkerData],
-    ) {
-        unsafe {
-            self.interface().EmitEvent.expect("EmitEvent")(
-                marker_desc.native,
-                event_type as UnityProfilerMarkerEventType,
-                event_data.len() as u16,
-                event_data.as_ptr() as *const _,
-            );
-        }
-    }
-
-    pub fn is_enabled(&self) -> bool {
-        unsafe { self.interface().IsEnabled.expect("IsEnabled")() != 0 }
-    }
-
-    pub fn is_available(&self) -> bool {
-        unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
-    }
-
-    pub fn create_marker<'a>(
-        &'a self,
-        name: &std::ffi::CStr,
-        category: ProfilerCategoryId,
-        flags: ProfilerMarkerFlags,
-        event_data_count: ::std::os::raw::c_int,
-    ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int> {
-        unsafe {
-            let mut ret = std::ptr::null::<UnityProfilerMarkerDesc>();
-            let result = self.interface().CreateMarker.expect("CreateMarker")(
-                &mut ret,
-                name.as_ptr(),
-                category as _,
-                flags.flag as _,
-                event_data_count,
-            );
-            if result > 0 {
-                Err(result)
-            } else {
-                Ok(ProfilerMarkerDesc { native: ret })
-            }
-        }
-    }
-
-    pub fn set_marker_metadata_name(
-        &self,
-        desc: &ProfilerMarkerDesc,
-        index: ::std::os::raw::c_int,
-        metadata_name: &std::ffi::CStr,
-        metadata_type: ProfilerMarkerDataType,
-        metadata_unit: ProfilerMarkerDataUnit,
-    ) -> Result<(), ::std::os::raw::c_int> {
-        unsafe {
-            let result = self
-                .interface()
-                .SetMarkerMetadataName
-                .expect("SetMarkerMetadataName")(
-                desc.native,
-                index,
-                metadata_name.as_ptr(),
-                metadata_type as _,
-                metadata_unit as _,
-            );
-            if result > 0 {
-                Err(result)
-            } else {
-                Ok(())
-            }
-        }
-    }
-
-    pub fn register_thread(
-        &self,
-        group_name: &std::ffi::CStr,
-        name: &std::ffi::CStr,
-    ) -> Result<ProfilerThreadId, ::std::os::raw::c_int> {
-        unsafe {
-            let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
-
-            let result = self.interface().RegisterThread.expect("RegisterThread")(
-                &mut thread_id,
-                group_name.as_ptr(),
-                name.as_ptr(),
-            );
-            if result > 0 {
-                Err(result)
-            } else {
-                Ok(thread_id)
-            }
-        }
-    }
-
-    pub fn unregister_thread(
-        &self,
-        thread_id: ProfilerThreadId,
-    ) -> Result<(), ::std::os::raw::c_int> {
-        unsafe {
-            let result = self.interface().UnregisterThread.expect("UnregisterThread")(thread_id);
-            if result > 0 {
-                Err(result)
-            } else {
-                Ok(())
-            }
-        }
-    }
+    impl_profiler!();
 }
 
 
@@ -356,8 +375,14 @@ define_unity_interface!(
     0x83CE589AE85B9068_u64
 );
 
-impl UnityProfilerV2 {
+macro_rules! impl_profiler_v2 {
+    () => {
+        impl_profiler!();
+    }
+}
 
+impl UnityProfilerV2 {
+    impl_profiler_v2!();
 }
 
 
