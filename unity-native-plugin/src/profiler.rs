@@ -167,7 +167,7 @@ impl ProfilerMarkerDataType {
 pub enum ProfilerMarkerDataUnit {
     Undefined = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitUndefined as u8,
     TimeNanoseconds =
-        UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitTimeNanoseconds as u8,
+    UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitTimeNanoseconds as u8,
     Bytes = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitBytes as u8,
     Count = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitCount as u8,
     Percent = UnityProfilerMarkerDataUnit__kUnityProfilerMarkerDataUnitPercent as u8,
@@ -378,6 +378,18 @@ define_unity_interface!(
 macro_rules! impl_profiler_v2 {
     () => {
         impl_profiler!();
+
+        pub fn create_category(&self, name: &std::ffi::CStr, unused: u32) -> Option<ProfilerCategoryId> {
+            unsafe {
+                let mut category: UnityProfilerCategoryId = std::mem::zeroed();
+                let r = self.interface().CreateCategory.expect("CreateCategory")(&mut category as *mut UnityProfilerCategoryId, name.as_ptr(), unused);
+                if r > 0 {
+                    Some(category)
+                } else {
+                    None
+                }
+            }
+        }
     }
 }
 
