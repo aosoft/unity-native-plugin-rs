@@ -1,6 +1,6 @@
 [package]
 name = "unity-native-plugin"
-version = "0.6.0"
+version = "0.7.0"
 authors = ["Yasuhiro Taniuchi"]
 license = "MIT"
 description = "Unity Native Plugin API for Rust"
@@ -26,4 +26,4 @@ profiler = []
 profiler_callbacks = ["profiler"]
 
 [dependencies]
-unity-native-plugin-sys = { version = "0.6.0", path = "../unity-native-plugin-sys" }
+unity-native-plugin-sys = { version = "0.7.0", path = "../unity-native-plugin-sys" }
