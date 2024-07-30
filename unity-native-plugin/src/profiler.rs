@@ -1,3 +1,5 @@
+use std::marker::PhantomData;
+use std::ptr::null_mut;
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use crate::bitflag;
@@ -377,6 +379,24 @@ define_unity_interface!(
 
 pub type ProfilerCounterStatePtrCallback = UnityProfilerCounterStatePtrCallback;
 
+pub struct ProfilerCounter<T> {
+    pub(crate) counter: *mut ::std::os::raw::c_void,
+}
+
+impl<T> ProfilerCounter<T> {
+    pub fn value(&self) -> &T {
+        unsafe {
+            self.counter as &T
+        }
+    }
+
+    pub fn value_mut(&mut self) -> &mut T {
+        unsafe {
+            self.counter as &mut T
+        }
+    }
+}
+
 macro_rules! impl_profiler_v2 {
     () => {
         impl_profiler!();
@@ -404,11 +424,33 @@ macro_rules! impl_profiler_v2 {
                                            activate_func: ProfilerCounterStatePtrCallback,
                                            deactivate_func: ProfilerCounterStatePtrCallback,
                                            user_data: *mut ::std::os::raw::c_void) -> *mut ::std::os::raw::c_void {
-            self.interface().CreateCounterValue.expect("CreateCounterValue")(category, name.as_ptr(), flags.into(), value_type.into(), value_unit.into(), value_size, counter_flags.into(), activate_func, deactivate_func, user_data)
+            self.interface().CreateCounterValue.expect("CreateCounterValue")(category, name.as_ptr(), flags.into(), value_type as u8, value_unit as u8, value_size, counter_flags.into(), activate_func, deactivate_func, user_data)
         }
 
         pub unsafe fn flush_counter_value(&self, counter: *mut ::std::os::raw::c_void) {
             self.interface().FlushCounterValue.expect("FlushCounterValue")(counter)
+        }
+
+        pub unsafe fn create_counter<T>(&self,
+                                        category: ProfilerCategoryId,
+                                        name: &std::ffi::CStr,
+                                        flags: ProfilerMarkerFlags,
+                                        value_type: ProfilerMarkerDataType,
+                                        value_unit: ProfilerMarkerDataUnit,
+                                        counter_flags: ProfilerCounterFlags,
+                                        activate_func: ProfilerCounterStatePtrCallback,
+                                        deactivate_func: ProfilerCounterStatePtrCallback,
+                                        user_data: *mut ::std::os::raw::c_void) -> Option<ProfilerCounter<T>> {
+            let r = self.create_counter_value(category, name, flags, value_type, value_unit, std::mem::size_of::<T>(), counter_flags.into(), activate_func, deactivate_func, user_data);
+            if r != null_mut() {
+                Some(ProfilerCounter::<T> { counter: r })
+            } else {
+                None
+            }
+        }
+
+        pub unsafe fn flush_counter<T>(&self, counter: &mut ProfilerCounter<T>) {
+            self.flush_counter_value(counter.counter);
         }
     }
 }
