@@ -1,4 +1,3 @@
-use std::marker::PhantomData;
 use std::ptr::null_mut;
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
@@ -380,19 +379,19 @@ define_unity_interface!(
 pub type ProfilerCounterStatePtrCallback = UnityProfilerCounterStatePtrCallback;
 
 pub struct ProfilerCounter<T> {
-    pub(crate) counter: *mut ::std::os::raw::c_void,
+    pub(crate) counter: *mut T,
 }
 
 impl<T> ProfilerCounter<T> {
     pub fn value(&self) -> &T {
         unsafe {
-            self.counter as &T
+            &*self.counter
         }
     }
 
     pub fn value_mut(&mut self) -> &mut T {
         unsafe {
-            self.counter as &mut T
+            &mut *self.counter
         }
     }
 }
@@ -443,14 +442,14 @@ macro_rules! impl_profiler_v2 {
                                         user_data: *mut ::std::os::raw::c_void) -> Option<ProfilerCounter<T>> {
             let r = self.create_counter_value(category, name, flags, value_type, value_unit, std::mem::size_of::<T>(), counter_flags.into(), activate_func, deactivate_func, user_data);
             if r != null_mut() {
-                Some(ProfilerCounter::<T> { counter: r })
+                Some(ProfilerCounter::<T> { counter: r as *mut T })
             } else {
                 None
             }
         }
 
         pub unsafe fn flush_counter<T>(&self, counter: &mut ProfilerCounter<T>) {
-            self.flush_counter_value(counter.counter);
+            self.flush_counter_value(counter.counter as *mut ::std::os::raw::c_void);
         }
     }
 }
