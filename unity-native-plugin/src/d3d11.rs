@@ -13,35 +13,47 @@ pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D11 {
     pub unsafe fn device(&self) -> ComPtr {
-        self.interface().GetDevice.expect("GetDevice")() as ComPtr
+        unsafe {
+            self.interface().GetDevice.expect("GetDevice")() as ComPtr
+        }
     }
 
     pub unsafe fn texture_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr {
-        self.interface()
-            .TextureFromRenderBuffer
-            .expect("TextureFromRenderBuffer")(buffer) as ComPtr
+        unsafe {
+            self.interface()
+                .TextureFromRenderBuffer
+                .expect("TextureFromRenderBuffer")(buffer) as ComPtr
+        }
     }
 
     pub unsafe fn texture_from_natvie_texture(&self, texture: graphics::TextureID) -> ComPtr {
-        self.interface()
-            .TextureFromNativeTexture
-            .expect("TextureFromNativeTexture")(texture) as ComPtr
+        unsafe {
+            self.interface()
+                .TextureFromNativeTexture
+                .expect("TextureFromNativeTexture")(texture) as ComPtr
+        }
     }
 
     pub unsafe fn rtv_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr {
-        self.interface()
-            .RTVFromRenderBuffer
-            .expect("RTVFromRenderBuffer")(buffer) as ComPtr
+        unsafe {
+            self.interface()
+                .RTVFromRenderBuffer
+                .expect("RTVFromRenderBuffer")(buffer) as ComPtr
+        }
     }
 
     pub unsafe fn srv_from_natvie_texture(&self, texture: graphics::TextureID) -> ComPtr {
-        self.interface()
-            .SRVFromNativeTexture
-            .expect("SRVFromNativeTexture")(texture) as ComPtr
+        unsafe {
+            self.interface()
+                .SRVFromNativeTexture
+                .expect("SRVFromNativeTexture")(texture) as ComPtr
+        }
     }
 
     pub unsafe fn swap_chain(&self) -> ComPtr {
-        self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+        unsafe {
+            self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+        }
     }
 
     pub fn sync_interval(&self) -> u32 {

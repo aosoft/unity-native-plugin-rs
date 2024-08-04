@@ -15,6 +15,7 @@ pub mod graphics;
 pub mod interface;
 pub mod log;
 pub mod memory_manager;
+mod bitflag;
 
 pub type IUnityInterfaces = unity_native_plugin_sys::IUnityInterfaces;
 
