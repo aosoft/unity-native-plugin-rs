@@ -9,7 +9,7 @@ repository = "https://github.com/aosoft/unity-native-plugin-rs"
 readme = "../README.md"
 categories = ["api-bindings", "game-engines"]
 keywords = ["unity"]
-edition = "2018"
+edition = "2021"
 include = [
     "**/*.rs",
     "Cargo.toml",

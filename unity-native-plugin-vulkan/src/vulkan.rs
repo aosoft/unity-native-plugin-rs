@@ -51,7 +51,9 @@ impl VulkanInstance {
         name: *const std::os::raw::c_char,
     ) -> PFN_vkVoidFunction {
         if let Some(f) = self.native.getInstanceProcAddr {
-            (f)(self.native.instance, name)
+            unsafe {
+                (f)(self.native.instance, name)
+            }
         } else {
             PFN_vkVoidFunction::None
         }
@@ -238,9 +240,11 @@ macro_rules! impl_vulkan {
             func: VulkanInitCallback,
             user_data: *mut ::std::os::raw::c_void,
         ) {
-            self.interface()
-                .InterceptInitialization
-                .expect("InterceptInitialization")(std::mem::transmute(func), user_data);
+            unsafe {
+                self.interface()
+                    .InterceptInitialization
+                    .expect("InterceptInitialization")(std::mem::transmute(func), user_data);
+            }
         }
 
         pub unsafe fn intercept_vulkan_api(
@@ -248,12 +252,14 @@ macro_rules! impl_vulkan {
             name: *const ::std::os::raw::c_char,
             func: ash::vk::PFN_vkVoidFunction,
         ) -> ash::vk::PFN_vkVoidFunction {
-            std::mem::transmute(self
-                .interface()
-                .InterceptVulkanAPI
-                .expect("InterceptVulkanAPI")(
-                name, std::mem::transmute(func)
-            ))
+            unsafe {
+                std::mem::transmute(self
+                    .interface()
+                    .InterceptVulkanAPI
+                    .expect("InterceptVulkanAPI")(
+                    name, std::mem::transmute(func)
+                ))
+            }
         }
 
         pub fn configure_event(&self, event_id: i32, plugin_event_config: &VulkanPluginEventConfig) {
@@ -302,22 +308,24 @@ macro_rules! impl_vulkan {
             access_flags: ash::vk::AccessFlags,
             access_mode: VulkanResourceAccessMode,
         ) -> Option<VulkanImage> {
-            let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-            if self.interface().AccessTexture.expect("AccessTexture")(
-                native_texture,
-                match sub_resource {
-                    Some(t) => std::mem::transmute(t),
-                    None => std::ptr::null(),
-                },
-                std::mem::transmute(layout),
-                std::mem::transmute(pipeline_stage_flags),
-                std::mem::transmute(access_flags),
-                access_mode as UnityVulkanResourceAccessMode,
-                std::mem::transmute(&mut ret),
-            ) {
-                Some(VulkanImage { native: ret })
-            } else {
-                None
+            unsafe {
+                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                if self.interface().AccessTexture.expect("AccessTexture")(
+                    native_texture,
+                    match sub_resource {
+                        Some(t) => std::mem::transmute(t),
+                        None => std::ptr::null(),
+                    },
+                    std::mem::transmute(layout),
+                    std::mem::transmute(pipeline_stage_flags),
+                    std::mem::transmute(access_flags),
+                    access_mode as UnityVulkanResourceAccessMode,
+                    std::mem::transmute(&mut ret),
+                ) {
+                    Some(VulkanImage { native: ret })
+                } else {
+                    None
+                }
             }
         }
 
@@ -330,25 +338,27 @@ macro_rules! impl_vulkan {
             access_flags: ash::vk::AccessFlags,
             access_mode: VulkanResourceAccessMode,
         ) -> Option<VulkanImage> {
-            let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-            if self
-                .interface()
-                .AccessRenderBufferTexture
-                .expect("AccessRenderBufferTexture")(
-                native_render_buffer,
-                match sub_resource {
-                    Some(t) => std::mem::transmute(t),
-                    None => std::ptr::null(),
-                },
-                std::mem::transmute(layout),
-                std::mem::transmute(pipeline_stage_flags),
-                std::mem::transmute(access_flags),
-                access_mode as UnityVulkanResourceAccessMode,
-                std::mem::transmute(&mut ret),
-            ) {
-                Some(VulkanImage { native: ret })
-            } else {
-                None
+            unsafe {
+                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                if self
+                    .interface()
+                    .AccessRenderBufferTexture
+                    .expect("AccessRenderBufferTexture")(
+                    native_render_buffer,
+                    match sub_resource {
+                        Some(t) => std::mem::transmute(t),
+                        None => std::ptr::null(),
+                    },
+                    std::mem::transmute(layout),
+                    std::mem::transmute(pipeline_stage_flags),
+                    std::mem::transmute(access_flags),
+                    access_mode as UnityVulkanResourceAccessMode,
+                    std::mem::transmute(&mut ret),
+                ) {
+                    Some(VulkanImage { native: ret })
+                } else {
+                    None
+                }
             }
         }
 
@@ -361,25 +371,27 @@ macro_rules! impl_vulkan {
             access_flags: ash::vk::AccessFlags,
             access_mode: VulkanResourceAccessMode,
         ) -> Option<VulkanImage> {
-            let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-            if self
-                .interface()
-                .AccessRenderBufferResolveTexture
-                .expect("AccessRenderBufferResolveTexture")(
-                native_render_buffer,
-                match sub_resource {
-                    Some(t) => std::mem::transmute(t),
-                    None => std::ptr::null(),
-                },
-                std::mem::transmute(layout),
-                std::mem::transmute(pipeline_stage_flags),
-                std::mem::transmute(access_flags),
-                access_mode as UnityVulkanResourceAccessMode,
-                std::mem::transmute(&mut ret),
-            ) {
-                Some(VulkanImage { native: ret })
-            } else {
-                None
+            unsafe {
+                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                if self
+                    .interface()
+                    .AccessRenderBufferResolveTexture
+                    .expect("AccessRenderBufferResolveTexture")(
+                    native_render_buffer,
+                    match sub_resource {
+                        Some(t) => std::mem::transmute(t),
+                        None => std::ptr::null(),
+                    },
+                    std::mem::transmute(layout),
+                    std::mem::transmute(pipeline_stage_flags),
+                    std::mem::transmute(access_flags),
+                    access_mode as UnityVulkanResourceAccessMode,
+                    std::mem::transmute(&mut ret),
+                ) {
+                    Some(VulkanImage { native: ret })
+                } else {
+                    None
+                }
             }
         }
 
@@ -390,17 +402,19 @@ macro_rules! impl_vulkan {
             access_flags: ash::vk::AccessFlags,
             access_mode: VulkanResourceAccessMode,
         ) -> Option<VulkanImage> {
-            let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-            if self.interface().AccessBuffer.expect("AccessTexture")(
-                native_buffer,
-                std::mem::transmute(pipeline_stage_flags),
-                std::mem::transmute(access_flags),
-                access_mode as UnityVulkanResourceAccessMode,
-                std::mem::transmute(&mut ret),
-            ) {
-                Some(VulkanImage { native: ret })
-            } else {
-                None
+            unsafe {
+                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                if self.interface().AccessBuffer.expect("AccessTexture")(
+                    native_buffer,
+                    std::mem::transmute(pipeline_stage_flags),
+                    std::mem::transmute(access_flags),
+                    access_mode as UnityVulkanResourceAccessMode,
+                    std::mem::transmute(&mut ret),
+                ) {
+                    Some(VulkanImage { native: ret })
+                } else {
+                    None
+                }
             }
         }
 
@@ -427,7 +441,9 @@ macro_rules! impl_vulkan {
             user_data: *mut ::std::os::raw::c_void,
             flush: bool,
         ) {
-            self.interface().AccessQueue.expect("AccessQueue")(callback, event_id, user_data, flush);
+            unsafe {
+                self.interface().AccessQueue.expect("AccessQueue")(callback, event_id, user_data, flush);
+            }
         }
 
         pub fn configure_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
@@ -447,25 +463,27 @@ macro_rules! impl_vulkan {
             access_flags: ash::vk::AccessFlags,
             access_mode: VulkanResourceAccessMode,
         ) -> Option<VulkanImage> {
-            let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-            if self
-                .interface()
-                .AccessTextureByID
-                .expect("AccessTextureByID")(
-                texture_id,
-                match sub_resource {
-                    Some(t) => std::mem::transmute(t),
-                    None => std::ptr::null(),
-                },
-                std::mem::transmute(layout),
-                std::mem::transmute(pipeline_stage_flags),
-                std::mem::transmute(access_flags),
-                access_mode as UnityVulkanResourceAccessMode,
-                std::mem::transmute(&mut ret),
-            ) {
-                Some(VulkanImage { native: ret })
-            } else {
-                None
+            unsafe {
+                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                if self
+                    .interface()
+                    .AccessTextureByID
+                    .expect("AccessTextureByID")(
+                    texture_id,
+                    match sub_resource {
+                        Some(t) => std::mem::transmute(t),
+                        None => std::ptr::null(),
+                    },
+                    std::mem::transmute(layout),
+                    std::mem::transmute(pipeline_stage_flags),
+                    std::mem::transmute(access_flags),
+                    access_mode as UnityVulkanResourceAccessMode,
+                    std::mem::transmute(&mut ret),
+                ) {
+                    Some(VulkanImage { native: ret })
+                } else {
+                    None
+                }
             }
         }
     }
@@ -492,13 +510,17 @@ macro_rules! impl_vulkan_v2 {
             func: VulkanInitCallback,
             user_data: *mut ::std::os::raw::c_void,
             priority: i32) -> bool {
-            self.interface().AddInterceptInitialization.expect("AddInterceptInitialization")(std::mem::transmute(func), user_data, priority)
+            unsafe {
+                self.interface().AddInterceptInitialization.expect("AddInterceptInitialization")(std::mem::transmute(func), user_data, priority)
+            }
         }
 
         pub unsafe fn remove_intercept_initialization(
             &self,
             func: VulkanInitCallback) -> bool {
-            self.interface().RemoveInterceptInitialization.expect("RemoveInterceptInitialization")(std::mem::transmute(func))
+            unsafe {
+                self.interface().RemoveInterceptInitialization.expect("RemoveInterceptInitialization")(std::mem::transmute(func))
+            }
         }
     }
 }

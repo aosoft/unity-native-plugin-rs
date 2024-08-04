@@ -114,16 +114,20 @@ extern "system" fn register_interface_split(
 }
 
 pub unsafe fn get_unity_interfaces() -> &'static mut TesterContextInterfaces {
-    UNITY_INTERFACES.as_mut().unwrap()
+    unsafe {
+        UNITY_INTERFACES.as_mut().unwrap()
+    }
 }
 
 pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID>() -> &'static T {
-    get_unity_interfaces()
-        .get_interface(T::get_interface_guid())
-        .unwrap()
-        .as_any()
-        .downcast_ref::<T>()
-        .unwrap()
+    unsafe {
+        get_unity_interfaces()
+            .get_interface(T::get_interface_guid())
+            .unwrap()
+            .as_any()
+            .downcast_ref::<T>()
+            .unwrap()
+    }
 }
 
 pub fn initialize_unity_interfaces() {

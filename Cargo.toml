@@ -7,3 +7,5 @@ members = [
     "unity-native-plugin-sample",
     "unity-native-plugin-sample-profiler",
 ]
+resolver = "2"
+

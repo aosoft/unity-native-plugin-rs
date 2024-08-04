@@ -40,11 +40,15 @@ pub struct PluginEventConfig {
 macro_rules! impl_d3d12_v2 {
     () => {
         pub unsafe fn device(&self) -> ComPtr {
-            self.interface().GetDevice.expect("GetDevice")() as ComPtr
+            unsafe {
+                self.interface().GetDevice.expect("GetDevice")() as ComPtr
+            }
         }
 
         pub unsafe fn frame_fence(&self) -> ComPtr {
-            self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+            unsafe {
+                self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
+            }
         }
 
         pub fn next_frame_fence_value(&self) -> u64 {
@@ -62,7 +66,9 @@ macro_rules! impl_d3d12 {
         impl_d3d12_v2!();
 
         pub unsafe fn command_queue(&self) -> ComPtr {
-            self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
+            unsafe {
+                self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
+            }
         }
 
         pub fn resource_state(&self, resource: ComPtr) -> Option<i32> {
@@ -151,7 +157,9 @@ macro_rules! impl_d3d12_v4 {
         impl_d3d12_v3!();
 
         pub unsafe fn command_queue(&self) -> ComPtr {
-            self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
+            unsafe {
+                self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
+            }
         }
     }
 }
@@ -172,9 +180,11 @@ macro_rules! impl_d3d12_v5 {
         impl_d3d12_v4!();
 
         pub unsafe fn texture_from_render_buffer(&self, rb: graphics::RenderBuffer) -> ComPtr {
-            self.interface()
-                .TextureFromRenderBuffer
-                .expect("TextureFromRenderBuffer")(rb) as ComPtr
+            unsafe {
+                self.interface()
+                    .TextureFromRenderBuffer
+                    .expect("TextureFromRenderBuffer")(rb) as ComPtr
+            }
         }
     }
 }
@@ -208,11 +218,13 @@ macro_rules! impl_d3d12_v6 {
         }
 
         pub unsafe fn command_recording_state(&self) -> Option<ComPtr> {
-            let mut state: UnityGraphicsD3D12RecordingState = std::mem::zeroed();
-            if self.interface().CommandRecordingState.expect("CommandRecordingState")(&mut state) {
-                Some(state.commandList as ComPtr)
-            } else {
-                None
+            unsafe {
+                let mut state: UnityGraphicsD3D12RecordingState = std::mem::zeroed();
+                if self.interface().CommandRecordingState.expect("CommandRecordingState")(&mut state) {
+                    Some(state.commandList as ComPtr)
+                } else {
+                    None
+                }
             }
         }
     }
@@ -233,7 +245,9 @@ macro_rules! impl_d3d12_v7 {
         impl_d3d12_v6!();
 
         pub unsafe fn swap_chain(&self) -> crate::d3d11::ComPtr {
-            self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+            unsafe {
+                self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
+            }
         }
 
         pub fn sync_interval(&self) -> u32 {
