@@ -52,7 +52,7 @@ impl ProfilerThreadDesc {
 pub struct ProfilerMarkerEvent<'a> {
     pub desc: ProfilerMarkerDesc,
     pub event_type: ProfilerMarkerEventType,
-    event_data: &'a [UnityProfilerMarkerData],
+    pub event_data: &'a [UnityProfilerMarkerData],
 }
 
 impl<'a> std::fmt::Debug for ProfilerMarkerEvent<'a> {
