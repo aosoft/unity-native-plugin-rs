@@ -97,6 +97,10 @@ fn plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {
                         desc.desc.name()
                     ))
                     .ok();
+
+                for data in desc.event_data.iter() {
+                    sender.send(format!("data={:?}", data.value())).ok();
+                }
             }),
         );
     }));
