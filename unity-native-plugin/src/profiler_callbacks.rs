@@ -123,6 +123,7 @@ impl ProfilerMarkerData {
     }
 }
 
+#[derive(Debug)]
 pub enum ProfilerMarkerDataValue<'a> {
     None,
     InstanceId(i32),
@@ -176,7 +177,16 @@ extern "system" fn marker_event_bridge(
         None => return,
     };
 
-    let event_data = unsafe { std::slice::from_raw_parts(_event_data as *const ProfilerMarkerData, _event_data_count as usize) };
+    let event_data = if !_event_data.is_null() && _event_data_count > 0 {
+        unsafe {
+            std::slice::from_raw_parts(
+                _event_data as *const ProfilerMarkerData,
+                _event_data_count as usize,
+            )
+        }
+    } else {
+        &[]
+    };
 
     let desc = ProfilerMarkerEvent {
         desc,
