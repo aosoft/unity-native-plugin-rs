@@ -52,7 +52,7 @@ impl ProfilerThreadDesc {
 pub struct ProfilerMarkerEvent<'a> {
     pub desc: ProfilerMarkerDesc,
     pub event_type: ProfilerMarkerEventType,
-    event_data: &'a [UnityProfilerMarkerData],
+    pub event_data: &'a [ProfilerMarkerData],
 }
 
 impl<'a> std::fmt::Debug for ProfilerMarkerEvent<'a> {
@@ -65,6 +65,78 @@ impl<'a> std::fmt::Debug for ProfilerMarkerEvent<'a> {
             self.event_data.len(),
         )
     }
+}
+
+#[repr(transparent)]
+pub struct ProfilerMarkerData(UnityProfilerMarkerData);
+
+impl ProfilerMarkerData {
+    pub fn value(&self) -> ProfilerMarkerDataValue {
+        match unsafe { std::mem::transmute::<_, ProfilerMarkerDataType>(self.0.type_) } {
+            ProfilerMarkerDataType::None => ProfilerMarkerDataValue::None,
+            ProfilerMarkerDataType::InstanceId => {
+                ProfilerMarkerDataValue::InstanceId(unsafe { *(self.0.ptr as *const i32) })
+            }
+            ProfilerMarkerDataType::Int32 => {
+                ProfilerMarkerDataValue::Int32(unsafe { *(self.0.ptr as *const i32) })
+            }
+            ProfilerMarkerDataType::UInt32 => {
+                ProfilerMarkerDataValue::UInt32(unsafe { *(self.0.ptr as *const u32) })
+            }
+            ProfilerMarkerDataType::Int64 => {
+                ProfilerMarkerDataValue::Int64(unsafe { *(self.0.ptr as *const i64) })
+            }
+            ProfilerMarkerDataType::UInt64 => {
+                ProfilerMarkerDataValue::UInt64(unsafe { *(self.0.ptr as *const u64) })
+            }
+            ProfilerMarkerDataType::Float => {
+                ProfilerMarkerDataValue::Float(unsafe { *(self.0.ptr as *const f32) })
+            }
+            ProfilerMarkerDataType::Double => {
+                ProfilerMarkerDataValue::Double(unsafe { *(self.0.ptr as *const f64) })
+            }
+            ProfilerMarkerDataType::String => ProfilerMarkerDataValue::String(unsafe {
+                std::ffi::CStr::from_ptr(self.0.ptr as *const std::ffi::c_char)
+                    .to_str()
+                    .unwrap()
+                    .to_string()
+            }),
+            ProfilerMarkerDataType::String16 => ProfilerMarkerDataValue::String(
+                std::char::decode_utf16(unsafe {
+                    std::slice::from_raw_parts(
+                        self.0.ptr as *const u16,
+                        (self.0.size / 2 - 1) as usize,
+                    )
+                    .iter()
+                    .copied()
+                })
+                .map(|c| c.unwrap_or(std::char::REPLACEMENT_CHARACTER))
+                .collect(),
+            ),
+            other => ProfilerMarkerDataValue::Unknown {
+                ty: other,
+                data: unsafe {
+                    std::slice::from_raw_parts(self.0.ptr as *const u8, self.0.size as usize)
+                },
+            },
+        }
+    }
+}
+
+pub enum ProfilerMarkerDataValue<'a> {
+    None,
+    InstanceId(i32),
+    Int32(i32),
+    UInt32(u32),
+    Int64(i64),
+    UInt64(u64),
+    Float(f32),
+    Double(f64),
+    String(String),
+    Unknown {
+        ty: ProfilerMarkerDataType,
+        data: &'a [u8],
+    },
 }
 
 extern "system" fn create_category_bridge(
@@ -104,7 +176,7 @@ extern "system" fn marker_event_bridge(
         None => return,
     };
 
-    let event_data = unsafe { std::slice::from_raw_parts(_event_data, _event_data_count as usize) };
+    let event_data = unsafe { std::slice::from_raw_parts(_event_data as *const ProfilerMarkerData, _event_data_count as usize) };
 
     let desc = ProfilerMarkerEvent {
         desc,
