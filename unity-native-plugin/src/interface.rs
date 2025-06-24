@@ -1,28 +1,31 @@
 use unity_native_plugin_sys::*;
+use std::sync::OnceLock;
 
 pub trait UnityInterface {
     fn get_interface_guid() -> UnityInterfaceGUID;
     fn new(interface: *const IUnityInterface) -> Self;
 }
 
-static mut UNITY_INTERFACES: Option<UnityInterfaces> = None;
+static UNITY_INTERFACES: OnceLock<UnityInterfaces> = OnceLock::new();
 
 pub struct UnityInterfaces {
     interfaces: *mut unity_native_plugin_sys::IUnityInterfaces,
 }
 
+// maybe thread safety
+unsafe impl Send for UnityInterfaces {}
+unsafe impl Sync for UnityInterfaces {}
+
+
 impl UnityInterfaces {
     pub fn get() -> &'static UnityInterfaces {
-        unsafe { UNITY_INTERFACES.as_ref().unwrap() }
+        UNITY_INTERFACES.get().unwrap()
     }
 
     pub fn set_native_unity_interfaces(interfaces: *mut unity_native_plugin_sys::IUnityInterfaces) {
-        unsafe {
-            UNITY_INTERFACES = if !interfaces.is_null() {
-                Some(UnityInterfaces { interfaces })
-            } else {
-                None
-            }
+        if !interfaces.is_null() {
+            let unity_interfaces = UnityInterfaces { interfaces };
+            let _ = UNITY_INTERFACES.set(unity_interfaces);
         }
     }
 
