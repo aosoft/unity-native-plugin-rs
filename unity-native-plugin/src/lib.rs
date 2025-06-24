@@ -27,7 +27,7 @@ macro_rules! unity_native_plugin_entry_point {
         fn $method_load($p: $t) $body_load
         fn $method_unload() $body_unload
 
-        #[no_mangle]
+        #[unsafe(no_mangle)]
         #[allow(non_snake_case)]
         extern "system" fn UnityPluginLoad(
             interfaces: *mut unity_native_plugin::IUnityInterfaces,
@@ -36,7 +36,7 @@ macro_rules! unity_native_plugin_entry_point {
             $method_load(unity_native_plugin::interface::UnityInterfaces::get());
         }
 
-        #[no_mangle]
+        #[unsafe(no_mangle)]
         #[allow(non_snake_case)]
         extern "system" fn UnityPluginUnload() {
             $method_unload();

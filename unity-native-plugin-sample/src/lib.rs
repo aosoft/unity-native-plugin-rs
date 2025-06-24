@@ -9,7 +9,7 @@ unity_native_plugin::unity_native_plugin_entry_point! {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 #[allow(non_snake_case)]
 extern "system" fn FillTexture(unity_texture: *mut IUnknown, x: f32, y: f32, z: f32, w: f32) {
     unsafe {

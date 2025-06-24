@@ -2,7 +2,7 @@
 name = "unity-native-plugin-tester"
 version = "0.8.0"
 authors = ["Yasuhiro Taniuchi"]
-edition = "2024"
+edition = "2021"
 license = "MIT"
 description = "Unity Native Plugin API Tester Library"
 homepage = "https://github.com/aosoft/unity-native-plugin-rs"
