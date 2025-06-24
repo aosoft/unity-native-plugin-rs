@@ -1,6 +1,6 @@
 [package]
 name = "unity-native-plugin-vulkan"
-version = "0.7.0"
+version = "0.8.0"
 authors = ["Yasuhiro Taniuchi"]
 license = "MIT"
 description = "Unity Native Plugin API (Vulkan) for Rust"
@@ -9,7 +9,7 @@ repository = "https://github.com/aosoft/unity-native-plugin-rs"
 readme = "README.md"
 categories = ["api-bindings", "game-engines"]
 keywords = ["unity"]
-edition = "2021"
+edition = "2024"
 include = [
     "**/*.rs",
     "Cargo.toml",
@@ -19,6 +19,6 @@ include = [
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-unity-native-plugin = { version = "0.7.0", path = "../unity-native-plugin" }
-unity-native-plugin-sys = { version = "0.7.0", path = "../unity-native-plugin-sys" }
+unity-native-plugin = { version = "0.8.0", path = "../unity-native-plugin" }
+unity-native-plugin-sys = { version = "0.8.0", path = "../unity-native-plugin-sys" }
 ash = "0.38.0+1.3.281.1"
