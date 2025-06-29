@@ -1,7 +1,9 @@
 use std::any::Any;
 use std::collections::HashMap;
+use std::fmt::Debug;
 use std::os::raw::c_ulonglong;
 use std::rc::Rc;
+use std::sync::OnceLock;
 use unity_native_plugin_sys::*;
 
 #[derive(Default, Copy, Clone, Eq, PartialEq, Hash)]
@@ -23,6 +25,17 @@ pub struct TesterContextInterfaces {
     map: HashMap<InfKey, Rc<dyn UnityInterfaceBase>>,
     interfaces: IUnityInterfaces,
 }
+
+impl Debug for TesterContextInterfaces {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("TesterContextInterfaces").finish()
+    }
+}
+
+
+// maybe thread safety
+unsafe impl Send for TesterContextInterfaces {}
+unsafe impl Sync for TesterContextInterfaces {}
 
 impl TesterContextInterfaces {
     pub fn new() -> Self {
@@ -54,7 +67,7 @@ impl TesterContextInterfaces {
     }
 
     pub fn register_interface<T: UnityInterfaceBase + UnityInterfaceID>(
-        &mut self,
+        &self,
         interface: Option<Rc<dyn UnityInterfaceBase>>,
     ) {
         let guid = T::get_interface_guid();
@@ -62,7 +75,7 @@ impl TesterContextInterfaces {
     }
 
     pub fn register_interface_split(
-        &mut self,
+        &self,
         high: ::std::os::raw::c_ulonglong,
         low: ::std::os::raw::c_ulonglong,
         interface: Option<Rc<dyn UnityInterfaceBase>>,
@@ -75,11 +88,11 @@ impl TesterContextInterfaces {
     }
 }
 
-static mut UNITY_INTERFACES: Option<TesterContextInterfaces> = None;
+static UNITY_INTERFACES: OnceLock<TesterContextInterfaces> = OnceLock::new();
 
 extern "system" fn get_interface(guid: UnityInterfaceGUID) -> *mut IUnityInterface {
     unsafe {
-        if let Some(i) = UNITY_INTERFACES.as_ref().unwrap().get_interface(guid) {
+        if let Some(i) = UNITY_INTERFACES.get().unwrap().get_interface(guid) {
             i.as_ref().get_unity_interface()
         } else {
             std::ptr::null_mut()
@@ -95,7 +108,7 @@ extern "system" fn get_interface_split(
 ) -> *mut IUnityInterface {
     unsafe {
         if let Some(i) = UNITY_INTERFACES
-            .as_ref()
+            .get()
             .unwrap()
             .get_interface_split(high, low)
         {
@@ -113,9 +126,9 @@ extern "system" fn register_interface_split(
 ) {
 }
 
-pub unsafe fn get_unity_interfaces() -> &'static mut TesterContextInterfaces {
+pub unsafe fn get_unity_interfaces() -> &'static TesterContextInterfaces {
     unsafe {
-        UNITY_INTERFACES.as_mut().unwrap()
+        UNITY_INTERFACES.get().unwrap()
     }
 }
 
@@ -132,7 +145,7 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID>() ->
 
 pub fn initialize_unity_interfaces() {
     unsafe {
-        UNITY_INTERFACES = Some(TesterContextInterfaces::new());
+        UNITY_INTERFACES.set(TesterContextInterfaces::new()).unwrap();
         unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
             crate::interface::get_unity_interfaces().interfaces(),
         );
@@ -140,7 +153,7 @@ pub fn initialize_unity_interfaces() {
 }
 
 pub fn finalize_unity_interfaces() {
-    unsafe {
-        UNITY_INTERFACES = None;
-    }
+    /*unsafe {
+        UNITY_INTERFACES.res = None;
+    }*/
 }
