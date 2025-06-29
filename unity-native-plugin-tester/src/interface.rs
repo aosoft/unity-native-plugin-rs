@@ -91,12 +91,10 @@ impl TesterContextInterfaces {
 static UNITY_INTERFACES: OnceLock<TesterContextInterfaces> = OnceLock::new();
 
 extern "system" fn get_interface(guid: UnityInterfaceGUID) -> *mut IUnityInterface {
-    unsafe {
-        if let Some(i) = UNITY_INTERFACES.get().unwrap().get_interface(guid) {
-            i.as_ref().get_unity_interface()
-        } else {
-            std::ptr::null_mut()
-        }
+    if let Some(i) = UNITY_INTERFACES.get().unwrap().get_interface(guid) {
+        i.as_ref().get_unity_interface()
+    } else {
+        std::ptr::null_mut()
     }
 }
 
@@ -106,16 +104,14 @@ extern "system" fn get_interface_split(
     high: ::std::os::raw::c_ulonglong,
     low: ::std::os::raw::c_ulonglong,
 ) -> *mut IUnityInterface {
-    unsafe {
-        if let Some(i) = UNITY_INTERFACES
-            .get()
-            .unwrap()
-            .get_interface_split(high, low)
-        {
-            i.as_ref().get_unity_interface()
-        } else {
-            std::ptr::null_mut()
-        }
+    if let Some(i) = UNITY_INTERFACES
+        .get()
+        .unwrap()
+        .get_interface_split(high, low)
+    {
+        i.as_ref().get_unity_interface()
+    } else {
+        std::ptr::null_mut()
     }
 }
 
@@ -127,9 +123,7 @@ extern "system" fn register_interface_split(
 }
 
 pub unsafe fn get_unity_interfaces() -> &'static TesterContextInterfaces {
-    unsafe {
-        UNITY_INTERFACES.get().unwrap()
-    }
+    UNITY_INTERFACES.get().unwrap()
 }
 
 pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Rc<T>
@@ -140,7 +134,7 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'st
 
         // Rcの中身をダウンキャストして新しいRcを作成
         let any_ref = interface_rc.as_any();
-        if let Some(concrete_ref) = any_ref.downcast_ref::<T>() {
+        if let Some(_) = any_ref.downcast_ref::<T>() {
             // Use Rc::clone to safely create an Rc<T>
             // First, get a raw pointer from the original Rc
             let ptr = Rc::as_ptr(&interface_rc);
