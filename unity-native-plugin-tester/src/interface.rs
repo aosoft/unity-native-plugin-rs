@@ -140,10 +140,15 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'st
 
         // Rcの中身をダウンキャストして新しいRcを作成
         let any_ref = interface_rc.as_any();
-        if any_ref. is::<T>() {
-            // unsafeなポインタ操作を使ってRc<T>を作成
-            let ptr = Rc::as_ptr(&interface_rc) as *const T;
-            Rc::from_raw(ptr)
+        if let Some(concrete_ref) = any_ref.downcast_ref::<T>() {
+            // Use Rc::clone to safely create an Rc<T>
+            // First, get a raw pointer from the original Rc
+            let ptr = Rc::as_ptr(&interface_rc);
+            // Successfully downcasted, so cast it safely as type T
+            let concrete_ptr = ptr as *const T;
+            // Create a new Rc<T> (clone the original Rc to increase the reference count)
+            std::mem::forget(interface_rc.clone()); // Increase reference count
+            Rc::from_raw(concrete_ptr)
         } else {
             panic!("interface is not T");
         }
@@ -160,7 +165,5 @@ pub fn initialize_unity_interfaces() {
 }
 
 pub fn finalize_unity_interfaces() {
-    /*unsafe {
-        UNITY_INTERFACES.res = None;
-    }*/
+    UNITY_INTERFACES.get().unwrap().map.lock().unwrap().clear();
 }
