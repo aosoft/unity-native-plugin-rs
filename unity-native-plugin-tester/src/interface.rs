@@ -132,20 +132,20 @@ pub unsafe fn get_unity_interfaces() -> &'static TesterContextInterfaces {
     }
 }
 
-pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Option<Rc<T>>
+pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Rc<T>
 {
     unsafe {
         let interface_rc = get_unity_interfaces()
-            .get_interface(T::get_interface_guid())?;
+            .get_interface(T::get_interface_guid()).unwrap();
 
         // Rcの中身をダウンキャストして新しいRcを作成
         let any_ref = interface_rc.as_any();
         if any_ref. is::<T>() {
             // unsafeなポインタ操作を使ってRc<T>を作成
             let ptr = Rc::as_ptr(&interface_rc) as *const T;
-            Some(Rc::from_raw(ptr))
+            Rc::from_raw(ptr)
         } else {
-            None
+            panic!("interface is not T");
         }
     }
 }
