@@ -41,7 +41,7 @@ impl crate::interface::UnityInterfaceID for TesterContextGraphics {
 }
 
 extern "system" fn get_renderer() -> UnityGfxRenderer {
-    unsafe { crate::interface::get_unity_interface::<TesterContextGraphics>().renderer() }
+    unsafe { crate::interface::get_unity_interface::<TesterContextGraphics>().unwrap().renderer() }
 }
 
 extern "system" fn register_device_event_callback(_: IUnityGraphicsDeviceEventCallback) {}

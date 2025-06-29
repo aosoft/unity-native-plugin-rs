@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::fmt::Debug;
 use std::os::raw::c_ulonglong;
 use std::rc::Rc;
-use std::sync::OnceLock;
+use std::sync::{Mutex, OnceLock};
 use unity_native_plugin_sys::*;
 
 #[derive(Default, Copy, Clone, Eq, PartialEq, Hash)]
@@ -22,7 +22,7 @@ pub trait UnityInterfaceID {
 }
 
 pub struct TesterContextInterfaces {
-    map: HashMap<InfKey, Rc<dyn UnityInterfaceBase>>,
+    map: Mutex<HashMap<InfKey, Rc<dyn UnityInterfaceBase>>>,
     interfaces: IUnityInterfaces,
 }
 
@@ -40,7 +40,7 @@ unsafe impl Sync for TesterContextInterfaces {}
 impl TesterContextInterfaces {
     pub fn new() -> Self {
         TesterContextInterfaces {
-            map: HashMap::<InfKey, Rc<dyn UnityInterfaceBase>>::new(),
+            map: Mutex::new(HashMap::<InfKey, Rc<dyn UnityInterfaceBase>>::new()),
             interfaces: IUnityInterfaces {
                 GetInterface: Some(get_interface),
                 RegisterInterface: Some(register_interface),
@@ -54,7 +54,7 @@ impl TesterContextInterfaces {
         unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
     }
 
-    pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<&Rc<dyn UnityInterfaceBase>> {
+    pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<Rc<dyn UnityInterfaceBase>> {
         self.get_interface_split(guid.m_GUIDHigh, guid.m_GUIDLow)
     }
 
@@ -62,8 +62,8 @@ impl TesterContextInterfaces {
         &self,
         high: ::std::os::raw::c_ulonglong,
         low: ::std::os::raw::c_ulonglong,
-    ) -> Option<&Rc<dyn UnityInterfaceBase>> {
-        self.map.get(&InfKey { high, low })
+    ) -> Option<Rc<dyn UnityInterfaceBase>> {
+        self.map.lock().unwrap().get(&InfKey { high, low }).cloned()
     }
 
     pub fn register_interface<T: UnityInterfaceBase + UnityInterfaceID>(
@@ -81,9 +81,9 @@ impl TesterContextInterfaces {
         interface: Option<Rc<dyn UnityInterfaceBase>>,
     ) {
         if let Some(i) = interface {
-            self.map.insert(InfKey { high, low }, i);
+            self.map.lock().unwrap().insert(InfKey { high, low }, i);
         } else {
-            self.map.remove(&InfKey { high, low });
+            self.map.lock().unwrap().remove(&InfKey { high, low });
         }
     }
 }
@@ -132,14 +132,21 @@ pub unsafe fn get_unity_interfaces() -> &'static TesterContextInterfaces {
     }
 }
 
-pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID>() -> &'static T {
+pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Option<Rc<T>>
+{
     unsafe {
-        get_unity_interfaces()
-            .get_interface(T::get_interface_guid())
-            .unwrap()
-            .as_any()
-            .downcast_ref::<T>()
-            .unwrap()
+        let interface_rc = get_unity_interfaces()
+            .get_interface(T::get_interface_guid())?;
+
+        // Rcの中身をダウンキャストして新しいRcを作成
+        let any_ref = interface_rc.as_any();
+        if any_ref. is::<T>() {
+            // unsafeなポインタ操作を使ってRc<T>を作成
+            let ptr = Rc::as_ptr(&interface_rc) as *const T;
+            Some(Rc::from_raw(ptr))
+        } else {
+            None
+        }
     }
 }
 
