@@ -1,0 +1,157 @@
+
+#[repr(C)]
+#[derive(Default, Copy, Clone)]
+pub struct IUnityGraphicsMetalV2 {
+    pub CommitCurrentCommandBuffer: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CommandQueue: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub MetalBundle: ::std::option::Option<unsafe extern "C" fn() -> NSBundle>,
+    pub MetalDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandBuffer: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub EndCurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn()>,
+    pub CurrentRenderPassDescriptor:
+        ::std::option::Option<unsafe extern "C" fn() -> MTLRenderPassDescriptor>,
+    pub RenderBufferFromHandle: ::std::option::Option<
+        unsafe extern "C" fn(bufferHandle: *mut ::std::os::raw::c_void) -> UnityRenderBuffer,
+    >,
+    pub TextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub AAResolvedTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub StencilTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of IUnityGraphicsMetalV2"][::std::mem::size_of::<IUnityGraphicsMetalV2>() - 96usize];
+    ["Alignment of IUnityGraphicsMetalV2"]
+        [::std::mem::align_of::<IUnityGraphicsMetalV2>() - 8usize];
+    ["Offset of field: IUnityGraphicsMetalV2::CommitCurrentCommandBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, CommitCurrentCommandBuffer) - 0usize];
+    ["Offset of field: IUnityGraphicsMetalV2::CommandQueue"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, CommandQueue) - 8usize];
+    ["Offset of field: IUnityGraphicsMetalV2::MetalBundle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, MetalBundle) - 16usize];
+    ["Offset of field: IUnityGraphicsMetalV2::MetalDevice"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, MetalDevice) - 24usize];
+    ["Offset of field: IUnityGraphicsMetalV2::CurrentCommandBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, CurrentCommandBuffer) - 32usize];
+    ["Offset of field: IUnityGraphicsMetalV2::CurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, CurrentCommandEncoder) - 40usize];
+    ["Offset of field: IUnityGraphicsMetalV2::EndCurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, EndCurrentCommandEncoder) - 48usize];
+    ["Offset of field: IUnityGraphicsMetalV2::CurrentRenderPassDescriptor"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, CurrentRenderPassDescriptor) - 56usize];
+    ["Offset of field: IUnityGraphicsMetalV2::RenderBufferFromHandle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, RenderBufferFromHandle) - 64usize];
+    ["Offset of field: IUnityGraphicsMetalV2::TextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, TextureFromRenderBuffer) - 72usize];
+    ["Offset of field: IUnityGraphicsMetalV2::AAResolvedTextureFromRenderBuffer"][::std::mem::offset_of!(
+        IUnityGraphicsMetalV2,
+        AAResolvedTextureFromRenderBuffer
+    ) - 80usize];
+    ["Offset of field: IUnityGraphicsMetalV2::StencilTextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV2, StencilTextureFromRenderBuffer) - 88usize];
+};
+unsafe extern "C" {
+    pub static IUnityGraphicsMetalV2_GUID: UnityInterfaceGUID;
+}
+#[repr(C)]
+#[derive(Default, Copy, Clone)]
+pub struct IUnityGraphicsMetalV1 {
+    pub MetalBundle: ::std::option::Option<unsafe extern "C" fn() -> NSBundle>,
+    pub MetalDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandBuffer: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub EndCurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn()>,
+    pub CurrentRenderPassDescriptor:
+        ::std::option::Option<unsafe extern "C" fn() -> MTLRenderPassDescriptor>,
+    pub RenderBufferFromHandle: ::std::option::Option<
+        unsafe extern "C" fn(bufferHandle: *mut ::std::os::raw::c_void) -> UnityRenderBuffer,
+    >,
+    pub TextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub AAResolvedTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub StencilTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of IUnityGraphicsMetalV1"][::std::mem::size_of::<IUnityGraphicsMetalV1>() - 80usize];
+    ["Alignment of IUnityGraphicsMetalV1"]
+        [::std::mem::align_of::<IUnityGraphicsMetalV1>() - 8usize];
+    ["Offset of field: IUnityGraphicsMetalV1::MetalBundle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, MetalBundle) - 0usize];
+    ["Offset of field: IUnityGraphicsMetalV1::MetalDevice"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, MetalDevice) - 8usize];
+    ["Offset of field: IUnityGraphicsMetalV1::CurrentCommandBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, CurrentCommandBuffer) - 16usize];
+    ["Offset of field: IUnityGraphicsMetalV1::CurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, CurrentCommandEncoder) - 24usize];
+    ["Offset of field: IUnityGraphicsMetalV1::EndCurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, EndCurrentCommandEncoder) - 32usize];
+    ["Offset of field: IUnityGraphicsMetalV1::CurrentRenderPassDescriptor"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, CurrentRenderPassDescriptor) - 40usize];
+    ["Offset of field: IUnityGraphicsMetalV1::RenderBufferFromHandle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, RenderBufferFromHandle) - 48usize];
+    ["Offset of field: IUnityGraphicsMetalV1::TextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, TextureFromRenderBuffer) - 56usize];
+    ["Offset of field: IUnityGraphicsMetalV1::AAResolvedTextureFromRenderBuffer"][::std::mem::offset_of!(
+        IUnityGraphicsMetalV1,
+        AAResolvedTextureFromRenderBuffer
+    ) - 64usize];
+    ["Offset of field: IUnityGraphicsMetalV1::StencilTextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetalV1, StencilTextureFromRenderBuffer) - 72usize];
+};
+unsafe extern "C" {
+    pub static IUnityGraphicsMetalV1_GUID: UnityInterfaceGUID;
+}
+#[repr(C)]
+#[derive(Default, Copy, Clone)]
+pub struct IUnityGraphicsMetal {
+    pub MetalBundle: ::std::option::Option<unsafe extern "C" fn() -> NSBundle>,
+    pub MetalDevice: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandBuffer: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub CurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn() -> *mut u64>,
+    pub EndCurrentCommandEncoder: ::std::option::Option<unsafe extern "C" fn()>,
+    pub CurrentRenderPassDescriptor:
+        ::std::option::Option<unsafe extern "C" fn() -> MTLRenderPassDescriptor>,
+    pub RenderBufferFromHandle: ::std::option::Option<
+        unsafe extern "C" fn(bufferHandle: *mut ::std::os::raw::c_void) -> UnityRenderBuffer,
+    >,
+    pub TextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub AAResolvedTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+    pub StencilTextureFromRenderBuffer:
+        ::std::option::Option<unsafe extern "C" fn(buffer: UnityRenderBuffer) -> *mut u64>,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of IUnityGraphicsMetal"][::std::mem::size_of::<IUnityGraphicsMetal>() - 80usize];
+    ["Alignment of IUnityGraphicsMetal"][::std::mem::align_of::<IUnityGraphicsMetal>() - 8usize];
+    ["Offset of field: IUnityGraphicsMetal::MetalBundle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, MetalBundle) - 0usize];
+    ["Offset of field: IUnityGraphicsMetal::MetalDevice"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, MetalDevice) - 8usize];
+    ["Offset of field: IUnityGraphicsMetal::CurrentCommandBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, CurrentCommandBuffer) - 16usize];
+    ["Offset of field: IUnityGraphicsMetal::CurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, CurrentCommandEncoder) - 24usize];
+    ["Offset of field: IUnityGraphicsMetal::EndCurrentCommandEncoder"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, EndCurrentCommandEncoder) - 32usize];
+    ["Offset of field: IUnityGraphicsMetal::CurrentRenderPassDescriptor"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, CurrentRenderPassDescriptor) - 40usize];
+    ["Offset of field: IUnityGraphicsMetal::RenderBufferFromHandle"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, RenderBufferFromHandle) - 48usize];
+    ["Offset of field: IUnityGraphicsMetal::TextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, TextureFromRenderBuffer) - 56usize];
+    ["Offset of field: IUnityGraphicsMetal::AAResolvedTextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, AAResolvedTextureFromRenderBuffer) - 64usize];
+    ["Offset of field: IUnityGraphicsMetal::StencilTextureFromRenderBuffer"]
+        [::std::mem::offset_of!(IUnityGraphicsMetal, StencilTextureFromRenderBuffer) - 72usize];
+};
+unsafe extern "C" {
+    pub static IUnityGraphicsMetal_GUID: UnityInterfaceGUID;
+}
