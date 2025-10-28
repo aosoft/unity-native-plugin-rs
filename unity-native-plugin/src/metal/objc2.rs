@@ -39,7 +39,7 @@ macro_rules! impl_metal_v1 {
         impl UnityGraphicsMetalV1Interface for $intf {
             fn metal_bundle(&self) -> Option<Retained<NSBundle>> {
                 unsafe {
-                    Retained::from_raw(
+                    Retained::retain(
                         self.interface().MetalBundle.expect("MetalBundle")() as *mut _
                     )
                 }
@@ -47,7 +47,7 @@ macro_rules! impl_metal_v1 {
 
             fn metal_device(&self) -> Option<Retained<ProtocolObject<dyn MTLDevice>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLDevice>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLDevice>>::retain(self
                         .interface()
                         .MetalDevice
                         .expect("MetalDevice")(
@@ -59,7 +59,7 @@ macro_rules! impl_metal_v1 {
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLCommandBuffer>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLCommandBuffer>>::retain(self
                         .interface()
                         .CurrentCommandBuffer
                         .expect("CurrentCommandBuffer")(
@@ -72,7 +72,7 @@ macro_rules! impl_metal_v1 {
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandEncoder>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLCommandEncoder>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLCommandEncoder>>::retain(self
                         .interface()
                         .CurrentCommandEncoder
                         .expect("CurrentCommandEncoder")(
@@ -91,7 +91,7 @@ macro_rules! impl_metal_v1 {
 
             fn current_render_pass_descriptor(&self) -> Option<Retained<MTLRenderPassDescriptor>> {
                 unsafe {
-                    Retained::from_raw(self
+                    Retained::retain(self
                         .interface()
                         .CurrentRenderPassDescriptor
                         .expect("CurrentRenderPassDescriptor")()
@@ -116,7 +116,7 @@ macro_rules! impl_metal_v1 {
                 buffer: graphics::RenderBuffer,
             ) -> Option<Retained<ProtocolObject<dyn MTLTexture>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLTexture>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLTexture>>::retain(self
                         .interface()
                         .TextureFromRenderBuffer
                         .expect("TextureFromRenderBuffer")(
@@ -130,7 +130,7 @@ macro_rules! impl_metal_v1 {
                 buffer: graphics::RenderBuffer,
             ) -> Option<Retained<ProtocolObject<dyn MTLTexture>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLTexture>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLTexture>>::retain(self
                         .interface()
                         .AAResolvedTextureFromRenderBuffer
                         .expect("AAResolvedTextureFromRenderBuffer")(
@@ -144,7 +144,7 @@ macro_rules! impl_metal_v1 {
                 buffer: graphics::RenderBuffer,
             ) -> Option<Retained<ProtocolObject<dyn MTLTexture>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLTexture>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLTexture>>::retain(self
                         .interface()
                         .StencilTextureFromRenderBuffer
                         .expect("StencilTextureFromRenderBuffer")(
@@ -179,7 +179,7 @@ macro_rules! impl_metal_v2 {
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLCommandBuffer>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLCommandBuffer>>::retain(self
                         .interface()
                         .CommitCurrentCommandBuffer
                         .expect("CommitCurrentCommandBuffer")(
@@ -189,7 +189,7 @@ macro_rules! impl_metal_v2 {
 
             fn command_queue(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandQueue>>> {
                 unsafe {
-                    Retained::<ProtocolObject<dyn MTLCommandQueue>>::from_raw(self
+                    Retained::<ProtocolObject<dyn MTLCommandQueue>>::retain(self
                         .interface()
                         .CommandQueue
                         .expect("CommandQueue")(
