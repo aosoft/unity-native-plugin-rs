@@ -4,7 +4,7 @@ pub mod d3d11;
 #[cfg(feature = "d3d12")]
 pub mod d3d12;
 
-#[cfg(feature = "metal_objc2")]
+#[cfg(all(feature = "metal_objc2", target_vendor = "apple"))]
 pub mod metal;
 
 #[cfg(feature = "profiler")]
