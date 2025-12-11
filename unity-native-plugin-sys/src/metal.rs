@@ -1,5 +1,6 @@
 #[cfg(target_vendor = "apple")]
 mod metal {
+    use crate::*;
     type NSBundle = *mut u8;
     type MTLRenderPassDescriptor = *mut u8;
 
