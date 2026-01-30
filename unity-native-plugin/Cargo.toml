@@ -22,7 +22,7 @@ include = [
 default = []
 d3d11 = []
 d3d12 = []
-metal_objc2 = ["dep:objc2", "dep:objc2-foundation", "dep:objc2-metal"]
+metal = ["dep:objc2", "dep:objc2-foundation", "dep:objc2-metal"]
 profiler = []
 profiler_callbacks = ["profiler"]
 
