@@ -3,6 +3,8 @@
 #![allow(non_snake_case)]
 include!("plugin_api.rs");
 
+include!("metal.rs");
+
 impl UnityInterfaceGUID {
     pub fn new(
         high: ::std::os::raw::c_ulonglong,

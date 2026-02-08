@@ -22,8 +22,12 @@ include = [
 default = []
 d3d11 = []
 d3d12 = []
+metal = ["dep:objc2", "dep:objc2-foundation", "dep:objc2-metal"]
 profiler = []
 profiler_callbacks = ["profiler"]
 
 [dependencies]
+objc2 = { version = "0.6.3", optional = true }
+objc2-foundation = { version = "0.3.2", optional = true }
+objc2-metal = { version = "0.3.2", optional = true }
 unity-native-plugin-sys = { version = "0.8.0", path = "../unity-native-plugin-sys" }
