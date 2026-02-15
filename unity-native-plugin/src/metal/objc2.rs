@@ -39,9 +39,7 @@ macro_rules! impl_metal_v1 {
         impl UnityGraphicsMetalV1Interface for $intf {
             fn metal_bundle(&self) -> Option<Retained<NSBundle>> {
                 unsafe {
-                    Retained::retain(
-                        self.interface().MetalBundle.expect("MetalBundle")() as *mut _
-                    )
+                    Retained::retain(self.interface().MetalBundle.expect("MetalBundle")() as *mut _)
                 }
             }
 
@@ -166,7 +164,9 @@ define_unity_interface!(
 );
 
 pub trait UnityGraphicsMetalV2Interface {
-    fn commit_current_command_buffer(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
+    fn commit_current_command_buffer(
+        &self,
+    ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
     fn command_queue(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandQueue>>>;
 }
 
@@ -183,7 +183,8 @@ macro_rules! impl_metal_v2 {
                         .interface()
                         .CommitCurrentCommandBuffer
                         .expect("CommitCurrentCommandBuffer")(
-                    ) as *mut _)
+                    )
+                        as *mut _)
                 }
             }
 

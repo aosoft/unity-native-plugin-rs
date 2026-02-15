@@ -32,7 +32,6 @@ impl Debug for TesterContextInterfaces {
     }
 }
 
-
 // maybe thread safety
 unsafe impl Send for TesterContextInterfaces {}
 unsafe impl Sync for TesterContextInterfaces {}
@@ -126,11 +125,11 @@ pub unsafe fn get_unity_interfaces() -> &'static TesterContextInterfaces {
     UNITY_INTERFACES.get().unwrap()
 }
 
-pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Rc<T>
-{
+pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'static>() -> Rc<T> {
     unsafe {
         let interface_rc = get_unity_interfaces()
-            .get_interface(T::get_interface_guid()).unwrap();
+            .get_interface(T::get_interface_guid())
+            .unwrap();
 
         // Rcの中身をダウンキャストして新しいRcを作成
         let any_ref = interface_rc.as_any();
@@ -151,7 +150,9 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'st
 
 pub fn initialize_unity_interfaces() {
     unsafe {
-        UNITY_INTERFACES.set(TesterContextInterfaces::new()).unwrap();
+        UNITY_INTERFACES
+            .set(TesterContextInterfaces::new())
+            .unwrap();
         unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(
             crate::interface::get_unity_interfaces().interfaces(),
         );

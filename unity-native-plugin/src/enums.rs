@@ -41,8 +41,7 @@ pub enum RenderingExtQueryType {
         UnityRenderingExtQueryType_kUnityRenderingExtQueryKeepOriginalDoubleWideWidth_DEPRECATED,
     RequestVRFlushCallback =
         UnityRenderingExtQueryType_kUnityRenderingExtQueryRequestVRFlushCallback,
-    OverridePresentFrame =
-        UnityRenderingExtQueryType_kUnityRenderingExtQueryOverridePresentFrame,
+    OverridePresentFrame = UnityRenderingExtQueryType_kUnityRenderingExtQueryOverridePresentFrame,
 }
 
 #[repr(u32)]

@@ -1,5 +1,5 @@
-use unity_native_plugin_sys::*;
 use std::sync::OnceLock;
+use unity_native_plugin_sys::*;
 
 pub trait UnityInterface {
     fn get_interface_guid() -> UnityInterfaceGUID;
@@ -15,7 +15,6 @@ pub struct UnityInterfaces {
 // maybe thread safety
 unsafe impl Send for UnityInterfaces {}
 unsafe impl Sync for UnityInterfaces {}
-
 
 impl UnityInterfaces {
     pub fn get() -> &'static UnityInterfaces {

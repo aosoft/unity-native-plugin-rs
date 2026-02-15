@@ -5,8 +5,7 @@ use unity_native_plugin_sys::*;
 
 #[repr(u32)]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum LogType
-{
+pub enum LogType {
     Error = UnityLogType_kUnityLogTypeError,
     Warning = UnityLogType_kUnityLogTypeWarning,
     Log = UnityLogType_kUnityLogTypeLog,
@@ -23,7 +22,12 @@ define_unity_interface!(
 impl UnityLog {
     pub fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32) {
         unsafe {
-            self.interface().Log.expect("Log")(log_type as UnityLogType, message.as_ptr(), file_name.as_ptr(), file_line);
+            self.interface().Log.expect("Log")(
+                log_type as UnityLogType,
+                message.as_ptr(),
+                file_name.as_ptr(),
+                file_line,
+            );
         }
     }
 }
