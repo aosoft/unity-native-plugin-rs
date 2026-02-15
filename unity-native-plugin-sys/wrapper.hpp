@@ -25,6 +25,10 @@ struct ID3D12CommandQueue {};
 
 #include <IUnityGraphicsVulkan.h>
 
+#ifdef __OBJC__
+#include <IUnityGraphicsMetal.h>
+#endif
+
 #include <IUnityRenderingExtensions.h>
 #include <IUnityShaderCompilerAccess.h>
 
