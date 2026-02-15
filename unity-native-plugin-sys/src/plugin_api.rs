@@ -2428,7 +2428,7 @@ const _: () = {
         [::std::mem::offset_of!(IUnityGraphicsD3D11, GetPresentFlags) - 56usize];
 };
 pub type D3D12_RESOURCE_STATES = ::std::os::raw::c_int;
-pub type UINT64 = ::std::os::raw::c_ulong;
+pub type UINT64 = ::std::os::raw::c_ulonglong;
 #[repr(C)]
 #[derive(Default, Copy, Clone)]
 pub struct ID3D12Resource {

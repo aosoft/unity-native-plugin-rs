@@ -26,7 +26,7 @@ pub enum GfxRenderer {
     GameCoreXboxSeries = UnityGfxRenderer_kUnityGfxRendererGameCoreXboxSeries,
     PS5 = UnityGfxRenderer_kUnityGfxRendererPS5,
     PS5NGGC = UnityGfxRenderer_kUnityGfxRendererPS5NGGC,
-    ReservedCFE = UnityGfxRenderer_kUnityGfxRendererReservedCFE,
+    Nvn2 = UnityGfxRenderer_kUnityGfxRendererNvn2,
 }
 
 #[repr(u32)]

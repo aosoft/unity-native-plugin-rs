@@ -15,7 +15,7 @@ struct IDXGISwapChain {};
 #include <IUnityGraphicsD3D11.h>
 
 typedef std::int32_t D3D12_RESOURCE_STATES;
-typedef std::uint64_t UINT64;
+typedef unsigned long long UINT64;
 struct ID3D12Resource {};
 struct ID3D12Device {};
 struct ID3D12Fence {};
