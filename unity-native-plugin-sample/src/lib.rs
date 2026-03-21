@@ -1,4 +1,6 @@
+#[cfg(windows)]
 mod d3d11;
+#[cfg(windows)]
 mod d3d12;
 mod vulkan;
 
@@ -25,13 +27,16 @@ extern "system" fn FillTexture(
         .map(|g| g.renderer());
 
     match renderer {
+        #[cfg(windows)]
         Some(GfxRenderer::D3D11) => d3d11::fill_texture(unity_texture, x, y, z, w),
+        #[cfg(windows)]
         Some(GfxRenderer::D3D12) => d3d12::fill_texture(unity_texture, x, y, z, w),
         Some(GfxRenderer::Vulkan) => vulkan::fill_texture(unity_texture, x, y, z, w),
         _ => {}
     }
 }
 
+#[cfg(windows)]
 #[test]
 fn test() {
     let instant = std::time::Instant::now();
