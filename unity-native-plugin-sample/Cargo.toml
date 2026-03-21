@@ -12,7 +12,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 unity-native-plugin = { version = "0.9.0",  path = "../unity-native-plugin", features = ["d3d11", "d3d12", "profiler", "vulkan"] }
-winapi = { version = "0.3.9", features = ["winuser", "d3d11", "dxgiformat"] }
+winapi = { version = "0.3.9", features = ["winuser", "d3d11", "d3d12", "dxgiformat", "d3dcommon"] }
+ash = "0.38.0+1.3.281.1"
 wio = "0.2.2"
 
 [dev-dependencies]
