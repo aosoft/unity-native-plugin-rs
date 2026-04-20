@@ -78,6 +78,21 @@ pub struct VulkanPluginEventConfig {
 }
 
 impl VulkanPluginEventConfig {
+    pub fn new(
+        render_pass_precondition: VulkanEventRenderPassPreCondition,
+        graphics_queue_access: VulkanGraphicsQueueAccess,
+        flags: u32,
+    ) -> Self {
+        Self {
+            native: UnityVulkanPluginEventConfig {
+                renderPassPrecondition: render_pass_precondition
+                    as UnityVulkanEventRenderPassPreCondition,
+                graphicsQueueAccess: graphics_queue_access as UnityVulkanGraphicsQueueAccess,
+                flags,
+            },
+        }
+    }
+
     pub fn render_pass_precondition(&self) -> VulkanEventRenderPassPreCondition {
         unsafe { std::mem::transmute(self.native.renderPassPrecondition) }
     }
