@@ -22,7 +22,7 @@ unity_native_plugin::unity_native_plugin_entry_point! {
                 &unity_native_plugin::d3d12::PluginEventConfig {
                     graphics_queue_access:
                         unity_native_plugin::d3d12::GraphicsQueueAccess::Allow,
-                    flags: unity_native_plugin::d3d12::EventConfigFlagBits::from(0u32),
+                    flags: unity_native_plugin::d3d12::EventConfigFlagBit::ModifiesCommandBuffersState.into(),
                     ensure_active_render_texture_is_bound: false,
                 },
             );
@@ -34,7 +34,7 @@ unity_native_plugin::unity_native_plugin_entry_point! {
                 &unity_native_plugin::d3d12::PluginEventConfig {
                     graphics_queue_access:
                         unity_native_plugin::d3d12::GraphicsQueueAccess::Allow,
-                    flags: unity_native_plugin::d3d12::EventConfigFlagBits::from(0u32),
+                    flags: unity_native_plugin::d3d12::EventConfigFlagBit::ModifiesCommandBuffersState.into(),
                     ensure_active_render_texture_is_bound: false,
                 },
             );
