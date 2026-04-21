@@ -275,9 +275,7 @@ macro_rules! impl_d3d12_v8 {
             unsafe {
                 self.interface()
                     .RequestResourceState
-                    .expect("RequestResourceState")(
-                    resource as *mut ID3D12Resource, state
-                )
+                    .expect("RequestResourceState")(resource as *mut ID3D12Resource, state)
             }
         }
 

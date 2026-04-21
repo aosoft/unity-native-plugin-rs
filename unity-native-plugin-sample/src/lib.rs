@@ -27,6 +27,10 @@ unity_native_plugin::unity_native_plugin_entry_point! {
                     ensure_active_render_texture_is_bound: false,
                 };
                 if let Some(i) =
+                    interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v8>()
+                {
+                    i.configure_event(FILL_TEXTURE_EVENT_ID, &cfg);
+                } else if let Some(i) =
                     interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v7>()
                 {
                     i.configure_event(FILL_TEXTURE_EVENT_ID, &cfg);
