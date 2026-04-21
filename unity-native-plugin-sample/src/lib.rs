@@ -13,44 +13,44 @@ const FILL_TEXTURE_EVENT_ID: c_int = 0;
 
 unity_native_plugin::unity_native_plugin_entry_point! {
     fn unity_plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {
-        #[cfg(windows)]
-        if let Some(i) =
-            interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v7>()
-        {
-            i.configure_event(
-                FILL_TEXTURE_EVENT_ID,
-                &unity_native_plugin::d3d12::PluginEventConfig {
-                    graphics_queue_access:
-                        unity_native_plugin::d3d12::GraphicsQueueAccess::Allow,
-                    flags: unity_native_plugin::d3d12::EventConfigFlagBit::ModifiesCommandBuffersState.into(),
-                    ensure_active_render_texture_is_bound: false,
-                },
-            );
-        } else if let Some(i) =
-            interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v6>()
-        {
-            i.configure_event(
-                FILL_TEXTURE_EVENT_ID,
-                &unity_native_plugin::d3d12::PluginEventConfig {
-                    graphics_queue_access:
-                        unity_native_plugin::d3d12::GraphicsQueueAccess::Allow,
-                    flags: unity_native_plugin::d3d12::EventConfigFlagBit::ModifiesCommandBuffersState.into(),
-                    ensure_active_render_texture_is_bound: false,
-                },
-            );
-        }
+        let renderer = interfaces
+            .interface::<unity_native_plugin::graphics::UnityGraphics>()
+            .map(|g| g.renderer());
 
-        if let Some(i) =
-            interfaces.interface::<unity_native_plugin::vulkan::UnityGraphicsVulkan>()
-        {
-            i.configure_event(
-                FILL_TEXTURE_EVENT_ID,
-                &unity_native_plugin::vulkan::VulkanPluginEventConfig::new(
-                    unity_native_plugin::vulkan::VulkanEventRenderPassPreCondition::EnsureOutside,
-                    unity_native_plugin::vulkan::VulkanGraphicsQueueAccess::Allow,
-                    0,
-                ),
-            );
+        match renderer {
+            #[cfg(windows)]
+            Some(GfxRenderer::D3D12) => {
+                let cfg = unity_native_plugin::d3d12::PluginEventConfig {
+                    graphics_queue_access:
+                        unity_native_plugin::d3d12::GraphicsQueueAccess::Allow,
+                    flags: unity_native_plugin::d3d12::EventConfigFlagBit::ModifiesCommandBuffersState.into(),
+                    ensure_active_render_texture_is_bound: false,
+                };
+                if let Some(i) =
+                    interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v7>()
+                {
+                    i.configure_event(FILL_TEXTURE_EVENT_ID, &cfg);
+                } else if let Some(i) =
+                    interfaces.interface::<unity_native_plugin::d3d12::UnityGraphicsD3D12v6>()
+                {
+                    i.configure_event(FILL_TEXTURE_EVENT_ID, &cfg);
+                }
+            }
+            Some(GfxRenderer::Vulkan) => {
+                if let Some(i) =
+                    interfaces.interface::<unity_native_plugin::vulkan::UnityGraphicsVulkan>()
+                {
+                    i.configure_event(
+                        FILL_TEXTURE_EVENT_ID,
+                        &unity_native_plugin::vulkan::VulkanPluginEventConfig::new(
+                            unity_native_plugin::vulkan::VulkanEventRenderPassPreCondition::EnsureOutside,
+                            unity_native_plugin::vulkan::VulkanGraphicsQueueAccess::Allow,
+                            0,
+                        ),
+                    );
+                }
+            }
+            _ => {}
         }
     }
     fn unity_plugin_unload() {
