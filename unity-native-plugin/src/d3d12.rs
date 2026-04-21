@@ -259,3 +259,42 @@ macro_rules! impl_d3d12_v7 {
 impl UnityGraphicsD3D12v7 {
     impl_d3d12_v7!();
 }
+
+define_unity_interface!(
+    UnityGraphicsD3D12v8,
+    IUnityGraphicsD3D12v8,
+    0x9D303045D00D4CFD_u64,
+    0x8FEBB42968B423B6_u64
+);
+
+macro_rules! impl_d3d12_v8 {
+    () => {
+        impl_d3d12_v7!();
+
+        pub fn request_resource_state(&self, resource: ComPtr, state: i32) {
+            unsafe {
+                self.interface()
+                    .RequestResourceState
+                    .expect("RequestResourceState")(
+                    resource as *mut ID3D12Resource, state
+                )
+            }
+        }
+
+        pub fn notify_resource_state(&self, resource: ComPtr, state: i32, uav_access: bool) {
+            unsafe {
+                self.interface()
+                    .NotifyResourceState
+                    .expect("NotifyResourceState")(
+                    resource as *mut ID3D12Resource,
+                    state,
+                    uav_access,
+                )
+            }
+        }
+    };
+}
+
+impl UnityGraphicsD3D12v8 {
+    impl_d3d12_v8!();
+}
