@@ -1,6 +1,6 @@
-use crate::{bitflag, define_unity_interface};
 use crate::graphics;
 use crate::interface::UnityInterface;
+use crate::{bitflag, define_unity_interface};
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
@@ -22,10 +22,13 @@ pub enum GraphicsQueueAccess {
 #[repr(u32)]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum EventConfigFlagBit {
-    EnsurePreviousFrameSubmission = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_EnsurePreviousFrameSubmission,
-    FlushCommandBuffers = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_FlushCommandBuffers,
+    EnsurePreviousFrameSubmission =
+        UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_EnsurePreviousFrameSubmission,
+    FlushCommandBuffers =
+        UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_FlushCommandBuffers,
     SyncWorkerThreads = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_SyncWorkerThreads,
-    ModifiesCommandBuffersState = UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_ModifiesCommandBuffersState,
+    ModifiesCommandBuffersState =
+        UnityD3D12EventConfigFlagBits_kUnityD3D12EventConfigFlag_ModifiesCommandBuffersState,
 }
 
 bitflag!(EventConfigFlagBits, EventConfigFlagBit, u32);
@@ -40,15 +43,11 @@ pub struct PluginEventConfig {
 macro_rules! impl_d3d12_v2 {
     () => {
         pub unsafe fn device(&self) -> ComPtr {
-            unsafe {
-                self.interface().GetDevice.expect("GetDevice")() as ComPtr
-            }
+            unsafe { self.interface().GetDevice.expect("GetDevice")() as ComPtr }
         }
 
         pub unsafe fn frame_fence(&self) -> ComPtr {
-            unsafe {
-                self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr
-            }
+            unsafe { self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr }
         }
 
         pub fn next_frame_fence_value(&self) -> u64 {
@@ -66,9 +65,7 @@ macro_rules! impl_d3d12 {
         impl_d3d12_v2!();
 
         pub unsafe fn command_queue(&self) -> ComPtr {
-            unsafe {
-                self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
-            }
+            unsafe { self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr }
         }
 
         pub fn resource_state(&self, resource: ComPtr) -> Option<i32> {
@@ -157,11 +154,9 @@ macro_rules! impl_d3d12_v4 {
         impl_d3d12_v3!();
 
         pub unsafe fn command_queue(&self) -> ComPtr {
-            unsafe {
-                self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr
-            }
+            unsafe { self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr }
         }
-    }
+    };
 }
 
 impl UnityGraphicsD3D12v4 {
@@ -186,7 +181,7 @@ macro_rules! impl_d3d12_v5 {
                     .expect("TextureFromRenderBuffer")(rb) as ComPtr
             }
         }
-    }
+    };
 }
 
 impl UnityGraphicsD3D12v5 {
@@ -207,27 +202,31 @@ macro_rules! impl_d3d12_v6 {
         pub fn configure_event(&self, event_id: i32, plugin_event_config: &PluginEventConfig) {
             unsafe {
                 let cfg = UnityD3D12PluginEventConfig {
-                    graphicsQueueAccess: plugin_event_config.graphics_queue_access as UnityD3D12GraphicsQueueAccess,
+                    graphicsQueueAccess: plugin_event_config.graphics_queue_access
+                        as UnityD3D12GraphicsQueueAccess,
                     flags: plugin_event_config.flags.flag,
-                    ensureActiveRenderTextureIsBound: plugin_event_config.ensure_active_render_texture_is_bound,
+                    ensureActiveRenderTextureIsBound: plugin_event_config
+                        .ensure_active_render_texture_is_bound,
                 };
-                self.interface()
-                    .ConfigureEvent
-                    .expect("ConfigureEvent")(event_id, &cfg)
+                self.interface().ConfigureEvent.expect("ConfigureEvent")(event_id, &cfg)
             }
         }
 
         pub unsafe fn command_recording_state(&self) -> Option<ComPtr> {
             unsafe {
                 let mut state: UnityGraphicsD3D12RecordingState = std::mem::zeroed();
-                if self.interface().CommandRecordingState.expect("CommandRecordingState")(&mut state) {
+                if self
+                    .interface()
+                    .CommandRecordingState
+                    .expect("CommandRecordingState")(&mut state)
+                {
                     Some(state.commandList as ComPtr)
                 } else {
                     None
                 }
             }
         }
-    }
+    };
 }
 impl UnityGraphicsD3D12v6 {
     impl_d3d12_v6!();
@@ -245,28 +244,55 @@ macro_rules! impl_d3d12_v7 {
         impl_d3d12_v6!();
 
         pub unsafe fn swap_chain(&self) -> crate::d3d11::ComPtr {
-            unsafe {
-                self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
-            }
+            unsafe { self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr }
         }
 
         pub fn sync_interval(&self) -> u32 {
-            unsafe {
-                self.interface()
-                    .GetSyncInterval
-                    .expect("GetSyncInterval")()
-            }
+            unsafe { self.interface().GetSyncInterval.expect("GetSyncInterval")() }
         }
 
         pub fn present_flags(&self) -> u32 {
-            unsafe {
-                self.interface()
-                    .GetPresentFlags
-                    .expect("GetPresentFlags")()
-            }
+            unsafe { self.interface().GetPresentFlags.expect("GetPresentFlags")() }
         }
-    }
+    };
 }
 impl UnityGraphicsD3D12v7 {
     impl_d3d12_v7!();
+}
+
+define_unity_interface!(
+    UnityGraphicsD3D12v8,
+    IUnityGraphicsD3D12v8,
+    0x9D303045D00D4CFD_u64,
+    0x8FEBB42968B423B6_u64
+);
+
+macro_rules! impl_d3d12_v8 {
+    () => {
+        impl_d3d12_v7!();
+
+        pub fn request_resource_state(&self, resource: ComPtr, state: i32) {
+            unsafe {
+                self.interface()
+                    .RequestResourceState
+                    .expect("RequestResourceState")(resource as *mut ID3D12Resource, state)
+            }
+        }
+
+        pub fn notify_resource_state(&self, resource: ComPtr, state: i32, uav_access: bool) {
+            unsafe {
+                self.interface()
+                    .NotifyResourceState
+                    .expect("NotifyResourceState")(
+                    resource as *mut ID3D12Resource,
+                    state,
+                    uav_access,
+                )
+            }
+        }
+    };
+}
+
+impl UnityGraphicsD3D12v8 {
+    impl_d3d12_v8!();
 }

@@ -1,6 +1,6 @@
+use crate::define_unity_interface;
+use crate::interface::UnityInterface;
 use ash::vk::Handle;
-use unity_native_plugin::define_unity_interface;
-use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
@@ -51,9 +51,7 @@ impl VulkanInstance {
         name: *const std::os::raw::c_char,
     ) -> PFN_vkVoidFunction {
         if let Some(f) = self.native.getInstanceProcAddr {
-            unsafe {
-                (f)(self.native.instance, name)
-            }
+            unsafe { (f)(self.native.instance, name) }
         } else {
             PFN_vkVoidFunction::None
         }
@@ -80,6 +78,21 @@ pub struct VulkanPluginEventConfig {
 }
 
 impl VulkanPluginEventConfig {
+    pub fn new(
+        render_pass_precondition: VulkanEventRenderPassPreCondition,
+        graphics_queue_access: VulkanGraphicsQueueAccess,
+        flags: u32,
+    ) -> Self {
+        Self {
+            native: UnityVulkanPluginEventConfig {
+                renderPassPrecondition: render_pass_precondition
+                    as UnityVulkanEventRenderPassPreCondition,
+                graphicsQueueAccess: graphics_queue_access as UnityVulkanGraphicsQueueAccess,
+                flags,
+            },
+        }
+    }
+
     pub fn render_pass_precondition(&self) -> VulkanEventRenderPassPreCondition {
         unsafe { std::mem::transmute(self.native.renderPassPrecondition) }
     }
@@ -262,7 +275,11 @@ macro_rules! impl_vulkan {
             }
         }
 
-        pub fn configure_event(&self, event_id: i32, plugin_event_config: &VulkanPluginEventConfig) {
+        pub fn configure_event(
+            &self,
+            event_id: i32,
+            plugin_event_config: &VulkanPluginEventConfig,
+        ) {
             unsafe {
                 self.interface().ConfigureEvent.expect("ConfigureEvent")(
                     event_id,
@@ -331,7 +348,7 @@ macro_rules! impl_vulkan {
 
         pub unsafe fn access_render_buffer_texture(
             &self,
-            native_render_buffer: unity_native_plugin::graphics::RenderBuffer,
+            native_render_buffer: crate::graphics::RenderBuffer,
             sub_resource: Option<&ash::vk::ImageSubresource>,
             layout: ash::vk::ImageLayout,
             pipeline_stage_flags: ash::vk::PipelineStageFlags,
@@ -364,7 +381,7 @@ macro_rules! impl_vulkan {
 
         pub unsafe fn access_render_buffer_resolve_texture(
             &self,
-            native_render_buffer: unity_native_plugin::graphics::RenderBuffer,
+            native_render_buffer: crate::graphics::RenderBuffer,
             sub_resource: Option<&ash::vk::ImageSubresource>,
             layout: ash::vk::ImageLayout,
             pipeline_stage_flags: ash::vk::PipelineStageFlags,
@@ -442,7 +459,9 @@ macro_rules! impl_vulkan {
             flush: bool,
         ) {
             unsafe {
-                self.interface().AccessQueue.expect("AccessQueue")(callback, event_id, user_data, flush);
+                self.interface().AccessQueue.expect("AccessQueue")(
+                    callback, event_id, user_data, flush,
+                );
             }
         }
 
@@ -456,7 +475,7 @@ macro_rules! impl_vulkan {
 
         pub unsafe fn access_texture_by_id(
             &self,
-            texture_id: unity_native_plugin::graphics::TextureID,
+            texture_id: crate::graphics::TextureID,
             sub_resource: Option<&ash::vk::ImageSubresource>,
             layout: ash::vk::ImageLayout,
             pipeline_stage_flags: ash::vk::PipelineStageFlags,
@@ -486,13 +505,12 @@ macro_rules! impl_vulkan {
                 }
             }
         }
-    }
+    };
 }
 
 impl UnityGraphicsVulkan {
     impl_vulkan!();
 }
-
 
 define_unity_interface!(
     UnityGraphicsVulkanV2,
@@ -509,26 +527,32 @@ macro_rules! impl_vulkan_v2 {
             &self,
             func: VulkanInitCallback,
             user_data: *mut ::std::os::raw::c_void,
-            priority: i32) -> bool {
+            priority: i32,
+        ) -> bool {
             unsafe {
-                self.interface().AddInterceptInitialization.expect("AddInterceptInitialization")(std::mem::transmute(func), user_data, priority)
+                self.interface()
+                    .AddInterceptInitialization
+                    .expect("AddInterceptInitialization")(
+                    std::mem::transmute(func),
+                    user_data,
+                    priority,
+                )
             }
         }
 
-        pub unsafe fn remove_intercept_initialization(
-            &self,
-            func: VulkanInitCallback) -> bool {
+        pub unsafe fn remove_intercept_initialization(&self, func: VulkanInitCallback) -> bool {
             unsafe {
-                self.interface().RemoveInterceptInitialization.expect("RemoveInterceptInitialization")(std::mem::transmute(func))
+                self.interface()
+                    .RemoveInterceptInitialization
+                    .expect("RemoveInterceptInitialization")(std::mem::transmute(func))
             }
         }
-    }
+    };
 }
 
 impl UnityGraphicsVulkanV2 {
     impl_vulkan_v2!();
 }
-
 
 #[cfg(test)]
 mod test {

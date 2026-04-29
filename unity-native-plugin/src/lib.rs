@@ -7,18 +7,24 @@ pub mod d3d12;
 #[cfg(all(feature = "metal", target_vendor = "apple"))]
 pub mod metal;
 
+#[cfg(feature = "vulkan")]
+pub mod vulkan;
+
+#[cfg(feature = "vulkan")]
+pub use ash;
+
 #[cfg(feature = "profiler")]
 pub mod profiler;
 
 #[cfg(feature = "profiler_callbacks")]
 pub mod profiler_callbacks;
 
+mod bitflag;
 pub mod enums;
 pub mod graphics;
 pub mod interface;
 pub mod log;
 pub mod memory_manager;
-mod bitflag;
 
 pub type IUnityInterfaces = unity_native_plugin_sys::IUnityInterfaces;
 

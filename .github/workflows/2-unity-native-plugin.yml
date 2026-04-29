@@ -18,6 +18,8 @@ jobs:
       MANIFEST_PATH: unity-native-plugin
     steps:
     - uses: actions/checkout@v2
+    - name: check with vulkan feature
+      run: cargo check --manifest-path ${{ env.MANIFEST_PATH }}/Cargo.toml --features vulkan
     - name: publish dry-run
       if: ${{ env.PUBLISH != 'publish' }}
       run: |

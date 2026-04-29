@@ -13,9 +13,7 @@ pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D11 {
     pub unsafe fn device(&self) -> ComPtr {
-        unsafe {
-            self.interface().GetDevice.expect("GetDevice")() as ComPtr
-        }
+        unsafe { self.interface().GetDevice.expect("GetDevice")() as ComPtr }
     }
 
     pub unsafe fn texture_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr {
@@ -51,24 +49,14 @@ impl UnityGraphicsD3D11 {
     }
 
     pub unsafe fn swap_chain(&self) -> ComPtr {
-        unsafe {
-            self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr
-        }
+        unsafe { self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr }
     }
 
     pub fn sync_interval(&self) -> u32 {
-        unsafe {
-            self.interface()
-                .GetSyncInterval
-                .expect("GetSyncInterval")()
-        }
+        unsafe { self.interface().GetSyncInterval.expect("GetSyncInterval")() }
     }
 
     pub fn present_flags(&self) -> u32 {
-        unsafe {
-            self.interface()
-                .GetPresentFlags
-                .expect("GetPresentFlags")()
-        }
+        unsafe { self.interface().GetPresentFlags.expect("GetPresentFlags")() }
     }
 }
