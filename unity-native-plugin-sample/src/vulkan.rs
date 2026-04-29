@@ -1,20 +1,18 @@
-use ash::vk;
-use std::sync::OnceLock;
+use std::ffi::c_void;
+use unity_native_plugin::ash::vk;
 use unity_native_plugin::vulkan::{
     UnityGraphicsVulkan, VulkanGraphicsQueueAccess, VulkanResourceAccessMode,
 };
+use unity_native_plugin_sys::PFN_vkVoidFunction;
 
-static VK_ENTRY: OnceLock<ash::Entry> = OnceLock::new();
-
-fn vk_entry() -> Option<&'static ash::Entry> {
-    if let Some(e) = VK_ENTRY.get() {
-        return Some(e);
+unsafe fn unwrap_pfn(f: PFN_vkVoidFunction) -> Option<unsafe extern "system" fn()> {
+    match f {
+        PFN_vkVoidFunction::Some(f) => Some(f),
+        PFN_vkVoidFunction::None => None,
     }
-    let loaded = unsafe { ash::Entry::load() }.ok()?;
-    Some(VK_ENTRY.get_or_init(|| loaded))
 }
 
-pub fn fill_texture(unity_texture: *mut std::ffi::c_void, x: f32, y: f32, z: f32, w: f32) {
+pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {
     unsafe {
         if unity_texture.is_null() {
             return;
@@ -49,17 +47,22 @@ pub fn fill_texture(unity_texture: *mut std::ffi::c_void, x: f32, y: f32, z: f32
             None => return,
         };
 
-        // vulkan-1.dll から本物の vkGetInstanceProcAddr をロード
-        // (Unity の IUnityGraphicsVulkan::Instance().getInstanceProcAddr は
-        //  "vkGetInstanceProcAddr" 名で問い合わせると NULL を返すため使えない)
-        let entry = match vk_entry() {
-            Some(e) => e,
+        // Unity の getInstanceProcAddr 経由で必要な Vulkan 関数を取得
+        // (ash::Entry::load() で取った関数ポインタを使うと Unity の Vulkan loader フック層を
+        //  バイパスしてしまい、内部状態の不整合でクラッシュするため、この経路で取得する)
+        let vk_instance = intf.instance();
+
+        let pfn = unwrap_pfn(vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr()));
+        let vk_get_device_proc_addr: vk::PFN_vkGetDeviceProcAddr = match pfn {
+            Some(f) => std::mem::transmute(f),
             None => return,
         };
 
-        let vk_instance = intf.instance();
-        let ash_instance = ash::Instance::load(entry.static_fn(), vk_instance.instance());
-        let ash_device = ash::Device::load(ash_instance.fp_v1_0(), vk_instance.device());
+        let pfn = vk_get_device_proc_addr(vk_instance.device(), c"vkCmdClearColorImage".as_ptr());
+        let vk_cmd_clear_color_image: vk::PFN_vkCmdClearColorImage = match pfn {
+            Some(f) => std::mem::transmute(f),
+            None => return,
+        };
 
         // イメージをクリア
         let clear_value = vk::ClearColorValue {
@@ -72,12 +75,13 @@ pub fn fill_texture(unity_texture: *mut std::ffi::c_void, x: f32, y: f32, z: f32
             base_array_layer: 0,
             layer_count: image_info.layers() as u32,
         };
-        ash_device.cmd_clear_color_image(
+        vk_cmd_clear_color_image(
             recording.command_buffer(),
             image_info.image(),
             vk::ImageLayout::TRANSFER_DST_OPTIMAL,
             &clear_value,
-            &[range],
+            1,
+            &range,
         );
     }
 }

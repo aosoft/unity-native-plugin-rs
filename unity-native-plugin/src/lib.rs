@@ -10,6 +10,9 @@ pub mod metal;
 #[cfg(feature = "vulkan")]
 pub mod vulkan;
 
+#[cfg(feature = "vulkan")]
+pub use ash;
+
 #[cfg(feature = "profiler")]
 pub mod profiler;
 
