@@ -131,7 +131,7 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'st
             .get_interface(T::get_interface_guid())
             .unwrap();
 
-        // Rcの中身をダウンキャストして新しいRcを作成
+        // Downcast the inner value of Rc and create a new Rc
         let any_ref = interface_rc.as_any();
         if let Some(_) = any_ref.downcast_ref::<T>() {
             // Use Rc::clone to safely create an Rc<T>

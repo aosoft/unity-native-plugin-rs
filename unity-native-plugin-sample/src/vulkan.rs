@@ -45,9 +45,9 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
             None => return,
         };
 
-        // Unity の getInstanceProcAddr 経由で Vulkan 関数を取得する。
-        // ash::Entry::load() で取得すると Unity の Vulkan loader フック層を
-        // バイパスして内部状態が壊れクラッシュする。
+        // Retrieve Vulkan functions via Unity's getInstanceProcAddr.
+        // Using ash::Entry::load() bypasses Unity's Vulkan loader hook layer,
+        // corrupting internal state and causing a crash.
         let vk_instance = intf.instance();
 
         let pfn = unwrap_pfn(vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr()));
