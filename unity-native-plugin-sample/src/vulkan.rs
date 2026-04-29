@@ -1,7 +1,18 @@
 use ash::vk;
+use std::sync::OnceLock;
 use unity_native_plugin::vulkan::{
     UnityGraphicsVulkan, VulkanGraphicsQueueAccess, VulkanResourceAccessMode,
 };
+
+static VK_ENTRY: OnceLock<ash::Entry> = OnceLock::new();
+
+fn vk_entry() -> Option<&'static ash::Entry> {
+    if let Some(e) = VK_ENTRY.get() {
+        return Some(e);
+    }
+    let loaded = unsafe { ash::Entry::load() }.ok()?;
+    Some(VK_ENTRY.get_or_init(|| loaded))
+}
 
 pub fn fill_texture(unity_texture: *mut std::ffi::c_void, x: f32, y: f32, z: f32, w: f32) {
     unsafe {
@@ -38,14 +49,15 @@ pub fn fill_texture(unity_texture: *mut std::ffi::c_void, x: f32, y: f32, z: f32
             None => return,
         };
 
-        // Unity の VulkanInstance から ash::Device をロード
+        // vulkan-1.dll から本物の vkGetInstanceProcAddr をロード
+        // (Unity の IUnityGraphicsVulkan::Instance().getInstanceProcAddr は
+        //  "vkGetInstanceProcAddr" 名で問い合わせると NULL を返すため使えない)
+        let entry = match vk_entry() {
+            Some(e) => e,
+            None => return,
+        };
+
         let vk_instance = intf.instance();
-        let get_instance_proc_addr: vk::PFN_vkGetInstanceProcAddr = std::mem::transmute(
-            vk_instance.get_instance_proc_addr(c"vkGetInstanceProcAddr".as_ptr()),
-        );
-        let entry = ash::Entry::from_static_fn(ash::StaticFn {
-            get_instance_proc_addr,
-        });
         let ash_instance = ash::Instance::load(entry.static_fn(), vk_instance.instance());
         let ash_device = ash::Device::load(ash_instance.fp_v1_0(), vk_instance.device());
 
