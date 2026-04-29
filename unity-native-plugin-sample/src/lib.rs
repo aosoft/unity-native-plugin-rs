@@ -2,6 +2,8 @@
 mod d3d11;
 #[cfg(windows)]
 mod d3d12;
+#[cfg(target_vendor = "apple")]
+mod metal;
 mod vulkan;
 
 use std::ffi::c_void;
@@ -82,6 +84,8 @@ fn dispatch_fill_texture(texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {
         #[cfg(windows)]
         Some(GfxRenderer::D3D12) => d3d12::fill_texture(texture, x, y, z, w),
         Some(GfxRenderer::Vulkan) => vulkan::fill_texture(texture, x, y, z, w),
+        #[cfg(target_vendor = "apple")]
+        Some(GfxRenderer::Metal) => metal::fill_texture(texture, x, y, z, w),
         _ => {}
     }
 }
