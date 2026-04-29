@@ -1,5 +1,6 @@
 use std::ffi::c_void;
 use unity_native_plugin::ash::vk;
+use unity_native_plugin::ash::vk::Handle;
 use unity_native_plugin::vulkan::{
     UnityGraphicsVulkan, VulkanGraphicsQueueAccess, VulkanResourceAccessMode,
 };
@@ -25,10 +26,8 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
             None => return,
         };
 
-        // レンダーパス外であることを保証
         intf.ensure_outside_render_pass();
 
-        // テクスチャにアクセス: レイアウトを TRANSFER_DST_OPTIMAL に遷移
         let image_info = match intf.access_texture(
             unity_texture,
             None,
@@ -41,15 +40,14 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
             None => return,
         };
 
-        // コマンドバッファを取得
-        let recording = match intf.command_recording_state(VulkanGraphicsQueueAccess::Allow) {
+        let recording = match intf.command_recording_state(VulkanGraphicsQueueAccess::DontCare) {
             Some(r) => r,
             None => return,
         };
 
-        // Unity の getInstanceProcAddr 経由で必要な Vulkan 関数を取得
-        // (ash::Entry::load() で取った関数ポインタを使うと Unity の Vulkan loader フック層を
-        //  バイパスしてしまい、内部状態の不整合でクラッシュするため、この経路で取得する)
+        // Unity の getInstanceProcAddr 経由で Vulkan 関数を取得する。
+        // ash::Entry::load() で取得すると Unity の Vulkan loader フック層を
+        // バイパスして内部状態が壊れクラッシュする。
         let vk_instance = intf.instance();
 
         let pfn = unwrap_pfn(vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr()));
@@ -64,7 +62,12 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
             None => return,
         };
 
-        // イメージをクリア
+        let cb = recording.command_buffer();
+        let img = image_info.image();
+        if cb.as_raw() == 0 || img.as_raw() == 0 {
+            return;
+        }
+
         let clear_value = vk::ClearColorValue {
             float32: [x, y, z, w],
         };
@@ -75,9 +78,10 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
             base_array_layer: 0,
             layer_count: image_info.layers() as u32,
         };
+
         vk_cmd_clear_color_image(
-            recording.command_buffer(),
-            image_info.image(),
+            cb,
+            img,
             vk::ImageLayout::TRANSFER_DST_OPTIMAL,
             &clear_value,
             1,

@@ -48,8 +48,9 @@ unity_native_plugin::unity_native_plugin_entry_point! {
                         FILL_TEXTURE_EVENT_ID,
                         &unity_native_plugin::vulkan::VulkanPluginEventConfig::new(
                             unity_native_plugin::vulkan::VulkanEventRenderPassPreCondition::EnsureOutside,
-                            unity_native_plugin::vulkan::VulkanGraphicsQueueAccess::Allow,
-                            0,
+                            unity_native_plugin::vulkan::VulkanGraphicsQueueAccess::DontCare,
+                            unity_native_plugin_sys::UnityVulkanEventConfigFlagBits_kUnityVulkanEventConfigFlag_EnsurePreviousFrameSubmission
+                                | unity_native_plugin_sys::UnityVulkanEventConfigFlagBits_kUnityVulkanEventConfigFlag_ModifiesCommandBuffersState,
                         ),
                     );
                 }
