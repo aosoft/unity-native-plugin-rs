@@ -46,13 +46,13 @@ define_unity_interface!(
     0x8C5AD4926EB17B11_u64
 );
 
-pub type GraphicsDeviceEventCallback = extern "system" fn(eventType: GfxDeviceEventType);
+pub type GraphicsDeviceEventCallback = extern "system" fn(event_type: GfxDeviceEventType);
 
 impl UnityGraphics {
     pub fn renderer(&self) -> GfxRenderer {
         unsafe {
             match self.interface().GetRenderer {
-                Some(intf) => std::mem::transmute(intf()),
+                Some(intf) => std::mem::transmute::<UnityGfxRenderer, GfxRenderer>(intf()),
                 None => GfxRenderer::Null,
             }
         }
@@ -61,7 +61,10 @@ impl UnityGraphics {
     pub fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().RegisterDeviceEventCallback {
-                intf(std::mem::transmute(callback));
+                intf(std::mem::transmute::<
+                    Option<GraphicsDeviceEventCallback>,
+                    IUnityGraphicsDeviceEventCallback,
+                >(callback));
             }
         }
     }
@@ -69,7 +72,10 @@ impl UnityGraphics {
     pub fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().UnregisterDeviceEventCallback {
-                intf(std::mem::transmute(callback));
+                intf(std::mem::transmute::<
+                    Option<GraphicsDeviceEventCallback>,
+                    IUnityGraphicsDeviceEventCallback,
+                >(callback));
             }
         }
     }

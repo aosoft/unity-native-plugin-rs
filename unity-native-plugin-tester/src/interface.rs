@@ -36,6 +36,12 @@ impl Debug for TesterContextInterfaces {
 unsafe impl Send for TesterContextInterfaces {}
 unsafe impl Sync for TesterContextInterfaces {}
 
+impl Default for TesterContextInterfaces {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TesterContextInterfaces {
     pub fn new() -> Self {
         TesterContextInterfaces {
@@ -50,7 +56,7 @@ impl TesterContextInterfaces {
     }
 
     pub fn interfaces(&self) -> *mut IUnityInterfaces {
-        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
+        &self.interfaces as *const IUnityInterfaces as *mut IUnityInterfaces
     }
 
     pub fn get_interface(&self, guid: UnityInterfaceGUID) -> Option<Rc<dyn UnityInterfaceBase>> {
@@ -133,7 +139,7 @@ pub unsafe fn get_unity_interface<T: UnityInterfaceBase + UnityInterfaceID + 'st
 
         // Downcast the inner value of Rc and create a new Rc
         let any_ref = interface_rc.as_any();
-        if let Some(_) = any_ref.downcast_ref::<T>() {
+        if any_ref.downcast_ref::<T>().is_some() {
             // Use Rc::clone to safely create an Rc<T>
             // First, get a raw pointer from the original Rc
             let ptr = Rc::as_ptr(&interface_rc);

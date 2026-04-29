@@ -1,7 +1,6 @@
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use std::ffi::{CStr, c_void};
-use std::ptr::null_mut;
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
@@ -71,10 +70,10 @@ impl UnityMemoryManager {
                 area_name.as_ptr(),
                 object_name.as_ptr(),
             );
-            if allocator != null_mut() {
+            if !allocator.is_null() {
                 Some(UnityAllocator {
-                    allocator: allocator,
-                    memory_manager: self.clone(),
+                    allocator,
+                    memory_manager: *self,
                 })
             } else {
                 None

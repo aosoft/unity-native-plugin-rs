@@ -18,9 +18,9 @@ macro_rules! bitflag {
             }
         }
 
-        impl Into<$flag_value_type> for $flag_type {
-            fn into(self) -> $flag_value_type {
-                self.flag as $flag_value_type
+        impl From<$flag_type> for $flag_value_type {
+            fn from(value: $flag_type) -> Self {
+                value.flag as $flag_value_type
             }
         }
 

@@ -75,13 +75,17 @@ fn plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {
                     }
                 };
                 let pid = 1;
-                let tid: NonZeroU64 = unsafe { std::mem::transmute(std::thread::current().id()) };
+                let tid: NonZeroU64 = unsafe {
+                    std::mem::transmute::<std::thread::ThreadId, NonZeroU64>(
+                        std::thread::current().id(),
+                    )
+                };
                 let ts = Instant::now();
                 let dt = ts - start_ts;
                 let cat = desc.desc.category_id();
                 let cat: BuiltinProfilerCategory =
                     if cat <= BuiltinProfilerCategory::VirtualTexturing as u16 {
-                        unsafe { std::mem::transmute(cat) }
+                        unsafe { std::mem::transmute::<u16, BuiltinProfilerCategory>(cat) }
                     } else {
                         BuiltinProfilerCategory::Other
                     };

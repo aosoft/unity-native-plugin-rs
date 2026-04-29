@@ -30,7 +30,7 @@ impl crate::interface::UnityInterfaceBase for TesterContextGraphics {
     }
 
     fn get_unity_interface(&self) -> *mut IUnityInterface {
-        unsafe { std::mem::transmute::<_, _>(&self.interfaces) }
+        &self.interfaces as *const IUnityGraphics as *mut IUnityInterface
     }
 }
 
