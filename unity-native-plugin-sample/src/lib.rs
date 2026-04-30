@@ -106,6 +106,7 @@ pub extern "system" fn GetFillTextureCallback() -> extern "system" fn(c_int, *mu
 
 #[cfg(windows)]
 #[test]
+#[ignore = "Requires Desktop"]
 fn test() {
     let instant = std::time::Instant::now();
     unity_native_plugin_tester::d3d11::test_plugin_d3d11(
