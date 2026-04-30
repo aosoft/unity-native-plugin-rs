@@ -515,8 +515,8 @@ impl UnityGraphicsVulkan {
 define_unity_interface!(
     UnityGraphicsVulkanV2,
     IUnityGraphicsVulkanV2,
-    0xEC39D2F18446C745_u64,
-    0xB1A2626641D6B11F_u64
+    0x329334c09dca4787_u64,
+    0xb347dd92a0097ffc_u64
 );
 
 macro_rules! impl_vulkan_v2 {
