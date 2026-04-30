@@ -1,3 +1,4 @@
+use std::os::raw::c_int;
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
@@ -71,5 +72,9 @@ impl UnityGraphics {
                 intf(std::mem::transmute(callback));
             }
         }
+    }
+
+    pub fn reserve_event_id_range(&self, count: c_int) -> c_int {
+        unsafe { self.interface().ReserveEventIDRange.expect("ReserveEventIDRange is missing")(count) }
     }
 }
