@@ -52,13 +52,29 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
 
         let pfn = unwrap_pfn(vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr()));
         let vk_get_device_proc_addr: vk::PFN_vkGetDeviceProcAddr = match pfn {
-            Some(f) => std::mem::transmute(f),
+            Some(f) => std::mem::transmute::<
+                unsafe extern "system" fn(),
+                unsafe extern "system" fn(
+                    vk::Device,
+                    *const std::os::raw::c_char,
+                ) -> Option<unsafe extern "system" fn()>,
+            >(f),
             None => return,
         };
 
         let pfn = vk_get_device_proc_addr(vk_instance.device(), c"vkCmdClearColorImage".as_ptr());
         let vk_cmd_clear_color_image: vk::PFN_vkCmdClearColorImage = match pfn {
-            Some(f) => std::mem::transmute(f),
+            Some(f) => std::mem::transmute::<
+                unsafe extern "system" fn(),
+                unsafe extern "system" fn(
+                    vk::CommandBuffer,
+                    vk::Image,
+                    vk::ImageLayout,
+                    *const vk::ClearColorValue,
+                    u32,
+                    *const vk::ImageSubresourceRange,
+                ),
+            >(f),
             None => return,
         };
 

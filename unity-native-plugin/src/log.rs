@@ -15,7 +15,7 @@ pub enum LogType {
 define_unity_interface!(
     UnityLog,
     IUnityLog,
-    0x9E7507fA5B444D5D_u64,
+    0x9E7507FA5B444D5D_u64,
     0x92FB979515EA83FC_u64
 );
 

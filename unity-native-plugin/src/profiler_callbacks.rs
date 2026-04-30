@@ -71,8 +71,8 @@ impl<'a> std::fmt::Debug for ProfilerMarkerEvent<'a> {
 pub struct ProfilerMarkerData(UnityProfilerMarkerData);
 
 impl ProfilerMarkerData {
-    pub fn value(&self) -> ProfilerMarkerDataValue {
-        match unsafe { std::mem::transmute::<_, ProfilerMarkerDataType>(self.0.type_) } {
+    pub fn value(&self) -> ProfilerMarkerDataValue<'_> {
+        match unsafe { std::mem::transmute::<u8, ProfilerMarkerDataType>(self.0.type_) } {
             ProfilerMarkerDataType::None => ProfilerMarkerDataValue::None,
             ProfilerMarkerDataType::InstanceId => {
                 ProfilerMarkerDataValue::InstanceId(unsafe { *(self.0.ptr as *const i32) })

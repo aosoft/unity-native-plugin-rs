@@ -1,7 +1,6 @@
 use crate::bitflag;
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
-use std::ptr::null_mut;
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
@@ -92,7 +91,7 @@ impl ProfilerMarkerEventType {
     pub fn from(value: u16) -> Option<Self> {
         use ProfilerMarkerEventType::*;
         if value <= Single as u16 {
-            Some(unsafe { std::mem::transmute(value) })
+            Some(unsafe { std::mem::transmute::<u16, ProfilerMarkerEventType>(value) })
         } else {
             None
         }
@@ -160,7 +159,7 @@ impl ProfilerMarkerDataType {
     #[allow(unused)]
     pub(crate) fn from(value: u8) -> Option<Self> {
         if value <= ProfilerMarkerDataType::Blob8 as u8 {
-            Some(unsafe { std::mem::transmute(value) })
+            Some(unsafe { std::mem::transmute::<u8, ProfilerMarkerDataType>(value) })
         } else {
             None
         }
@@ -183,7 +182,7 @@ impl ProfilerMarkerDataUnit {
     #[allow(unused)]
     pub(crate) fn from(value: u8) -> Option<Self> {
         if value <= ProfilerMarkerDataUnit::FrequencyHz as u8 {
-            Some(unsafe { std::mem::transmute(value) })
+            Some(unsafe { std::mem::transmute::<u8, ProfilerMarkerDataUnit>(value) })
         } else {
             None
         }
@@ -213,7 +212,7 @@ impl ProfilerMarkerData<'_> {
     }
 
     pub fn data_type(&self) -> ProfilerMarkerDataType {
-        unsafe { std::mem::transmute(self.native.type_) }
+        unsafe { std::mem::transmute::<u8, ProfilerMarkerDataType>(self.native.type_) }
     }
 
     pub fn data(&self) -> &'_ [u8] {
@@ -232,7 +231,7 @@ pub enum ProfilerFlowEventType {
 impl ProfilerFlowEventType {
     pub fn from(value: u8) -> Option<Self> {
         if value <= ProfilerFlowEventType::End as u8 {
-            Some(unsafe { std::mem::transmute(value) })
+            Some(unsafe { std::mem::transmute::<u8, ProfilerFlowEventType>(value) })
         } else {
             None
         }
@@ -284,8 +283,8 @@ macro_rules! impl_profiler {
             unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
         }
 
-        pub fn create_marker<'a>(
-            &'a self,
+        pub fn create_marker(
+            &self,
             name: &std::ffi::CStr,
             category: ProfilerCategoryId,
             flags: ProfilerMarkerFlags,
@@ -412,6 +411,7 @@ macro_rules! impl_profiler_v2 {
             }
         }
 
+        #[allow(clippy::too_many_arguments)]
         pub unsafe fn create_counter_value(
             &self,
             category: ProfilerCategoryId,
@@ -451,6 +451,7 @@ macro_rules! impl_profiler_v2 {
             }
         }
 
+        #[allow(clippy::too_many_arguments)]
         pub unsafe fn create_counter<T>(
             &self,
             category: ProfilerCategoryId,
@@ -476,7 +477,7 @@ macro_rules! impl_profiler_v2 {
                     deactivate_func,
                     user_data,
                 );
-                if r != null_mut() {
+                if !r.is_null() {
                     Some(ProfilerCounter::<T> {
                         counter: r as *mut T,
                     })

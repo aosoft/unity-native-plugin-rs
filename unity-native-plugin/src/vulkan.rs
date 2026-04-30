@@ -94,15 +94,24 @@ impl VulkanPluginEventConfig {
     }
 
     pub fn render_pass_precondition(&self) -> VulkanEventRenderPassPreCondition {
-        unsafe { std::mem::transmute(self.native.renderPassPrecondition) }
+        unsafe {
+            std::mem::transmute::<
+                UnityVulkanEventRenderPassPreCondition,
+                VulkanEventRenderPassPreCondition,
+            >(self.native.renderPassPrecondition)
+        }
     }
 
     pub fn graphics_queue_access(&self) -> VulkanGraphicsQueueAccess {
-        unsafe { std::mem::transmute(self.native.graphicsQueueAccess) }
+        unsafe {
+            std::mem::transmute::<UnityVulkanGraphicsQueueAccess, VulkanGraphicsQueueAccess>(
+                self.native.graphicsQueueAccess,
+            )
+        }
     }
 
     pub fn flags(&self) -> u32 {
-        unsafe { std::mem::transmute(self.native.flags) }
+        self.native.flags
     }
 }
 
@@ -116,7 +125,7 @@ impl VulkanRecordingState {
     }
 
     pub fn command_buffer_level(&self) -> ash::vk::CommandBufferLevel {
-        unsafe { std::mem::transmute(self.native.commandBufferLevel) }
+        ash::vk::CommandBufferLevel::from_raw(self.native.commandBufferLevel as i32)
     }
 
     pub fn render_pass(&self) -> ash::vk::RenderPass {
@@ -162,7 +171,7 @@ impl VulkanMemory<'_> {
     }
 
     pub fn flags(&self) -> ash::vk::MemoryPropertyFlags {
-        unsafe { std::mem::transmute(self.native.flags) }
+        ash::vk::MemoryPropertyFlags::from_raw(self.native.flags)
     }
 
     pub fn memory_type_index(&self) -> ::std::os::raw::c_uint {
@@ -183,7 +192,7 @@ pub struct VulkanImage {
 }
 
 impl VulkanImage {
-    pub fn memory(&self) -> VulkanMemory {
+    pub fn memory(&self) -> VulkanMemory<'_> {
         VulkanMemory {
             native: &self.native.memory,
         }
@@ -194,35 +203,39 @@ impl VulkanImage {
     }
 
     pub fn layout(&self) -> ash::vk::ImageLayout {
-        unsafe { ash::vk::ImageLayout::from_raw(std::mem::transmute(self.native.layout)) }
+        ash::vk::ImageLayout::from_raw(self.native.layout as i32)
     }
 
     pub fn aspect(&self) -> ash::vk::ImageAspectFlags {
-        unsafe { std::mem::transmute(self.native.aspect) }
+        ash::vk::ImageAspectFlags::from_raw(self.native.aspect)
     }
 
     pub fn usage(&self) -> ash::vk::ImageUsageFlags {
-        unsafe { std::mem::transmute(self.native.usage) }
+        ash::vk::ImageUsageFlags::from_raw(self.native.usage)
     }
 
     pub fn format(&self) -> ash::vk::Format {
-        unsafe { std::mem::transmute(self.native.format) }
+        ash::vk::Format::from_raw(self.native.format as i32)
     }
 
     pub fn extent(&self) -> ash::vk::Extent3D {
-        unsafe { std::mem::transmute(self.native.extent) }
+        ash::vk::Extent3D {
+            width: self.native.extent.width,
+            height: self.native.extent.height,
+            depth: self.native.extent.depth,
+        }
     }
 
     pub fn tiling(&self) -> ash::vk::ImageTiling {
-        unsafe { std::mem::transmute(self.native.tiling) }
+        ash::vk::ImageTiling::from_raw(self.native.tiling as i32)
     }
 
     pub fn image_type(&self) -> ash::vk::ImageType {
-        unsafe { std::mem::transmute(self.native.type_) }
+        ash::vk::ImageType::from_raw(self.native.type_ as i32)
     }
 
     pub fn samples(&self) -> ash::vk::SampleCountFlags {
-        unsafe { std::mem::transmute(self.native.samples) }
+        ash::vk::SampleCountFlags::from_raw(self.native.samples)
     }
 
     pub fn layers(&self) -> ::std::os::raw::c_int {
@@ -256,7 +269,10 @@ macro_rules! impl_vulkan {
             unsafe {
                 self.interface()
                     .InterceptInitialization
-                    .expect("InterceptInitialization")(std::mem::transmute(func), user_data);
+                    .expect("InterceptInitialization")(
+                    std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
+                    user_data,
+                );
             }
         }
 
@@ -266,12 +282,9 @@ macro_rules! impl_vulkan {
             func: ash::vk::PFN_vkVoidFunction,
         ) -> ash::vk::PFN_vkVoidFunction {
             unsafe {
-                std::mem::transmute(self
-                    .interface()
+                self.interface()
                     .InterceptVulkanAPI
-                    .expect("InterceptVulkanAPI")(
-                    name, std::mem::transmute(func)
-                ))
+                    .expect("InterceptVulkanAPI")(name, func)
             }
         }
 
@@ -306,7 +319,7 @@ macro_rules! impl_vulkan {
                     .interface()
                     .CommandRecordingState
                     .expect("CommandRecordingState")(
-                    std::mem::transmute(&mut ret),
+                    &mut ret,
                     queue_access as UnityVulkanGraphicsQueueAccess,
                 ) {
                     Some(VulkanRecordingState { native: ret })
@@ -330,14 +343,16 @@ macro_rules! impl_vulkan {
                 if self.interface().AccessTexture.expect("AccessTexture")(
                     native_texture,
                     match sub_resource {
-                        Some(t) => std::mem::transmute(t),
+                        Some(t) => {
+                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                        }
                         None => std::ptr::null(),
                     },
-                    std::mem::transmute(layout),
-                    std::mem::transmute(pipeline_stage_flags),
-                    std::mem::transmute(access_flags),
+                    layout.as_raw() as VkImageLayout,
+                    pipeline_stage_flags.as_raw(),
+                    access_flags.as_raw(),
                     access_mode as UnityVulkanResourceAccessMode,
-                    std::mem::transmute(&mut ret),
+                    &mut ret,
                 ) {
                     Some(VulkanImage { native: ret })
                 } else {
@@ -363,14 +378,16 @@ macro_rules! impl_vulkan {
                     .expect("AccessRenderBufferTexture")(
                     native_render_buffer,
                     match sub_resource {
-                        Some(t) => std::mem::transmute(t),
+                        Some(t) => {
+                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                        }
                         None => std::ptr::null(),
                     },
-                    std::mem::transmute(layout),
-                    std::mem::transmute(pipeline_stage_flags),
-                    std::mem::transmute(access_flags),
+                    layout.as_raw() as VkImageLayout,
+                    pipeline_stage_flags.as_raw(),
+                    access_flags.as_raw(),
                     access_mode as UnityVulkanResourceAccessMode,
-                    std::mem::transmute(&mut ret),
+                    &mut ret,
                 ) {
                     Some(VulkanImage { native: ret })
                 } else {
@@ -396,14 +413,16 @@ macro_rules! impl_vulkan {
                     .expect("AccessRenderBufferResolveTexture")(
                     native_render_buffer,
                     match sub_resource {
-                        Some(t) => std::mem::transmute(t),
+                        Some(t) => {
+                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                        }
                         None => std::ptr::null(),
                     },
-                    std::mem::transmute(layout),
-                    std::mem::transmute(pipeline_stage_flags),
-                    std::mem::transmute(access_flags),
+                    layout.as_raw() as VkImageLayout,
+                    pipeline_stage_flags.as_raw(),
+                    access_flags.as_raw(),
                     access_mode as UnityVulkanResourceAccessMode,
-                    std::mem::transmute(&mut ret),
+                    &mut ret,
                 ) {
                     Some(VulkanImage { native: ret })
                 } else {
@@ -423,10 +442,10 @@ macro_rules! impl_vulkan {
                 let mut ret = std::mem::zeroed::<UnityVulkanImage>();
                 if self.interface().AccessBuffer.expect("AccessTexture")(
                     native_buffer,
-                    std::mem::transmute(pipeline_stage_flags),
-                    std::mem::transmute(access_flags),
+                    pipeline_stage_flags.as_raw(),
+                    access_flags.as_raw(),
                     access_mode as UnityVulkanResourceAccessMode,
-                    std::mem::transmute(&mut ret),
+                    &mut ret as *mut UnityVulkanImage as *mut UnityVulkanBuffer,
                 ) {
                     Some(VulkanImage { native: ret })
                 } else {
@@ -469,7 +488,10 @@ macro_rules! impl_vulkan {
             unsafe {
                 self.interface()
                     .ConfigureSwapchain
-                    .expect("ConfigureSwapchain")(std::mem::transmute(swapchain_config))
+                    .expect("ConfigureSwapchain")(
+                    swapchain_config as *const VulkanSwapchainConfiguration
+                        as *const UnityVulkanSwapchainConfiguration,
+                )
             }
         }
 
@@ -490,14 +512,16 @@ macro_rules! impl_vulkan {
                     .expect("AccessTextureByID")(
                     texture_id,
                     match sub_resource {
-                        Some(t) => std::mem::transmute(t),
+                        Some(t) => {
+                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                        }
                         None => std::ptr::null(),
                     },
-                    std::mem::transmute(layout),
-                    std::mem::transmute(pipeline_stage_flags),
-                    std::mem::transmute(access_flags),
+                    layout.as_raw() as VkImageLayout,
+                    pipeline_stage_flags.as_raw(),
+                    access_flags.as_raw(),
                     access_mode as UnityVulkanResourceAccessMode,
-                    std::mem::transmute(&mut ret),
+                    &mut ret,
                 ) {
                     Some(VulkanImage { native: ret })
                 } else {
@@ -533,7 +557,7 @@ macro_rules! impl_vulkan_v2 {
                 self.interface()
                     .AddInterceptInitialization
                     .expect("AddInterceptInitialization")(
-                    std::mem::transmute(func),
+                    std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
                     user_data,
                     priority,
                 )
@@ -544,7 +568,10 @@ macro_rules! impl_vulkan_v2 {
             unsafe {
                 self.interface()
                     .RemoveInterceptInitialization
-                    .expect("RemoveInterceptInitialization")(std::mem::transmute(func))
+                    .expect("RemoveInterceptInitialization")(std::mem::transmute::<
+                    VulkanInitCallback,
+                    UnityVulkanInitCallback,
+                >(func))
             }
         }
     };

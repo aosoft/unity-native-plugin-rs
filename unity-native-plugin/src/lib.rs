@@ -1,3 +1,5 @@
+#![allow(clippy::missing_safety_doc)]
+
 #[cfg(feature = "d3d11")]
 pub mod d3d11;
 
