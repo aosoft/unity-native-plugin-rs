@@ -1,6 +1,6 @@
-use std::os::raw::c_int;
 use crate::define_unity_interface;
 use crate::interface::UnityInterface;
+use std::os::raw::c_int;
 use unity_native_plugin_sys::*;
 
 pub type RenderBuffer = unity_native_plugin_sys::UnityRenderBuffer;
@@ -81,6 +81,10 @@ impl UnityGraphics {
     }
 
     pub fn reserve_event_id_range(&self, count: c_int) -> c_int {
-        unsafe { self.interface().ReserveEventIDRange.expect("ReserveEventIDRange is missing")(count) }
+        unsafe {
+            self.interface()
+                .ReserveEventIDRange
+                .expect("ReserveEventIDRange is missing")(count)
+        }
     }
 }

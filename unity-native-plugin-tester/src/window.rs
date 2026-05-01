@@ -74,9 +74,8 @@ where
         if self.window.is_some() {
             return;
         }
-        let attrs = Window::default_attributes().with_inner_size(
-            winit::dpi::PhysicalSize::<u32>::from(self.client_size),
-        );
+        let attrs = Window::default_attributes()
+            .with_inner_size(winit::dpi::PhysicalSize::<u32>::from(self.client_size));
         let window = event_loop.create_window(attrs).unwrap();
 
         let fn_init = self.fn_initialize.take().unwrap();
@@ -158,9 +157,11 @@ pub fn run_window_app<
     event_loop.run_app(&mut app).unwrap();
 
     fn_unity_plugin_unload();
-    if let (Some(fn_finalize), Some(window), Some(context)) =
-        (app.fn_finalize.take(), app.window.as_ref(), app.context.as_ref())
-    {
+    if let (Some(fn_finalize), Some(window), Some(context)) = (
+        app.fn_finalize.take(),
+        app.window.as_ref(),
+        app.context.as_ref(),
+    ) {
         fn_finalize(window, context.deref());
     }
 }
