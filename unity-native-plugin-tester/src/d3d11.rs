@@ -1,4 +1,4 @@
-use raw_window_handle::HasRawWindowHandle;
+use raw_window_handle::HasWindowHandle;
 use unity_native_plugin::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 use winapi::shared::{dxgi, dxgiformat, dxgitype, minwindef, winerror};
@@ -45,10 +45,10 @@ impl TesterContextGraphicsD3D11 {
                 },
                 BufferUsage: dxgitype::DXGI_USAGE_RENDER_TARGET_OUTPUT,
                 BufferCount: 2,
-                OutputWindow: match window.raw_window_handle() {
-                    raw_window_handle::RawWindowHandle::Windows(h) => h.hwnd,
+                OutputWindow: match window.window_handle().unwrap().as_raw() {
+                    raw_window_handle::RawWindowHandle::Win32(h) => h.hwnd.get() as _,
                     _ => std::ptr::null_mut(),
-                } as _,
+                },
                 Windowed: minwindef::TRUE,
                 SwapEffect: dxgi::DXGI_SWAP_EFFECT_DISCARD,
                 Flags: dxgi::DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH,

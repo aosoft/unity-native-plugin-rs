@@ -2,7 +2,6 @@
 
 pub mod graphics;
 pub mod interface;
-#[cfg(windows)]
 pub mod window;
 
 #[cfg(all(windows, feature = "d3d11"))]
