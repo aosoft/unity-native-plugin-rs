@@ -5,9 +5,12 @@
 #![allow(clippy::pedantic)]
 #![allow(unnecessary_transmutes)]
 #![allow(unsafe_op_in_unsafe_fn)]
+
+#[cfg(not(target_vendor = "apple"))]
 include!("plugin_api.rs");
 
-include!("metal.rs");
+#[cfg(target_vendor = "apple")]
+include!("metal_api.rs");
 
 impl UnityInterfaceGUID {
     pub fn new(
