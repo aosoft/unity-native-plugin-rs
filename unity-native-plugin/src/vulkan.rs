@@ -48,11 +48,11 @@ impl VulkanInstance {
     pub unsafe fn get_instance_proc_addr(
         &self,
         name: *const std::os::raw::c_char,
-    ) -> PFN_vkVoidFunction {
+    ) -> ash::vk::PFN_vkVoidFunction {
         if let Some(f) = self.native.getInstanceProcAddr {
             unsafe { (f)(self.native.instance, name) }
         } else {
-            PFN_vkVoidFunction::None
+            None
         }
     }
 }

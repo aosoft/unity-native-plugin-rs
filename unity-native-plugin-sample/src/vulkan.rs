@@ -5,14 +5,6 @@ use unity_native_plugin::vulkan::{
     UnityGraphicsVulkan, UnityGraphicsVulkanExt, VulkanGraphicsQueueAccess,
     VulkanResourceAccessMode,
 };
-use unity_native_plugin_sys::PFN_vkVoidFunction;
-
-unsafe fn unwrap_pfn(f: PFN_vkVoidFunction) -> Option<unsafe extern "system" fn()> {
-    match f {
-        PFN_vkVoidFunction::Some(f) => Some(f),
-        PFN_vkVoidFunction::None => None,
-    }
-}
 
 pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {
     unsafe {
@@ -51,7 +43,7 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
         // corrupting internal state and causing a crash.
         let vk_instance = intf.instance();
 
-        let pfn = unwrap_pfn(vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr()));
+        let pfn = vk_instance.get_instance_proc_addr(c"vkGetDeviceProcAddr".as_ptr());
         let vk_get_device_proc_addr: vk::PFN_vkGetDeviceProcAddr = match pfn {
             Some(f) => std::mem::transmute::<
                 unsafe extern "system" fn(),
