@@ -21,6 +21,27 @@ unity-native-plugin = { version = "*", features = ["d3d11"] }
 
 * Vulkan support has been integrated into `unity-native-plugin`. No separate crate needs to be added to your dependencies.
 
+### Platform-specific features
+
+The graphics features are gated by both a feature flag **and** a target `cfg`:
+
+| Feature | Effective on |
+| --- | --- |
+| `d3d11`, `d3d12` | Windows (`cfg(windows)`) |
+| `metal` | Apple platforms (`cfg(target_vendor = "apple")`) |
+| `vulkan` | Cross-platform |
+| `profiler`, `profiler_callbacks` | Cross-platform |
+
+Enabling a feature on a non-matching platform compiles silently as a no-op — the flag is accepted but the corresponding module (`unity_native_plugin::d3d11`, `unity_native_plugin::metal`, etc.) will not be present. This is intentional so that you can write a single `Cargo.toml` such as:
+
+```toml
+[dependencies]
+unity-native-plugin = { version = "*", features = ["d3d11", "d3d12", "metal", "vulkan"] }
+```
+
+without per-platform `[target.'cfg(...)'.dependencies]` blocks. The unused features
+have no runtime cost.
+
 * Use a macro in lib.rs to define your entry points. Without this definition, UnityInterfaces cannot be used.
 ```rust
 unity_native_plugin::unity_native_plugin_entry_point! {
