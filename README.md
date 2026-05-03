@@ -3,11 +3,6 @@ Unity Native Plugin API for Rust
 
 [LICENSE (MIT)](LICENSE)
 
-## Notice
-
-* Currently supports D3D11, D3D12, Vulkan, Metal
-* API is not stable.
-
 ## How to use
 
 * Define in Cargo.toml

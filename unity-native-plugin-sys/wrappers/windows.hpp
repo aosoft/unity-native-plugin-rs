@@ -4,7 +4,6 @@
 #define UINT32 uint32_t
 #define UINT uint32_t
 
-#include <IUnityGraphics.h>
 #include <IUnityInterface.h>
 
 struct ID3D11Device {};
@@ -22,26 +21,3 @@ struct ID3D12Fence {};
 struct ID3D12GraphicsCommandList {};
 struct ID3D12CommandQueue {};
 #include <IUnityGraphicsD3D12.h>
-
-#include <IUnityGraphicsVulkan.h>
-
-#ifdef __OBJC__
-#include <IUnityGraphicsMetal.h>
-#endif
-
-#include <IUnityRenderingExtensions.h>
-#include <IUnityShaderCompilerAccess.h>
-
-#ifndef NULL
-#define NULL nullptr
-#endif
-
-#include <IUnityProfiler.h>
-#include <IUnityProfilerCallbacks.h>
-
-#include <IUnityMemoryManager.h>
-
-#define Assert(x)
-
-#include <IUnityEventQueue.h>
-#include <IUnityLog.h>

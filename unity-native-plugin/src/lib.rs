@@ -1,9 +1,9 @@
 #![allow(clippy::missing_safety_doc)]
 
-#[cfg(feature = "d3d11")]
+#[cfg(all(feature = "d3d11", windows))]
 pub mod d3d11;
 
-#[cfg(feature = "d3d12")]
+#[cfg(all(feature = "d3d12", windows))]
 pub mod d3d12;
 
 #[cfg(all(feature = "metal", target_vendor = "apple"))]

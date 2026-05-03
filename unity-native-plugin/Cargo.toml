@@ -13,7 +13,9 @@ edition = "2024"
 include = [
     "**/*.rs",
     "Cargo.toml",
-    "../LICENSE"
+    "../LICENSE",
+    "../LICENSE_UnityNativePluginAPI.md",
+    "../LICENSE_VulkanHeaders.md"
 ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -23,7 +25,7 @@ default = []
 d3d11 = []
 d3d12 = []
 metal = ["dep:objc2", "dep:objc2-foundation", "dep:objc2-metal"]
-vulkan = ["dep:ash"]
+vulkan = ["dep:ash", "unity-native-plugin-sys/vulkan"]
 profiler = []
 profiler_callbacks = ["profiler"]
 
