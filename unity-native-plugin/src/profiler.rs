@@ -1,5 +1,4 @@
 use crate::bitflag;
-use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 

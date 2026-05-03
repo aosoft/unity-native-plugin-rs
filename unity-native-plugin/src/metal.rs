@@ -6,8 +6,8 @@ use objc2_metal::{
 };
 use unity_native_plugin_sys::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2, UnityRenderBuffer};
 
+use crate::graphics;
 use crate::interface::UnityInterface;
-use crate::{define_unity_interface, graphics};
 
 pub trait UnityGraphicsMetalV1Interface {
     fn metal_bundle(&self) -> Option<Retained<NSBundle>>;

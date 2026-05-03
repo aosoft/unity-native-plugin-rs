@@ -1,4 +1,3 @@
-use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use std::os::raw::c_int;
 use unity_native_plugin_sys::*;

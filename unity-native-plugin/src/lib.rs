@@ -1,5 +1,38 @@
 #![allow(clippy::missing_safety_doc)]
 
+macro_rules! define_unity_interface {
+    ($s:ident, $intf:ty, $guid_high:expr, $guid_low:expr) => {
+        #[derive(Clone, Copy)]
+        pub struct $s {
+            interface: *const $intf,
+        }
+
+        // unity plugin interface should be thread-safe
+        unsafe impl Send for $s {}
+        unsafe impl Sync for $s {}
+
+        impl UnityInterface for $s {
+            fn get_interface_guid() -> unity_native_plugin_sys::UnityInterfaceGUID {
+                unity_native_plugin_sys::UnityInterfaceGUID::new($guid_high, $guid_low)
+            }
+
+            fn new(interface: *const unity_native_plugin_sys::IUnityInterface) -> Self {
+                $s {
+                    interface: interface as *const $intf,
+                }
+            }
+        }
+
+        impl $s {
+            #[allow(dead_code)]
+            #[inline]
+            fn interface(&self) -> &$intf {
+                unsafe { &*self.interface }
+            }
+        }
+    };
+}
+
 #[cfg(all(feature = "d3d11", windows))]
 pub mod d3d11;
 
@@ -54,38 +87,4 @@ macro_rules! unity_native_plugin_entry_point {
             unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(std::ptr::null_mut());
         }
     }
-}
-
-#[macro_export]
-macro_rules! define_unity_interface {
-    ($s:ident, $intf:ty, $guid_high:expr, $guid_low:expr) => {
-        #[derive(Clone, Copy)]
-        pub struct $s {
-            interface: *const $intf,
-        }
-
-        // unity plugin interface should be thread-safe
-        unsafe impl Send for $s {}
-        unsafe impl Sync for $s {}
-
-        impl UnityInterface for $s {
-            fn get_interface_guid() -> unity_native_plugin_sys::UnityInterfaceGUID {
-                unity_native_plugin_sys::UnityInterfaceGUID::new($guid_high, $guid_low)
-            }
-
-            fn new(interface: *const unity_native_plugin_sys::IUnityInterface) -> Self {
-                $s {
-                    interface: interface as *const $intf,
-                }
-            }
-        }
-
-        impl $s {
-            #[allow(dead_code)]
-            #[inline]
-            fn interface(&self) -> &$intf {
-                unsafe { &*self.interface }
-            }
-        }
-    };
 }

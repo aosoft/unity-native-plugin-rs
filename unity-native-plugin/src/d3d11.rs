@@ -1,4 +1,3 @@
-use crate::define_unity_interface;
 use crate::graphics;
 use crate::interface::UnityInterface;
 

@@ -1,6 +1,6 @@
+use crate::bitflag;
 use crate::graphics;
 use crate::interface::UnityInterface;
-use crate::{bitflag, define_unity_interface};
 use unity_native_plugin_sys::*;
 
 define_unity_interface!(
