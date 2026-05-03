@@ -1,7 +1,7 @@
 use crate::bitflag;
-use crate::windows::ComPtr;
 use crate::graphics;
 use crate::interface::UnityInterface;
+use crate::windows::ComPtr;
 use unity_native_plugin_sys::*;
 
 pub type ResourceState = UnityGraphicsD3D12ResourceState;
