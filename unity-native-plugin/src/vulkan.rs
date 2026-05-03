@@ -512,7 +512,7 @@ macro_rules! impl_vulkan {
             ) -> Option<VulkanImage> {
                 unsafe {
                     let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                    if self.interface().AccessBuffer.expect("AccessTexture")(
+                    if self.interface().AccessBuffer.expect("AccessBuffer")(
                         native_buffer,
                         pipeline_stage_flags.as_raw(),
                         access_flags.as_raw(),
