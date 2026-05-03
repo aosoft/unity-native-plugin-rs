@@ -9,6 +9,8 @@ mod vulkan;
 use std::ffi::c_void;
 use std::os::raw::c_int;
 
+#[cfg(windows)]
+use unity_native_plugin::d3d12::UnityGraphicsD3D12v6Ext;
 use unity_native_plugin::graphics::GfxRenderer;
 use unity_native_plugin::vulkan::UnityGraphicsVulkanExt;
 
