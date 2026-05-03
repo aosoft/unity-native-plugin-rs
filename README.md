@@ -94,18 +94,19 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 * `unity_native_plugin_vulkan::vulkan::*` → `unity_native_plugin::vulkan::*`
 * `unity_native_plugin::d3d11::ComPtr` / `unity_native_plugin::d3d12::ComPtr` → `unity_native_plugin::windows::ComPtr`
 
-### Methods are now provided through `*Ext` traits
+### Methods are now provided through `*Interface` traits
 
-The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*` and `UnityGraphicsVulkan*` have been replaced with extension traits. To call any method, bring the matching trait into scope:
+The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*`, `UnityGraphicsMetal*` and `UnityGraphicsVulkan*` have been replaced with traits that mirror the underlying `IUnityGraphics*` C interfaces. To call any method, bring the matching trait into scope:
 
 ```rust
-use unity_native_plugin::d3d11::UnityGraphicsD3D11Ext;
+use unity_native_plugin::d3d11::UnityGraphicsD3D11Interface;
 use unity_native_plugin::d3d12::{
-    UnityGraphicsD3D12Ext,    // for UnityGraphicsD3D12
-    UnityGraphicsD3D12V2Ext,  // for UnityGraphicsD3D12v2
-    UnityGraphicsD3D12v3Ext,  // ... v3 .. v7Ext for the corresponding interface versions
+    UnityGraphicsD3D12Interface,    // for UnityGraphicsD3D12
+    UnityGraphicsD3D12V2Interface,  // for UnityGraphicsD3D12v2
+    UnityGraphicsD3D12v3Interface,  // ... v3 .. v8Interface for the corresponding interface versions
 };
-use unity_native_plugin::vulkan::{UnityGraphicsVulkanExt, UnityGraphicsVulkanV2Ext};
+use unity_native_plugin::metal::{UnityGraphicsMetalV1Interface, UnityGraphicsMetalV2Interface};
+use unity_native_plugin::vulkan::{UnityGraphicsVulkanInterface, UnityGraphicsVulkanV2Interface};
 ```
 
 Without the corresponding `use`, methods such as `device()`, `command_queue()` or `command_recording_state()` will appear to be missing.
