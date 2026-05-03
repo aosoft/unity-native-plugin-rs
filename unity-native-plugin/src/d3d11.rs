@@ -1,3 +1,4 @@
+use crate::windows::ComPtr;
 use crate::graphics;
 use crate::interface::UnityInterface;
 
@@ -7,8 +8,6 @@ define_unity_interface!(
     0xAAB37EF87A87D748_u64,
     0xBF76967F07EFB177_u64
 );
-
-pub type ComPtr = *mut std::ffi::c_void;
 
 impl UnityGraphicsD3D11 {
     pub unsafe fn device(&self) -> ComPtr {

@@ -1,9 +1,9 @@
 use crate::bitflag;
+use crate::windows::ComPtr;
 use crate::graphics;
 use crate::interface::UnityInterface;
 use unity_native_plugin_sys::*;
 
-pub type ComPtr = *mut std::ffi::c_void;
 pub type ResourceState = UnityGraphicsD3D12ResourceState;
 pub type PhysicalVideoMemoryControlValues = UnityGraphicsD3D12PhysicalVideoMemoryControlValues;
 

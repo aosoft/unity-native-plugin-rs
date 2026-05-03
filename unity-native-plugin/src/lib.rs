@@ -33,6 +33,9 @@ macro_rules! define_unity_interface {
     };
 }
 
+#[cfg(all(windows, any(feature = "d3d11", feature = "d3d12")))]
+pub mod windows;
+
 #[cfg(all(feature = "d3d11", windows))]
 pub mod d3d11;
 
