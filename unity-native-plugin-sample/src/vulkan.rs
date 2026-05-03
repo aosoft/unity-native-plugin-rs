@@ -2,7 +2,7 @@ use std::ffi::c_void;
 use unity_native_plugin::ash::vk;
 use unity_native_plugin::ash::vk::Handle;
 use unity_native_plugin::vulkan::{
-    UnityGraphicsVulkan, UnityGraphicsVulkanExt, VulkanGraphicsQueueAccess,
+    UnityGraphicsVulkan, UnityGraphicsVulkanInterface, VulkanGraphicsQueueAccess,
     VulkanResourceAccessMode,
 };
 

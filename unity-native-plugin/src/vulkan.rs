@@ -258,7 +258,7 @@ pub struct VulkanSwapchainConfiguration {
     pub mode: VulkanSwapchainMode,
 }
 
-pub trait UnityGraphicsVulkanExt {
+pub trait UnityGraphicsVulkanInterface {
     unsafe fn intercept_initialization(
         &self,
         func: VulkanInitCallback,
@@ -332,7 +332,7 @@ pub trait UnityGraphicsVulkanExt {
 
 macro_rules! impl_vulkan {
     ($intf:ty) => {
-        impl UnityGraphicsVulkanExt for $intf {
+        impl UnityGraphicsVulkanInterface for $intf {
             unsafe fn intercept_initialization(
                 &self,
                 func: VulkanInitCallback,
@@ -614,7 +614,7 @@ define_unity_interface!(
     0xb347dd92a0097ffc_u64
 );
 
-pub trait UnityGraphicsVulkanV2Ext: UnityGraphicsVulkanExt {
+pub trait UnityGraphicsVulkanV2Interface: UnityGraphicsVulkanInterface {
     unsafe fn add_intercept_initialization(
         &self,
         func: VulkanInitCallback,
@@ -628,7 +628,7 @@ macro_rules! impl_vulkan_v2 {
     ($intf:ty) => {
         impl_vulkan!($intf);
 
-        impl UnityGraphicsVulkanV2Ext for $intf {
+        impl UnityGraphicsVulkanV2Interface for $intf {
             unsafe fn add_intercept_initialization(
                 &self,
                 func: VulkanInitCallback,

@@ -35,7 +35,7 @@ pub struct PluginEventConfig {
     pub ensure_active_render_texture_is_bound: bool,
 }
 
-pub trait UnityGraphicsD3D12V2Ext {
+pub trait UnityGraphicsD3D12V2Interface {
     unsafe fn device(&self) -> ComPtr;
     unsafe fn frame_fence(&self) -> ComPtr;
     fn next_frame_fence_value(&self) -> u64;
@@ -43,7 +43,7 @@ pub trait UnityGraphicsD3D12V2Ext {
 
 macro_rules! impl_d3d12_v2 {
     ($intf:ty) => {
-        impl UnityGraphicsD3D12V2Ext for $intf {
+        impl UnityGraphicsD3D12V2Interface for $intf {
             unsafe fn device(&self) -> ComPtr {
                 unsafe { self.interface().GetDevice.expect("GetDevice")() as ComPtr }
             }
@@ -71,7 +71,7 @@ define_unity_interface!(
 );
 impl_d3d12_v2!(UnityGraphicsD3D12v2);
 
-pub trait UnityGraphicsD3D12Ext: UnityGraphicsD3D12V2Ext {
+pub trait UnityGraphicsD3D12Interface: UnityGraphicsD3D12V2Interface {
     unsafe fn command_queue(&self) -> ComPtr;
     fn resource_state(&self, resource: ComPtr) -> Option<i32>;
     fn set_resource_state(&self, resource: ComPtr, state: i32);
@@ -81,7 +81,7 @@ macro_rules! impl_d3d12 {
     ($intf:ty) => {
         impl_d3d12_v2!($intf);
 
-        impl UnityGraphicsD3D12Ext for $intf {
+        impl UnityGraphicsD3D12Interface for $intf {
             unsafe fn command_queue(&self) -> ComPtr {
                 unsafe { self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr }
             }
@@ -120,7 +120,7 @@ define_unity_interface!(
 );
 impl_d3d12!(UnityGraphicsD3D12);
 
-pub trait UnityGraphicsD3D12v3Ext: UnityGraphicsD3D12V2Ext {
+pub trait UnityGraphicsD3D12v3Interface: UnityGraphicsD3D12V2Interface {
     fn set_physical_video_memory_control_values(&self, mem_info: &PhysicalVideoMemoryControlValues);
 }
 
@@ -128,7 +128,7 @@ macro_rules! impl_d3d12_v3 {
     ($intf:ty) => {
         impl_d3d12_v2!($intf);
 
-        impl UnityGraphicsD3D12v3Ext for $intf {
+        impl UnityGraphicsD3D12v3Interface for $intf {
             fn set_physical_video_memory_control_values(
                 &self,
                 mem_info: &PhysicalVideoMemoryControlValues,
@@ -153,7 +153,7 @@ define_unity_interface!(
 );
 impl_d3d12_v3!(UnityGraphicsD3D12v3);
 
-pub trait UnityGraphicsD3D12v4Ext: UnityGraphicsD3D12v3Ext {
+pub trait UnityGraphicsD3D12v4Interface: UnityGraphicsD3D12v3Interface {
     unsafe fn command_queue(&self) -> ComPtr;
 }
 
@@ -161,7 +161,7 @@ macro_rules! impl_d3d12_v4 {
     ($intf:ty) => {
         impl_d3d12_v3!($intf);
 
-        impl UnityGraphicsD3D12v4Ext for $intf {
+        impl UnityGraphicsD3D12v4Interface for $intf {
             unsafe fn command_queue(&self) -> ComPtr {
                 unsafe { self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr }
             }
@@ -177,7 +177,7 @@ define_unity_interface!(
 );
 impl_d3d12_v4!(UnityGraphicsD3D12v4);
 
-pub trait UnityGraphicsD3D12v5Ext: UnityGraphicsD3D12v4Ext {
+pub trait UnityGraphicsD3D12v5Interface: UnityGraphicsD3D12v4Interface {
     unsafe fn texture_from_render_buffer(&self, rb: graphics::RenderBuffer) -> ComPtr;
 }
 
@@ -185,7 +185,7 @@ macro_rules! impl_d3d12_v5 {
     ($intf:ty) => {
         impl_d3d12_v4!($intf);
 
-        impl UnityGraphicsD3D12v5Ext for $intf {
+        impl UnityGraphicsD3D12v5Interface for $intf {
             unsafe fn texture_from_render_buffer(&self, rb: graphics::RenderBuffer) -> ComPtr {
                 unsafe {
                     self.interface()
@@ -205,7 +205,7 @@ define_unity_interface!(
 );
 impl_d3d12_v5!(UnityGraphicsD3D12v5);
 
-pub trait UnityGraphicsD3D12v6Ext: UnityGraphicsD3D12v5Ext {
+pub trait UnityGraphicsD3D12v6Interface: UnityGraphicsD3D12v5Interface {
     fn configure_event(&self, event_id: i32, plugin_event_config: &PluginEventConfig);
     unsafe fn command_recording_state(&self) -> Option<ComPtr>;
 }
@@ -214,7 +214,7 @@ macro_rules! impl_d3d12_v6 {
     ($intf:ty) => {
         impl_d3d12_v5!($intf);
 
-        impl UnityGraphicsD3D12v6Ext for $intf {
+        impl UnityGraphicsD3D12v6Interface for $intf {
             fn configure_event(&self, event_id: i32, plugin_event_config: &PluginEventConfig) {
                 unsafe {
                     let cfg = UnityD3D12PluginEventConfig {
@@ -254,7 +254,7 @@ define_unity_interface!(
 );
 impl_d3d12_v6!(UnityGraphicsD3D12v6);
 
-pub trait UnityGraphicsD3D12v7Ext: UnityGraphicsD3D12v6Ext {
+pub trait UnityGraphicsD3D12v7Interface: UnityGraphicsD3D12v6Interface {
     unsafe fn swap_chain(&self) -> ComPtr;
     fn sync_interval(&self) -> u32;
     fn present_flags(&self) -> u32;
@@ -264,7 +264,7 @@ macro_rules! impl_d3d12_v7 {
     ($intf:ty) => {
         impl_d3d12_v6!($intf);
 
-        impl UnityGraphicsD3D12v7Ext for $intf {
+        impl UnityGraphicsD3D12v7Interface for $intf {
             unsafe fn swap_chain(&self) -> ComPtr {
                 unsafe { self.interface().GetSwapChain.expect("GetSwapChain")() as ComPtr }
             }
@@ -288,7 +288,7 @@ define_unity_interface!(
 );
 impl_d3d12_v7!(UnityGraphicsD3D12v7);
 
-pub trait UnityGraphicsD3D12v8Ext: UnityGraphicsD3D12v7Ext {
+pub trait UnityGraphicsD3D12v8Interface: UnityGraphicsD3D12v7Interface {
     fn request_resource_state(&self, resource: ComPtr, state: i32);
     fn notify_resource_state(&self, resource: ComPtr, state: i32, uav_access: bool);
 }
@@ -297,7 +297,7 @@ macro_rules! impl_d3d12_v8 {
     ($intf:ty) => {
         impl_d3d12_v7!($intf);
 
-        impl UnityGraphicsD3D12v8Ext for $intf {
+        impl UnityGraphicsD3D12v8Interface for $intf {
             fn request_resource_state(&self, resource: ComPtr, state: i32) {
                 unsafe {
                     self.interface()

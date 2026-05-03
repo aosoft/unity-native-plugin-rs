@@ -9,7 +9,7 @@ use objc2_metal::{
 
 use unity_native_plugin::interface::UnityInterfaces;
 use unity_native_plugin::metal::{
-    UnityGraphicsMetalV1, UnityGraphicsMetalV1Ext, UnityGraphicsMetalV2,
+    UnityGraphicsMetalV1, UnityGraphicsMetalV1Interface, UnityGraphicsMetalV2,
 };
 
 pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {

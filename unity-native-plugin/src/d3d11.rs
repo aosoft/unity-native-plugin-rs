@@ -9,7 +9,7 @@ define_unity_interface!(
     0xBF76967F07EFB177_u64
 );
 
-pub trait UnityGraphicsD3D11Ext {
+pub trait UnityGraphicsD3D11Interface {
     unsafe fn device(&self) -> ComPtr;
     unsafe fn texture_from_render_buffer(&self, buffer: graphics::RenderBuffer) -> ComPtr;
     unsafe fn texture_from_native_texture(&self, texture: graphics::TextureID) -> ComPtr;
@@ -22,7 +22,7 @@ pub trait UnityGraphicsD3D11Ext {
 
 macro_rules! impl_d3d11 {
     ($intf:ty) => {
-        impl UnityGraphicsD3D11Ext for $intf {
+        impl UnityGraphicsD3D11Interface for $intf {
             unsafe fn device(&self) -> ComPtr {
                 unsafe { self.interface().GetDevice.expect("GetDevice")() as ComPtr }
             }
