@@ -23,7 +23,7 @@ default = []
 d3d11 = []
 d3d12 = []
 metal = ["dep:objc2", "dep:objc2-foundation", "dep:objc2-metal"]
-vulkan = ["dep:ash"]
+vulkan = ["dep:ash", "unity-native-plugin-sys/vulkan"]
 profiler = []
 profiler_callbacks = ["profiler"]
 

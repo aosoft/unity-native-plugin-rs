@@ -6,11 +6,16 @@
 #![allow(unnecessary_transmutes)]
 #![allow(unsafe_op_in_unsafe_fn)]
 
-#[cfg(not(target_vendor = "apple"))]
-include!("plugin_api.rs");
+include!("plugin_api_core.rs");
+
+#[cfg(windows)]
+include!("plugin_api_windows.rs");
 
 #[cfg(target_vendor = "apple")]
-include!("metal_api.rs");
+include!("plugin_api_apple.rs");
+
+#[cfg(feature = "vulkan")]
+include!("plugin_api_vulkan.rs");
 
 impl UnityInterfaceGUID {
     pub fn new(
