@@ -10,6 +10,7 @@ use std::ffi::c_void;
 use std::os::raw::c_int;
 
 use unity_native_plugin::graphics::GfxRenderer;
+use unity_native_plugin::vulkan::UnityGraphicsVulkanExt;
 
 const FILL_TEXTURE_EVENT_ID: c_int = 0;
 

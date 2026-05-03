@@ -258,282 +258,354 @@ pub struct VulkanSwapchainConfiguration {
     pub mode: VulkanSwapchainMode,
 }
 
+pub trait UnityGraphicsVulkanExt {
+    unsafe fn intercept_initialization(
+        &self,
+        func: VulkanInitCallback,
+        user_data: *mut ::std::os::raw::c_void,
+    );
+    unsafe fn intercept_vulkan_api(
+        &self,
+        name: *const ::std::os::raw::c_char,
+        func: ash::vk::PFN_vkVoidFunction,
+    ) -> ash::vk::PFN_vkVoidFunction;
+    fn configure_event(&self, event_id: i32, plugin_event_config: &VulkanPluginEventConfig);
+    fn instance(&self) -> VulkanInstance;
+    fn command_recording_state(
+        &self,
+        queue_access: VulkanGraphicsQueueAccess,
+    ) -> Option<VulkanRecordingState>;
+    unsafe fn access_texture(
+        &self,
+        native_texture: *mut ::std::os::raw::c_void,
+        sub_resource: Option<&ash::vk::ImageSubresource>,
+        layout: ash::vk::ImageLayout,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode,
+    ) -> Option<VulkanImage>;
+    unsafe fn access_render_buffer_texture(
+        &self,
+        native_render_buffer: crate::graphics::RenderBuffer,
+        sub_resource: Option<&ash::vk::ImageSubresource>,
+        layout: ash::vk::ImageLayout,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode,
+    ) -> Option<VulkanImage>;
+    unsafe fn access_render_buffer_resolve_texture(
+        &self,
+        native_render_buffer: crate::graphics::RenderBuffer,
+        sub_resource: Option<&ash::vk::ImageSubresource>,
+        layout: ash::vk::ImageLayout,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode,
+    ) -> Option<VulkanImage>;
+    unsafe fn access_buffer(
+        &self,
+        native_buffer: *mut ::std::os::raw::c_void,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode,
+    ) -> Option<VulkanImage>;
+    fn ensure_outside_render_pass(&self);
+    fn ensure_inside_render_pass(&self);
+    unsafe fn access_queue(
+        &self,
+        callback: UnityRenderingEventAndData,
+        event_id: ::std::os::raw::c_int,
+        user_data: *mut ::std::os::raw::c_void,
+        flush: bool,
+    );
+    fn configure_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool;
+    unsafe fn access_texture_by_id(
+        &self,
+        texture_id: crate::graphics::TextureID,
+        sub_resource: Option<&ash::vk::ImageSubresource>,
+        layout: ash::vk::ImageLayout,
+        pipeline_stage_flags: ash::vk::PipelineStageFlags,
+        access_flags: ash::vk::AccessFlags,
+        access_mode: VulkanResourceAccessMode,
+    ) -> Option<VulkanImage>;
+}
+
 macro_rules! impl_vulkan {
-    () => {
-        pub unsafe fn intercept_initialization(
-            &self,
-            func: VulkanInitCallback,
-            user_data: *mut ::std::os::raw::c_void,
-        ) {
-            unsafe {
-                self.interface()
-                    .InterceptInitialization
-                    .expect("InterceptInitialization")(
-                    std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
-                    user_data,
-                );
-            }
-        }
-
-        pub unsafe fn intercept_vulkan_api(
-            &self,
-            name: *const ::std::os::raw::c_char,
-            func: ash::vk::PFN_vkVoidFunction,
-        ) -> ash::vk::PFN_vkVoidFunction {
-            unsafe {
-                self.interface()
-                    .InterceptVulkanAPI
-                    .expect("InterceptVulkanAPI")(name, func)
-            }
-        }
-
-        pub fn configure_event(
-            &self,
-            event_id: i32,
-            plugin_event_config: &VulkanPluginEventConfig,
-        ) {
-            unsafe {
-                self.interface().ConfigureEvent.expect("ConfigureEvent")(
-                    event_id,
-                    &plugin_event_config.native,
-                )
-            }
-        }
-
-        pub fn instance(&self) -> VulkanInstance {
-            unsafe {
-                VulkanInstance {
-                    native: self.interface().Instance.expect("Instance")(),
+    ($intf:ty) => {
+        impl UnityGraphicsVulkanExt for $intf {
+            unsafe fn intercept_initialization(
+                &self,
+                func: VulkanInitCallback,
+                user_data: *mut ::std::os::raw::c_void,
+            ) {
+                unsafe {
+                    self.interface()
+                        .InterceptInitialization
+                        .expect("InterceptInitialization")(
+                        std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
+                        user_data,
+                    );
                 }
             }
-        }
 
-        pub fn command_recording_state(
-            &self,
-            queue_access: VulkanGraphicsQueueAccess,
-        ) -> Option<VulkanRecordingState> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanRecordingState>();
-                if self
-                    .interface()
-                    .CommandRecordingState
-                    .expect("CommandRecordingState")(
-                    &mut ret,
-                    queue_access as UnityVulkanGraphicsQueueAccess,
-                ) {
-                    Some(VulkanRecordingState { native: ret })
-                } else {
-                    None
+            unsafe fn intercept_vulkan_api(
+                &self,
+                name: *const ::std::os::raw::c_char,
+                func: ash::vk::PFN_vkVoidFunction,
+            ) -> ash::vk::PFN_vkVoidFunction {
+                unsafe {
+                    self.interface()
+                        .InterceptVulkanAPI
+                        .expect("InterceptVulkanAPI")(name, func)
                 }
             }
-        }
 
-        pub unsafe fn access_texture(
-            &self,
-            native_texture: *mut ::std::os::raw::c_void,
-            sub_resource: Option<&ash::vk::ImageSubresource>,
-            layout: ash::vk::ImageLayout,
-            pipeline_stage_flags: ash::vk::PipelineStageFlags,
-            access_flags: ash::vk::AccessFlags,
-            access_mode: VulkanResourceAccessMode,
-        ) -> Option<VulkanImage> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                if self.interface().AccessTexture.expect("AccessTexture")(
-                    native_texture,
-                    match sub_resource {
-                        Some(t) => {
-                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
-                        }
-                        None => std::ptr::null(),
-                    },
-                    layout.as_raw() as VkImageLayout,
-                    pipeline_stage_flags.as_raw(),
-                    access_flags.as_raw(),
-                    access_mode as UnityVulkanResourceAccessMode,
-                    &mut ret,
-                ) {
-                    Some(VulkanImage { native: ret })
-                } else {
-                    None
+            fn configure_event(
+                &self,
+                event_id: i32,
+                plugin_event_config: &VulkanPluginEventConfig,
+            ) {
+                unsafe {
+                    self.interface().ConfigureEvent.expect("ConfigureEvent")(
+                        event_id,
+                        &plugin_event_config.native,
+                    )
                 }
             }
-        }
 
-        pub unsafe fn access_render_buffer_texture(
-            &self,
-            native_render_buffer: crate::graphics::RenderBuffer,
-            sub_resource: Option<&ash::vk::ImageSubresource>,
-            layout: ash::vk::ImageLayout,
-            pipeline_stage_flags: ash::vk::PipelineStageFlags,
-            access_flags: ash::vk::AccessFlags,
-            access_mode: VulkanResourceAccessMode,
-        ) -> Option<VulkanImage> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                if self
-                    .interface()
-                    .AccessRenderBufferTexture
-                    .expect("AccessRenderBufferTexture")(
-                    native_render_buffer,
-                    match sub_resource {
-                        Some(t) => {
-                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
-                        }
-                        None => std::ptr::null(),
-                    },
-                    layout.as_raw() as VkImageLayout,
-                    pipeline_stage_flags.as_raw(),
-                    access_flags.as_raw(),
-                    access_mode as UnityVulkanResourceAccessMode,
-                    &mut ret,
-                ) {
-                    Some(VulkanImage { native: ret })
-                } else {
-                    None
+            fn instance(&self) -> VulkanInstance {
+                unsafe {
+                    VulkanInstance {
+                        native: self.interface().Instance.expect("Instance")(),
+                    }
                 }
             }
-        }
 
-        pub unsafe fn access_render_buffer_resolve_texture(
-            &self,
-            native_render_buffer: crate::graphics::RenderBuffer,
-            sub_resource: Option<&ash::vk::ImageSubresource>,
-            layout: ash::vk::ImageLayout,
-            pipeline_stage_flags: ash::vk::PipelineStageFlags,
-            access_flags: ash::vk::AccessFlags,
-            access_mode: VulkanResourceAccessMode,
-        ) -> Option<VulkanImage> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                if self
-                    .interface()
-                    .AccessRenderBufferResolveTexture
-                    .expect("AccessRenderBufferResolveTexture")(
-                    native_render_buffer,
-                    match sub_resource {
-                        Some(t) => {
-                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
-                        }
-                        None => std::ptr::null(),
-                    },
-                    layout.as_raw() as VkImageLayout,
-                    pipeline_stage_flags.as_raw(),
-                    access_flags.as_raw(),
-                    access_mode as UnityVulkanResourceAccessMode,
-                    &mut ret,
-                ) {
-                    Some(VulkanImage { native: ret })
-                } else {
-                    None
+            fn command_recording_state(
+                &self,
+                queue_access: VulkanGraphicsQueueAccess,
+            ) -> Option<VulkanRecordingState> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanRecordingState>();
+                    if self
+                        .interface()
+                        .CommandRecordingState
+                        .expect("CommandRecordingState")(
+                        &mut ret,
+                        queue_access as UnityVulkanGraphicsQueueAccess,
+                    ) {
+                        Some(VulkanRecordingState { native: ret })
+                    } else {
+                        None
+                    }
                 }
             }
-        }
 
-        pub unsafe fn access_buffer(
-            &self,
-            native_buffer: *mut ::std::os::raw::c_void,
-            pipeline_stage_flags: ash::vk::PipelineStageFlags,
-            access_flags: ash::vk::AccessFlags,
-            access_mode: VulkanResourceAccessMode,
-        ) -> Option<VulkanImage> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                if self.interface().AccessBuffer.expect("AccessTexture")(
-                    native_buffer,
-                    pipeline_stage_flags.as_raw(),
-                    access_flags.as_raw(),
-                    access_mode as UnityVulkanResourceAccessMode,
-                    &mut ret as *mut UnityVulkanImage as *mut UnityVulkanBuffer,
-                ) {
-                    Some(VulkanImage { native: ret })
-                } else {
-                    None
+            unsafe fn access_texture(
+                &self,
+                native_texture: *mut ::std::os::raw::c_void,
+                sub_resource: Option<&ash::vk::ImageSubresource>,
+                layout: ash::vk::ImageLayout,
+                pipeline_stage_flags: ash::vk::PipelineStageFlags,
+                access_flags: ash::vk::AccessFlags,
+                access_mode: VulkanResourceAccessMode,
+            ) -> Option<VulkanImage> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                    if self.interface().AccessTexture.expect("AccessTexture")(
+                        native_texture,
+                        match sub_resource {
+                            Some(t) => {
+                                t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                            }
+                            None => std::ptr::null(),
+                        },
+                        layout.as_raw() as VkImageLayout,
+                        pipeline_stage_flags.as_raw(),
+                        access_flags.as_raw(),
+                        access_mode as UnityVulkanResourceAccessMode,
+                        &mut ret,
+                    ) {
+                        Some(VulkanImage { native: ret })
+                    } else {
+                        None
+                    }
                 }
             }
-        }
 
-        pub fn ensure_outside_render_pass(&self) {
-            unsafe {
-                self.interface()
-                    .EnsureOutsideRenderPass
-                    .expect("EnsureOutsideRenderPass")()
+            unsafe fn access_render_buffer_texture(
+                &self,
+                native_render_buffer: crate::graphics::RenderBuffer,
+                sub_resource: Option<&ash::vk::ImageSubresource>,
+                layout: ash::vk::ImageLayout,
+                pipeline_stage_flags: ash::vk::PipelineStageFlags,
+                access_flags: ash::vk::AccessFlags,
+                access_mode: VulkanResourceAccessMode,
+            ) -> Option<VulkanImage> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                    if self
+                        .interface()
+                        .AccessRenderBufferTexture
+                        .expect("AccessRenderBufferTexture")(
+                        native_render_buffer,
+                        match sub_resource {
+                            Some(t) => {
+                                t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                            }
+                            None => std::ptr::null(),
+                        },
+                        layout.as_raw() as VkImageLayout,
+                        pipeline_stage_flags.as_raw(),
+                        access_flags.as_raw(),
+                        access_mode as UnityVulkanResourceAccessMode,
+                        &mut ret,
+                    ) {
+                        Some(VulkanImage { native: ret })
+                    } else {
+                        None
+                    }
+                }
             }
-        }
 
-        pub fn ensure_inside_render_pass(&self) {
-            unsafe {
-                self.interface()
-                    .EnsureInsideRenderPass
-                    .expect("EnsureInsideRenderPass")()
+            unsafe fn access_render_buffer_resolve_texture(
+                &self,
+                native_render_buffer: crate::graphics::RenderBuffer,
+                sub_resource: Option<&ash::vk::ImageSubresource>,
+                layout: ash::vk::ImageLayout,
+                pipeline_stage_flags: ash::vk::PipelineStageFlags,
+                access_flags: ash::vk::AccessFlags,
+                access_mode: VulkanResourceAccessMode,
+            ) -> Option<VulkanImage> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                    if self
+                        .interface()
+                        .AccessRenderBufferResolveTexture
+                        .expect("AccessRenderBufferResolveTexture")(
+                        native_render_buffer,
+                        match sub_resource {
+                            Some(t) => {
+                                t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                            }
+                            None => std::ptr::null(),
+                        },
+                        layout.as_raw() as VkImageLayout,
+                        pipeline_stage_flags.as_raw(),
+                        access_flags.as_raw(),
+                        access_mode as UnityVulkanResourceAccessMode,
+                        &mut ret,
+                    ) {
+                        Some(VulkanImage { native: ret })
+                    } else {
+                        None
+                    }
+                }
             }
-        }
 
-        pub unsafe fn access_queue(
-            &self,
-            callback: UnityRenderingEventAndData,
-            event_id: ::std::os::raw::c_int,
-            user_data: *mut ::std::os::raw::c_void,
-            flush: bool,
-        ) {
-            unsafe {
-                self.interface().AccessQueue.expect("AccessQueue")(
-                    callback, event_id, user_data, flush,
-                );
+            unsafe fn access_buffer(
+                &self,
+                native_buffer: *mut ::std::os::raw::c_void,
+                pipeline_stage_flags: ash::vk::PipelineStageFlags,
+                access_flags: ash::vk::AccessFlags,
+                access_mode: VulkanResourceAccessMode,
+            ) -> Option<VulkanImage> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                    if self.interface().AccessBuffer.expect("AccessTexture")(
+                        native_buffer,
+                        pipeline_stage_flags.as_raw(),
+                        access_flags.as_raw(),
+                        access_mode as UnityVulkanResourceAccessMode,
+                        &mut ret as *mut UnityVulkanImage as *mut UnityVulkanBuffer,
+                    ) {
+                        Some(VulkanImage { native: ret })
+                    } else {
+                        None
+                    }
+                }
             }
-        }
 
-        pub fn configure_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
-            unsafe {
-                self.interface()
-                    .ConfigureSwapchain
-                    .expect("ConfigureSwapchain")(
-                    swapchain_config as *const VulkanSwapchainConfiguration
-                        as *const UnityVulkanSwapchainConfiguration,
-                )
+            fn ensure_outside_render_pass(&self) {
+                unsafe {
+                    self.interface()
+                        .EnsureOutsideRenderPass
+                        .expect("EnsureOutsideRenderPass")()
+                }
             }
-        }
 
-        pub unsafe fn access_texture_by_id(
-            &self,
-            texture_id: crate::graphics::TextureID,
-            sub_resource: Option<&ash::vk::ImageSubresource>,
-            layout: ash::vk::ImageLayout,
-            pipeline_stage_flags: ash::vk::PipelineStageFlags,
-            access_flags: ash::vk::AccessFlags,
-            access_mode: VulkanResourceAccessMode,
-        ) -> Option<VulkanImage> {
-            unsafe {
-                let mut ret = std::mem::zeroed::<UnityVulkanImage>();
-                if self
-                    .interface()
-                    .AccessTextureByID
-                    .expect("AccessTextureByID")(
-                    texture_id,
-                    match sub_resource {
-                        Some(t) => {
-                            t as *const ash::vk::ImageSubresource as *const VkImageSubresource
-                        }
-                        None => std::ptr::null(),
-                    },
-                    layout.as_raw() as VkImageLayout,
-                    pipeline_stage_flags.as_raw(),
-                    access_flags.as_raw(),
-                    access_mode as UnityVulkanResourceAccessMode,
-                    &mut ret,
-                ) {
-                    Some(VulkanImage { native: ret })
-                } else {
-                    None
+            fn ensure_inside_render_pass(&self) {
+                unsafe {
+                    self.interface()
+                        .EnsureInsideRenderPass
+                        .expect("EnsureInsideRenderPass")()
+                }
+            }
+
+            unsafe fn access_queue(
+                &self,
+                callback: UnityRenderingEventAndData,
+                event_id: ::std::os::raw::c_int,
+                user_data: *mut ::std::os::raw::c_void,
+                flush: bool,
+            ) {
+                unsafe {
+                    self.interface().AccessQueue.expect("AccessQueue")(
+                        callback, event_id, user_data, flush,
+                    );
+                }
+            }
+
+            fn configure_swapchain(&self, swapchain_config: &VulkanSwapchainConfiguration) -> bool {
+                unsafe {
+                    self.interface()
+                        .ConfigureSwapchain
+                        .expect("ConfigureSwapchain")(
+                        swapchain_config as *const VulkanSwapchainConfiguration
+                            as *const UnityVulkanSwapchainConfiguration,
+                    )
+                }
+            }
+
+            unsafe fn access_texture_by_id(
+                &self,
+                texture_id: crate::graphics::TextureID,
+                sub_resource: Option<&ash::vk::ImageSubresource>,
+                layout: ash::vk::ImageLayout,
+                pipeline_stage_flags: ash::vk::PipelineStageFlags,
+                access_flags: ash::vk::AccessFlags,
+                access_mode: VulkanResourceAccessMode,
+            ) -> Option<VulkanImage> {
+                unsafe {
+                    let mut ret = std::mem::zeroed::<UnityVulkanImage>();
+                    if self
+                        .interface()
+                        .AccessTextureByID
+                        .expect("AccessTextureByID")(
+                        texture_id,
+                        match sub_resource {
+                            Some(t) => {
+                                t as *const ash::vk::ImageSubresource as *const VkImageSubresource
+                            }
+                            None => std::ptr::null(),
+                        },
+                        layout.as_raw() as VkImageLayout,
+                        pipeline_stage_flags.as_raw(),
+                        access_flags.as_raw(),
+                        access_mode as UnityVulkanResourceAccessMode,
+                        &mut ret,
+                    ) {
+                        Some(VulkanImage { native: ret })
+                    } else {
+                        None
+                    }
                 }
             }
         }
     };
 }
 
-impl UnityGraphicsVulkan {
-    impl_vulkan!();
-}
+impl_vulkan!(UnityGraphicsVulkan);
 
 define_unity_interface!(
     UnityGraphicsVulkanV2,
@@ -542,43 +614,53 @@ define_unity_interface!(
     0xb347dd92a0097ffc_u64
 );
 
+pub trait UnityGraphicsVulkanV2Ext: UnityGraphicsVulkanExt {
+    unsafe fn add_intercept_initialization(
+        &self,
+        func: VulkanInitCallback,
+        user_data: *mut ::std::os::raw::c_void,
+        priority: i32,
+    ) -> bool;
+    unsafe fn remove_intercept_initialization(&self, func: VulkanInitCallback) -> bool;
+}
+
 macro_rules! impl_vulkan_v2 {
-    () => {
-        impl_vulkan!();
+    ($intf:ty) => {
+        impl_vulkan!($intf);
 
-        pub unsafe fn add_intercept_initialization(
-            &self,
-            func: VulkanInitCallback,
-            user_data: *mut ::std::os::raw::c_void,
-            priority: i32,
-        ) -> bool {
-            unsafe {
-                self.interface()
-                    .AddInterceptInitialization
-                    .expect("AddInterceptInitialization")(
-                    std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
-                    user_data,
-                    priority,
-                )
+        impl UnityGraphicsVulkanV2Ext for $intf {
+            unsafe fn add_intercept_initialization(
+                &self,
+                func: VulkanInitCallback,
+                user_data: *mut ::std::os::raw::c_void,
+                priority: i32,
+            ) -> bool {
+                unsafe {
+                    self.interface()
+                        .AddInterceptInitialization
+                        .expect("AddInterceptInitialization")(
+                        std::mem::transmute::<VulkanInitCallback, UnityVulkanInitCallback>(func),
+                        user_data,
+                        priority,
+                    )
+                }
             }
-        }
 
-        pub unsafe fn remove_intercept_initialization(&self, func: VulkanInitCallback) -> bool {
-            unsafe {
-                self.interface()
-                    .RemoveInterceptInitialization
-                    .expect("RemoveInterceptInitialization")(std::mem::transmute::<
-                    VulkanInitCallback,
-                    UnityVulkanInitCallback,
-                >(func))
+            unsafe fn remove_intercept_initialization(&self, func: VulkanInitCallback) -> bool {
+                unsafe {
+                    self.interface()
+                        .RemoveInterceptInitialization
+                        .expect("RemoveInterceptInitialization")(std::mem::transmute::<
+                        VulkanInitCallback,
+                        UnityVulkanInitCallback,
+                    >(func))
+                }
             }
         }
     };
 }
 
-impl UnityGraphicsVulkanV2 {
-    impl_vulkan_v2!();
-}
+impl_vulkan_v2!(UnityGraphicsVulkanV2);
 
 #[cfg(test)]
 mod test {

@@ -9,7 +9,7 @@ use unity_native_plugin_sys::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2, Unit
 use crate::graphics;
 use crate::interface::UnityInterface;
 
-pub trait UnityGraphicsMetalV1Interface {
+pub trait UnityGraphicsMetalV1Ext {
     fn metal_bundle(&self) -> Option<Retained<NSBundle>>;
     fn metal_device(&self) -> Option<Retained<ProtocolObject<dyn MTLDevice>>>;
     fn current_command_buffer(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
@@ -36,7 +36,7 @@ pub trait UnityGraphicsMetalV1Interface {
 
 macro_rules! impl_metal_v1 {
     ($intf:ty) => {
-        impl UnityGraphicsMetalV1Interface for $intf {
+        impl UnityGraphicsMetalV1Ext for $intf {
             fn metal_bundle(&self) -> Option<Retained<NSBundle>> {
                 unsafe {
                     Retained::retain(self.interface().MetalBundle.expect("MetalBundle")() as *mut _)
@@ -163,7 +163,7 @@ define_unity_interface!(
     0x92138551C15D823D_u64
 );
 
-pub trait UnityGraphicsMetalV2Interface {
+pub trait UnityGraphicsMetalV2Ext: UnityGraphicsMetalV1Ext {
     fn commit_current_command_buffer(
         &self,
     ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
@@ -174,7 +174,7 @@ macro_rules! impl_metal_v2 {
     ($intf:ty) => {
         impl_metal_v1!($intf);
 
-        impl UnityGraphicsMetalV2Interface for $intf {
+        impl UnityGraphicsMetalV2Ext for $intf {
             fn commit_current_command_buffer(
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>> {
