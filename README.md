@@ -64,3 +64,72 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 * [unity-native-plugin-sample](./unity-native-plugin-sample)
 * [Native code (Rust) rendering plugin example for Unity](https://github.com/aosoft/unity-native-rendering-plugin-example-rs) - a port of ["C++ Rendering Plugin example for Unity"](https://github.com/Unity-Technologies/NativeRenderingPlugin)
 * [Event tracing example for unity](./unity-native-plugin-sample-profiler) - similar to ["TraceEventProfiler from Unity-Technologies"](https://github.com/Unity-Technologies/TraceEventProfiler)
+
+## Migration guide: 0.8 → 0.9
+
+### `Cargo.toml`
+
+* **The `unity-native-plugin-vulkan` crate has been removed.** Vulkan support is now an opt-in feature of `unity-native-plugin` itself.
+
+  ```toml
+  # Before (0.8)
+  unity-native-plugin        = "0.8"
+  unity-native-plugin-vulkan = "0.8"
+
+  # After (0.9)
+  unity-native-plugin = { version = "0.9", features = ["vulkan"] }
+  ```
+
+* **The `profiler_callbacks` feature has been merged into `profiler`.** Enabling `profiler` now exposes both `IUnityProfiler` and `IUnityProfilerCallbacks`.
+
+  ```toml
+  # Before
+  features = ["profiler", "profiler_callbacks"]
+  # After
+  features = ["profiler"]
+  ```
+
+### Module paths
+
+* `unity_native_plugin_vulkan::vulkan::*` → `unity_native_plugin::vulkan::*`
+* `unity_native_plugin::d3d11::ComPtr` / `unity_native_plugin::d3d12::ComPtr` → `unity_native_plugin::windows::ComPtr`
+
+### Methods are now provided through `*Ext` traits
+
+The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*` and `UnityGraphicsVulkan*` have been replaced with extension traits. To call any method, bring the matching trait into scope:
+
+```rust
+use unity_native_plugin::d3d11::UnityGraphicsD3D11Ext;
+use unity_native_plugin::d3d12::{
+    UnityGraphicsD3D12Ext,    // for UnityGraphicsD3D12
+    UnityGraphicsD3D12V2Ext,  // for UnityGraphicsD3D12v2
+    UnityGraphicsD3D12v3Ext,  // ... v3 .. v7Ext for the corresponding interface versions
+};
+use unity_native_plugin::vulkan::{UnityGraphicsVulkanExt, UnityGraphicsVulkanV2Ext};
+```
+
+Without the corresponding `use`, methods such as `device()`, `command_queue()` or `command_recording_state()` will appear to be missing.
+
+### Renamed identifiers
+
+* D3D11 typo fixes (call sites must be updated):
+  * `texture_from_natvie_texture` → `texture_from_native_texture`
+  * `srv_from_natvie_texture` → `srv_from_native_texture`
+* `graphics::GfxRenderer::ReservedCFE` → `graphics::GfxRenderer::Nvn2`
+
+### Vulkan: `VulkanInstance::get_instance_proc_addr` return type
+
+The return type changed from a sys-defined enum to the standard `ash` function-pointer type, so the caller now matches on `Option` instead of the custom `None` variant.
+
+```rust
+// Before (0.8)
+match instance.get_instance_proc_addr(name) {
+    PFN_vkVoidFunction::None => { /* not found */ }
+    other => { /* use other */ }
+}
+
+// After (0.9)
+if let Some(f) = instance.get_instance_proc_addr(name) {
+    // use f
+}
+```
