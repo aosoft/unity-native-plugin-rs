@@ -54,7 +54,7 @@ pub use ash;
 #[cfg(feature = "profiler")]
 pub mod profiler;
 
-#[cfg(feature = "profiler_callbacks")]
+#[cfg(feature = "profiler")]
 pub mod profiler_callbacks;
 
 mod bitflag;

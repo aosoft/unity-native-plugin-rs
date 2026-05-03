@@ -15,8 +15,7 @@ unity-native-plugin = { version = "*", features = ["d3d11"] }
 #    * d3d12 - IUnityGraphicsD3D12
 #    * vulkan - IUnityGraphicsVulkan
 #    * metal - IUnityGraphicsMetal
-#    * profiler - IUnityProfiler
-#    * profiler_callbacks - IUnityProfilerCallbacks
+#    * profiler - IUnityProfiler / IUnityProfilerCallbacks
 ```
 
 * Vulkan support has been integrated into `unity-native-plugin`. No separate crate needs to be added to your dependencies.
@@ -30,7 +29,7 @@ The graphics features are gated by both a feature flag **and** a target `cfg`:
 | `d3d11`, `d3d12` | Windows (`cfg(windows)`) |
 | `metal` | Apple platforms (`cfg(target_vendor = "apple")`) |
 | `vulkan` | Cross-platform |
-| `profiler`, `profiler_callbacks` | Cross-platform |
+| `profiler` | Cross-platform |
 
 Enabling a feature on a non-matching platform compiles silently as a no-op — the flag is accepted but the corresponding module (`unity_native_plugin::d3d11`, `unity_native_plugin::metal`, etc.) will not be present. This is intentional so that you can write a single `Cargo.toml` such as:
 
