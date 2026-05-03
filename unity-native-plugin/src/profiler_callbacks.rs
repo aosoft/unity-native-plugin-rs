@@ -1,4 +1,3 @@
-use crate::define_unity_interface;
 use crate::interface::UnityInterface;
 use crate::profiler::*;
 use std::ffi::c_void;

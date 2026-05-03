@@ -1,3 +1,4 @@
+use unity_native_plugin::d3d11::UnityGraphicsD3D11Interface;
 use winapi::shared::dxgiformat;
 use winapi::um::{d3d11, unknwnbase::IUnknown};
 use wio::com::ComPtr;

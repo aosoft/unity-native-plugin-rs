@@ -1,3 +1,6 @@
+use unity_native_plugin::d3d12::{
+    UnityGraphicsD3D12V2Interface, UnityGraphicsD3D12v6Interface, UnityGraphicsD3D12v8Interface,
+};
 use winapi::Interface;
 use winapi::um::d3d12::*;
 use wio::com::ComPtr;
