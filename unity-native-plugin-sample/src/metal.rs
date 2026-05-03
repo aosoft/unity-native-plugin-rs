@@ -8,7 +8,7 @@ use objc2_metal::{
 };
 
 use unity_native_plugin::interface::UnityInterfaces;
-use unity_native_plugin::metal::objc2::{
+use unity_native_plugin::metal::{
     UnityGraphicsMetalV1, UnityGraphicsMetalV1Interface, UnityGraphicsMetalV2,
 };
 
