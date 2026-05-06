@@ -9,7 +9,7 @@ use unity_native_plugin_sys::UnityRenderBuffer;
 use crate::graphics;
 use crate::interface::UnityInterface;
 
-pub trait IUnityGraphicsMetalV1 {
+pub trait UnityGraphicsMetalV1Interface {
     fn metal_bundle(&self) -> Option<Retained<NSBundle>>;
     fn metal_device(&self) -> Option<Retained<ProtocolObject<dyn MTLDevice>>>;
     fn current_command_buffer(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
@@ -34,9 +34,11 @@ pub trait IUnityGraphicsMetalV1 {
     ) -> Option<Retained<ProtocolObject<dyn MTLTexture>>>;
 }
 
+pub use UnityGraphicsMetalV1Interface as IUnityGraphicsMetalV1;
+
 macro_rules! impl_metal_v1 {
     ($intf:ty) => {
-        impl IUnityGraphicsMetalV1 for $intf {
+        impl UnityGraphicsMetalV1Interface for $intf {
             fn metal_bundle(&self) -> Option<Retained<NSBundle>> {
                 unsafe {
                     Retained::retain(self.interface().MetalBundle.expect("MetalBundle")() as *mut _)
@@ -163,18 +165,20 @@ define_unity_interface!(
     0x92138551C15D823D_u64
 );
 
-pub trait IUnityGraphicsMetalV2: IUnityGraphicsMetalV1 {
+pub trait UnityGraphicsMetalV2Interface: UnityGraphicsMetalV1Interface {
     fn commit_current_command_buffer(
         &self,
     ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
     fn command_queue(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandQueue>>>;
 }
 
+pub use UnityGraphicsMetalV2Interface as IUnityGraphicsMetalV2;
+
 macro_rules! impl_metal_v2 {
     ($intf:ty) => {
         impl_metal_v1!($intf);
 
-        impl IUnityGraphicsMetalV2 for $intf {
+        impl UnityGraphicsMetalV2Interface for $intf {
             fn commit_current_command_buffer(
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>> {

@@ -8,9 +8,7 @@ use objc2_metal::{
 };
 
 use unity_native_plugin::interface::UnityInterfaces;
-use unity_native_plugin::metal::{
-    IUnityGraphicsMetalV1, UnityGraphicsMetalV1, UnityGraphicsMetalV2,
-};
+use unity_native_plugin::metal::IUnityGraphicsMetalV1;
 
 pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {
     if unity_texture.is_null() {
@@ -20,22 +18,25 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
     unsafe {
         let interfaces = UnityInterfaces::get();
 
-        let cmd_buffer: Retained<ProtocolObject<dyn MTLCommandBuffer>> =
-            if let Some(intf) = interfaces.interface::<UnityGraphicsMetalV2>() {
-                intf.end_current_command_encoder();
-                match intf.current_command_buffer() {
-                    Some(cb) => cb,
-                    None => return,
-                }
-            } else if let Some(intf) = interfaces.interface::<UnityGraphicsMetalV1>() {
-                intf.end_current_command_encoder();
-                match intf.current_command_buffer() {
-                    Some(cb) => cb,
-                    None => return,
-                }
-            } else {
-                return;
-            };
+        let cmd_buffer: Retained<ProtocolObject<dyn MTLCommandBuffer>> = if let Some(intf) =
+            interfaces.interface::<unity_native_plugin::metal::UnityGraphicsMetalV2>()
+        {
+            intf.end_current_command_encoder();
+            match intf.current_command_buffer() {
+                Some(cb) => cb,
+                None => return,
+            }
+        } else if let Some(intf) =
+            interfaces.interface::<unity_native_plugin::metal::UnityGraphicsMetalV1>()
+        {
+            intf.end_current_command_encoder();
+            match intf.current_command_buffer() {
+                Some(cb) => cb,
+                None => return,
+            }
+        } else {
+            return;
+        };
 
         // Unity returns id<MTLTexture> directly from GetNativeTexturePtr() under Metal.
         let texture: Retained<ProtocolObject<dyn MTLTexture>> =

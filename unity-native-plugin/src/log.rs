@@ -18,11 +18,13 @@ define_unity_interface!(
     0x92FB979515EA83FC_u64
 );
 
-pub trait IUnityLog {
+pub trait UnityLogInterface {
     fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32);
 }
 
-impl IUnityLog for UnityLog {
+pub use UnityLogInterface as IUnityLog;
+
+impl UnityLogInterface for UnityLog {
     fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32) {
         unsafe {
             self.interface().Log.expect("Log")(

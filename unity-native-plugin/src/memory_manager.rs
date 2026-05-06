@@ -8,7 +8,7 @@ define_unity_interface!(
     0xC5A7CC7861A811EC_u64
 );
 
-pub trait IUnityMemoryManager {
+pub trait UnityMemoryManagerInterface {
     /// # Safety
     /// `area_name` and `object_name` must remain valid for the lifetime of the
     /// returned [`UnityAllocator`].
@@ -18,6 +18,8 @@ pub trait IUnityMemoryManager {
         object_name: &CStr,
     ) -> Option<UnityAllocator>;
 }
+
+pub use UnityMemoryManagerInterface as IUnityMemoryManager;
 
 pub struct UnityAllocator {
     allocator: *mut unity_native_plugin_sys::UnityAllocator,
@@ -68,7 +70,7 @@ impl UnityAllocator {
     }
 }
 
-impl IUnityMemoryManager for UnityMemoryManager {
+impl UnityMemoryManagerInterface for UnityMemoryManager {
     unsafe fn create_allocator(
         &self,
         area_name: &CStr,

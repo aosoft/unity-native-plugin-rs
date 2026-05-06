@@ -256,7 +256,7 @@ bitflag!(
 
 pub type ProfilerThreadId = UnityProfilerThreadId;
 
-pub trait IUnityProfiler {
+pub trait UnityProfilerInterface {
     fn emit_event(
         &self,
         marker_desc: &ProfilerMarkerDesc,
@@ -288,9 +288,11 @@ pub trait IUnityProfiler {
     fn unregister_thread(&self, thread_id: ProfilerThreadId) -> Result<(), ::std::os::raw::c_int>;
 }
 
+pub use UnityProfilerInterface as IUnityProfiler;
+
 macro_rules! impl_profiler {
     ($intf:ty) => {
-        impl IUnityProfiler for $intf {
+        impl UnityProfilerInterface for $intf {
             fn emit_event(
                 &self,
                 marker_desc: &ProfilerMarkerDesc,
@@ -423,7 +425,7 @@ impl<T> ProfilerCounter<T> {
     }
 }
 
-pub trait IUnityProfilerV2: IUnityProfiler {
+pub trait UnityProfilerV2Interface: UnityProfilerInterface {
     fn create_category(&self, name: &std::ffi::CStr, unused: u32) -> Option<ProfilerCategoryId>;
 
     /// # Safety
@@ -499,7 +501,9 @@ pub trait IUnityProfilerV2: IUnityProfiler {
     }
 }
 
-impl IUnityProfilerV2 for UnityProfilerV2 {
+pub use UnityProfilerV2Interface as IUnityProfilerV2;
+
+impl UnityProfilerV2Interface for UnityProfilerV2 {
     fn create_category(&self, name: &std::ffi::CStr, unused: u32) -> Option<ProfilerCategoryId> {
         unsafe {
             let mut category: UnityProfilerCategoryId = std::mem::zeroed();

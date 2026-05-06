@@ -47,14 +47,16 @@ define_unity_interface!(
 
 pub type GraphicsDeviceEventCallback = extern "system" fn(event_type: GfxDeviceEventType);
 
-pub trait IUnityGraphics {
+pub trait UnityGraphicsInterface {
     fn renderer(&self) -> GfxRenderer;
     fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>);
     fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>);
     fn reserve_event_id_range(&self, count: c_int) -> c_int;
 }
 
-impl IUnityGraphics for UnityGraphics {
+pub use UnityGraphicsInterface as IUnityGraphics;
+
+impl UnityGraphicsInterface for UnityGraphics {
     fn renderer(&self) -> GfxRenderer {
         unsafe {
             match self.interface().GetRenderer {

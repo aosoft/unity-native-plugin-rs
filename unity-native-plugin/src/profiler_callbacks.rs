@@ -236,7 +236,7 @@ macro_rules! iface_fn {
     };
 }
 
-pub trait IUnityProfilerCallbacks {
+pub trait UnityProfilerCallbacksInterface {
     fn register_create_category(
         &self,
         f: Box<dyn FnMut(&ProfilerCategoryDesc) + Send + Sync>,
@@ -262,9 +262,11 @@ pub trait IUnityProfilerCallbacks {
     fn unregister_create_thread(&self, register: CreateThreadRegister);
 }
 
+pub use UnityProfilerCallbacksInterface as IUnityProfilerCallbacks;
+
 macro_rules! common_impl {
     ($name: tt) => {
-        impl IUnityProfilerCallbacks for $name {
+        impl UnityProfilerCallbacksInterface for $name {
             fn register_create_category(
                 &self,
                 f: Box<dyn FnMut(&ProfilerCategoryDesc) + Send + Sync>,
@@ -417,7 +419,7 @@ pub struct FlowEventRegister(*mut c_void);
 
 common_impl!(UnityProfilerCallbacksV2);
 
-pub trait IUnityProfilerCallbacksV2: IUnityProfilerCallbacks {
+pub trait UnityProfilerCallbacksV2Interface: UnityProfilerCallbacksInterface {
     fn register_flow_event(
         &self,
         f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
@@ -425,7 +427,9 @@ pub trait IUnityProfilerCallbacksV2: IUnityProfilerCallbacks {
     fn unregister_flow_event(&self, register: FlowEventRegister);
 }
 
-impl IUnityProfilerCallbacksV2 for UnityProfilerCallbacksV2 {
+pub use UnityProfilerCallbacksV2Interface as IUnityProfilerCallbacksV2;
+
+impl UnityProfilerCallbacksV2Interface for UnityProfilerCallbacksV2 {
     fn register_flow_event(
         &self,
         f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
