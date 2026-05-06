@@ -40,15 +40,24 @@ pub enum GfxDeviceEventType {
 
 define_unity_interface!(
     UnityGraphics,
-    IUnityGraphics,
+    unity_native_plugin_sys::IUnityGraphics,
     0x7CBA0A9CA4DDB544_u64,
     0x8C5AD4926EB17B11_u64
 );
 
 pub type GraphicsDeviceEventCallback = extern "system" fn(event_type: GfxDeviceEventType);
 
-impl UnityGraphics {
-    pub fn renderer(&self) -> GfxRenderer {
+pub trait UnityGraphicsInterface {
+    fn renderer(&self) -> GfxRenderer;
+    fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>);
+    fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>);
+    fn reserve_event_id_range(&self, count: c_int) -> c_int;
+}
+
+pub use UnityGraphicsInterface as IUnityGraphics;
+
+impl UnityGraphicsInterface for UnityGraphics {
+    fn renderer(&self) -> GfxRenderer {
         unsafe {
             match self.interface().GetRenderer {
                 Some(intf) => std::mem::transmute::<UnityGfxRenderer, GfxRenderer>(intf()),
@@ -57,7 +66,7 @@ impl UnityGraphics {
         }
     }
 
-    pub fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
+    fn register_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().RegisterDeviceEventCallback {
                 intf(std::mem::transmute::<
@@ -68,7 +77,7 @@ impl UnityGraphics {
         }
     }
 
-    pub fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
+    fn unregister_device_event_callback(&self, callback: Option<GraphicsDeviceEventCallback>) {
         unsafe {
             if let Some(intf) = self.interface().UnregisterDeviceEventCallback {
                 intf(std::mem::transmute::<
@@ -79,7 +88,7 @@ impl UnityGraphics {
         }
     }
 
-    pub fn reserve_event_id_range(&self, count: c_int) -> c_int {
+    fn reserve_event_id_range(&self, count: c_int) -> c_int {
         unsafe {
             self.interface()
                 .ReserveEventIDRange

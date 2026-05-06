@@ -3,7 +3,7 @@ use std::io::*;
 use std::num::NonZeroU64;
 use std::time::*;
 use unity_native_plugin::profiler::*;
-use unity_native_plugin::profiler_callbacks::*;
+use unity_native_plugin::profiler_callbacks::{IUnityProfilerCallbacks, *};
 
 unity_native_plugin::unity_native_plugin_entry_point! {
     fn unity_plugin_load(interfaces: &unity_native_plugin::interface::UnityInterfaces) {

@@ -2,8 +2,7 @@ use std::ffi::c_void;
 use unity_native_plugin::ash::vk;
 use unity_native_plugin::ash::vk::Handle;
 use unity_native_plugin::vulkan::{
-    UnityGraphicsVulkan, UnityGraphicsVulkanInterface, VulkanGraphicsQueueAccess,
-    VulkanResourceAccessMode,
+    IUnityGraphicsVulkan, VulkanGraphicsQueueAccess, VulkanResourceAccessMode,
 };
 
 pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) {
@@ -13,7 +12,7 @@ pub fn fill_texture(unity_texture: *mut c_void, x: f32, y: f32, z: f32, w: f32) 
         }
 
         let intf = match unity_native_plugin::interface::UnityInterfaces::get()
-            .interface::<UnityGraphicsVulkan>()
+            .interface::<unity_native_plugin::vulkan::UnityGraphicsVulkan>()
         {
             Some(i) => i,
             None => return,

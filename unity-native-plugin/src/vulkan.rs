@@ -4,7 +4,7 @@ use unity_native_plugin_sys::*;
 
 define_unity_interface!(
     UnityGraphicsVulkan,
-    IUnityGraphicsVulkan,
+    unity_native_plugin_sys::IUnityGraphicsVulkan,
     0x95355348d4ef4e11_u64,
     0x9789313dfcffcc87_u64
 );
@@ -330,6 +330,8 @@ pub trait UnityGraphicsVulkanInterface {
     ) -> Option<VulkanImage>;
 }
 
+pub use UnityGraphicsVulkanInterface as IUnityGraphicsVulkan;
+
 macro_rules! impl_vulkan {
     ($intf:ty) => {
         impl UnityGraphicsVulkanInterface for $intf {
@@ -609,7 +611,7 @@ impl_vulkan!(UnityGraphicsVulkan);
 
 define_unity_interface!(
     UnityGraphicsVulkanV2,
-    IUnityGraphicsVulkanV2,
+    unity_native_plugin_sys::IUnityGraphicsVulkanV2,
     0x329334c09dca4787_u64,
     0xb347dd92a0097ffc_u64
 );
@@ -623,6 +625,8 @@ pub trait UnityGraphicsVulkanV2Interface: UnityGraphicsVulkanInterface {
     ) -> bool;
     unsafe fn remove_intercept_initialization(&self, func: VulkanInitCallback) -> bool;
 }
+
+pub use UnityGraphicsVulkanV2Interface as IUnityGraphicsVulkanV2;
 
 macro_rules! impl_vulkan_v2 {
     ($intf:ty) => {

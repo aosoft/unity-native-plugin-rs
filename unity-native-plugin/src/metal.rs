@@ -4,7 +4,7 @@ use objc2_metal::{
     MTLCommandBuffer, MTLCommandEncoder, MTLCommandQueue, MTLDevice, MTLRenderPassDescriptor,
     MTLTexture,
 };
-use unity_native_plugin_sys::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2, UnityRenderBuffer};
+use unity_native_plugin_sys::UnityRenderBuffer;
 
 use crate::graphics;
 use crate::interface::UnityInterface;
@@ -33,6 +33,8 @@ pub trait UnityGraphicsMetalV1Interface {
         buffer: UnityRenderBuffer,
     ) -> Option<Retained<ProtocolObject<dyn MTLTexture>>>;
 }
+
+pub use UnityGraphicsMetalV1Interface as IUnityGraphicsMetalV1;
 
 macro_rules! impl_metal_v1 {
     ($intf:ty) => {
@@ -158,7 +160,7 @@ impl_metal_v1!(UnityGraphicsMetalV1);
 
 define_unity_interface!(
     UnityGraphicsMetalV1,
-    IUnityGraphicsMetalV1,
+    unity_native_plugin_sys::IUnityGraphicsMetalV1,
     0x29F8F3D03833465E_u64,
     0x92138551C15D823D_u64
 );
@@ -169,6 +171,8 @@ pub trait UnityGraphicsMetalV2Interface: UnityGraphicsMetalV1Interface {
     ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
     fn command_queue(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandQueue>>>;
 }
+
+pub use UnityGraphicsMetalV2Interface as IUnityGraphicsMetalV2;
 
 macro_rules! impl_metal_v2 {
     ($intf:ty) => {
@@ -204,7 +208,7 @@ impl_metal_v2!(UnityGraphicsMetalV2);
 
 define_unity_interface!(
     UnityGraphicsMetalV2,
-    IUnityGraphicsMetalV2,
+    unity_native_plugin_sys::IUnityGraphicsMetalV2,
     0xF58857784FEF46EC_u64,
     0x9DB7A8803B87DA3D_u64
 );

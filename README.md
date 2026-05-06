@@ -94,22 +94,39 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 * `unity_native_plugin_vulkan::vulkan::*` → `unity_native_plugin::vulkan::*`
 * `unity_native_plugin::d3d11::ComPtr` / `unity_native_plugin::d3d12::ComPtr` → `unity_native_plugin::windows::ComPtr`
 
-### Methods are now provided through `*Interface` traits
+### Methods are now provided through traits
 
-The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*`, `UnityGraphicsMetal*` and `UnityGraphicsVulkan*` have been replaced with traits that mirror the underlying `IUnityGraphics*` C interfaces. To call any method, bring the matching trait into scope:
+The inherent `impl` blocks on the wrapper types have been replaced with traits. Each trait is published under **two names**:
+
+* a Rust-conventional `*Interface` name (the canonical one — e.g. `UnityGraphicsD3D11Interface`)
+* an `IUnity*` alias that matches Unity's C header name 1:1 (e.g. `IUnityGraphicsD3D11`)
+
+Use whichever name you prefer; they refer to the same trait. To call any method, bring it into scope:
 
 ```rust
+// Pick either form per import; both resolve to the same trait.
+use unity_native_plugin::graphics::UnityGraphicsInterface;            // or IUnityGraphics
+use unity_native_plugin::log::UnityLogInterface;                      // or IUnityLog
+use unity_native_plugin::memory_manager::UnityMemoryManagerInterface; // or IUnityMemoryManager
+use unity_native_plugin::profiler::{UnityProfilerInterface, UnityProfilerV2Interface};
+use unity_native_plugin::profiler_callbacks::{
+    UnityProfilerCallbacksInterface, UnityProfilerCallbacksV2Interface,
+};
+
 use unity_native_plugin::d3d11::UnityGraphicsD3D11Interface;
 use unity_native_plugin::d3d12::{
     UnityGraphicsD3D12Interface,    // for UnityGraphicsD3D12
-    UnityGraphicsD3D12V2Interface,  // for UnityGraphicsD3D12v2
-    UnityGraphicsD3D12v3Interface,  // ... v3 .. v8Interface for the corresponding interface versions
+    UnityGraphicsD3D12v2Interface,  // for UnityGraphicsD3D12v2
+    UnityGraphicsD3D12v3Interface,  // ... v3 .. v8 for the corresponding interface versions
 };
 use unity_native_plugin::metal::{UnityGraphicsMetalV1Interface, UnityGraphicsMetalV2Interface};
 use unity_native_plugin::vulkan::{UnityGraphicsVulkanInterface, UnityGraphicsVulkanV2Interface};
 ```
 
-Without the corresponding `use`, methods such as `device()`, `command_queue()` or `command_recording_state()` will appear to be missing.
+Without the corresponding `use`, methods such as `renderer()`, `log()`, `device()`, `command_queue()`, `emit_event()`, `register_create_marker()` etc. will appear to be missing.
+
+Notes:
+* The marker trait `unity_native_plugin::interface::UnityInterface` is **not** a Unity-API wrapper — it is a Rust-only marker used by `UnityInterfaces::interface::<T>()` for GUID-based lookup. It does not have an `IUnity*` alias because it does not correspond 1:1 to any Unity header type.
 
 ### Renamed identifiers
 

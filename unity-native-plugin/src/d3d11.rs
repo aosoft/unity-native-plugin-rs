@@ -20,6 +20,8 @@ pub trait UnityGraphicsD3D11Interface {
     fn present_flags(&self) -> u32;
 }
 
+pub use UnityGraphicsD3D11Interface as IUnityGraphicsD3D11;
+
 macro_rules! impl_d3d11 {
     ($intf:ty) => {
         impl UnityGraphicsD3D11Interface for $intf {
