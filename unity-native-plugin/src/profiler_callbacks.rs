@@ -236,10 +236,36 @@ macro_rules! iface_fn {
     };
 }
 
+pub trait IUnityProfilerCallbacks {
+    fn register_create_category(
+        &self,
+        f: Box<dyn FnMut(&ProfilerCategoryDesc) + Send + Sync>,
+    ) -> CreateCategoryRegister;
+    fn unregister_create_category(&self, register: CreateCategoryRegister);
+    fn register_create_marker(
+        &self,
+        f: Box<dyn FnMut(&ProfilerMarkerDesc) + Send + Sync>,
+    ) -> CreateMarkerRegister;
+    fn unregister_create_marker(&self, register: CreateMarkerRegister);
+    fn register_marker_event(
+        &self,
+        desc: &ProfilerMarkerDesc,
+        f: Box<dyn FnMut(&ProfilerMarkerEvent) + Send + Sync>,
+    ) -> MarkerEventRegister;
+    fn unregister_marker_event(&self, register: MarkerEventRegister);
+    fn register_frame(&self, f: Box<dyn FnMut() + Send + Sync>) -> FrameRegister;
+    fn unregister_frame(&self, register: FrameRegister);
+    fn register_create_thread(
+        &self,
+        f: Box<dyn FnMut(&ProfilerThreadDesc) + Send + Sync>,
+    ) -> CreateThreadRegister;
+    fn unregister_create_thread(&self, register: CreateThreadRegister);
+}
+
 macro_rules! common_impl {
     ($name: tt) => {
-        impl $name {
-            pub fn register_create_category(
+        impl IUnityProfilerCallbacks for $name {
+            fn register_create_category(
                 &self,
                 f: Box<dyn FnMut(&ProfilerCategoryDesc) + Send + Sync>,
             ) -> CreateCategoryRegister {
@@ -254,7 +280,7 @@ macro_rules! common_impl {
                 CreateCategoryRegister(ptr)
             }
 
-            pub fn unregister_create_category(&self, register: CreateCategoryRegister) {
+            fn unregister_create_category(&self, register: CreateCategoryRegister) {
                 unsafe {
                     iface_fn!(self, UnregisterCreateCategoryCallback)(
                         Some(create_category_bridge),
@@ -263,7 +289,7 @@ macro_rules! common_impl {
                 }
             }
 
-            pub fn register_create_marker(
+            fn register_create_marker(
                 &self,
                 f: Box<dyn FnMut(&ProfilerMarkerDesc) + Send + Sync>,
             ) -> CreateMarkerRegister {
@@ -275,7 +301,7 @@ macro_rules! common_impl {
                 CreateMarkerRegister(ptr)
             }
 
-            pub fn unregister_create_marker(&self, register: CreateMarkerRegister) {
+            fn unregister_create_marker(&self, register: CreateMarkerRegister) {
                 unsafe {
                     iface_fn!(self, UnregisterCreateMarkerCallback)(
                         Some(create_marker_bridge),
@@ -284,7 +310,7 @@ macro_rules! common_impl {
                 }
             }
 
-            pub fn register_marker_event(
+            fn register_marker_event(
                 &self,
                 desc: &ProfilerMarkerDesc,
                 f: Box<dyn FnMut(&ProfilerMarkerEvent) + Send + Sync>,
@@ -304,7 +330,7 @@ macro_rules! common_impl {
                 }
             }
 
-            pub fn unregister_marker_event(&self, register: MarkerEventRegister) {
+            fn unregister_marker_event(&self, register: MarkerEventRegister) {
                 unsafe {
                     iface_fn!(self, UnregisterMarkerEventCallback)(
                         register.desc,
@@ -314,7 +340,7 @@ macro_rules! common_impl {
                 }
             }
 
-            pub fn register_frame(&self, f: Box<dyn FnMut() + Send + Sync>) -> FrameRegister {
+            fn register_frame(&self, f: Box<dyn FnMut() + Send + Sync>) -> FrameRegister {
                 let ptr = Box::into_raw(Box::new(f)) as *mut c_void;
 
                 unsafe {
@@ -323,13 +349,13 @@ macro_rules! common_impl {
                 FrameRegister(ptr)
             }
 
-            pub fn unregister_frame(&self, register: FrameRegister) {
+            fn unregister_frame(&self, register: FrameRegister) {
                 unsafe {
                     iface_fn!(self, UnregisterFrameCallback)(Some(frame_bridge), register.0);
                 }
             }
 
-            pub fn register_create_thread(
+            fn register_create_thread(
                 &self,
                 f: Box<dyn FnMut(&ProfilerThreadDesc) + Send + Sync>,
             ) -> CreateThreadRegister {
@@ -341,7 +367,7 @@ macro_rules! common_impl {
                 CreateThreadRegister(ptr)
             }
 
-            pub fn unregister_create_thread(&self, register: CreateThreadRegister) {
+            fn unregister_create_thread(&self, register: CreateThreadRegister) {
                 unsafe {
                     iface_fn!(self, UnregisterCreateThreadCallback)(
                         Some(create_thread_bridge),
@@ -390,8 +416,17 @@ extern "system" fn flow_event_bridge(
 pub struct FlowEventRegister(*mut c_void);
 
 common_impl!(UnityProfilerCallbacksV2);
-impl UnityProfilerCallbacksV2 {
-    pub fn register_flow_event(
+
+pub trait IUnityProfilerCallbacksV2: IUnityProfilerCallbacks {
+    fn register_flow_event(
+        &self,
+        f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
+    ) -> FlowEventRegister;
+    fn unregister_flow_event(&self, register: FlowEventRegister);
+}
+
+impl IUnityProfilerCallbacksV2 for UnityProfilerCallbacksV2 {
+    fn register_flow_event(
         &self,
         f: Box<dyn FnMut(&ProfilerFlowEvent) + Send + Sync>,
     ) -> FlowEventRegister {
@@ -403,7 +438,7 @@ impl UnityProfilerCallbacksV2 {
         FlowEventRegister(ptr)
     }
 
-    pub fn unregister_flow_event(&self, register: FlowEventRegister) {
+    fn unregister_flow_event(&self, register: FlowEventRegister) {
         unsafe {
             iface_fn!(self, UnregisterFlowEventCallback)(Some(flow_event_bridge), register.0);
         }

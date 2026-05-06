@@ -13,13 +13,17 @@ pub enum LogType {
 
 define_unity_interface!(
     UnityLog,
-    IUnityLog,
+    unity_native_plugin_sys::IUnityLog,
     0x9E7507FA5B444D5D_u64,
     0x92FB979515EA83FC_u64
 );
 
-impl UnityLog {
-    pub fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32) {
+pub trait IUnityLog {
+    fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32);
+}
+
+impl IUnityLog for UnityLog {
+    fn log(&self, log_type: LogType, message: &CStr, file_name: &CStr, file_line: i32) {
         unsafe {
             self.interface().Log.expect("Log")(
                 log_type as UnityLogType,

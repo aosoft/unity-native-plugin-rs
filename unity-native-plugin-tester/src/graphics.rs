@@ -62,6 +62,8 @@ pub fn initialize_interface(renderer: unity_native_plugin::graphics::GfxRenderer
 
 #[test]
 fn register_graphics() {
+    use unity_native_plugin::graphics::IUnityGraphics as _;
+
     crate::interface::initialize_unity_interfaces();
     crate::graphics::initialize_interface(unity_native_plugin::graphics::GfxRenderer::D3D11);
 

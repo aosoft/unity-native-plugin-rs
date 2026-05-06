@@ -94,11 +94,19 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 * `unity_native_plugin_vulkan::vulkan::*` → `unity_native_plugin::vulkan::*`
 * `unity_native_plugin::d3d11::ComPtr` / `unity_native_plugin::d3d12::ComPtr` → `unity_native_plugin::windows::ComPtr`
 
-### Methods are now provided through `IUnityGraphics*` traits
+### Methods are now provided through `IUnity*` traits
 
-The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*`, `UnityGraphicsMetal*` and `UnityGraphicsVulkan*` have been replaced with traits whose names match the underlying `IUnityGraphics*` C interfaces 1:1. To call any method, bring the matching trait into scope:
+The inherent `impl` blocks on the wrapper types have been replaced with traits whose names match the underlying Unity C interfaces 1:1. To call any method, bring the matching trait into scope:
 
 ```rust
+use unity_native_plugin::graphics::IUnityGraphics;
+use unity_native_plugin::log::IUnityLog;
+use unity_native_plugin::memory_manager::IUnityMemoryManager;
+use unity_native_plugin::profiler::{IUnityProfiler, IUnityProfilerV2};
+use unity_native_plugin::profiler_callbacks::{
+    IUnityProfilerCallbacks, IUnityProfilerCallbacksV2,
+};
+
 use unity_native_plugin::d3d11::IUnityGraphicsD3D11;
 use unity_native_plugin::d3d12::{
     IUnityGraphicsD3D12,    // for UnityGraphicsD3D12
@@ -109,9 +117,11 @@ use unity_native_plugin::metal::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2};
 use unity_native_plugin::vulkan::{IUnityGraphicsVulkan, IUnityGraphicsVulkanV2};
 ```
 
-Without the corresponding `use`, methods such as `device()`, `command_queue()` or `command_recording_state()` will appear to be missing.
+Without the corresponding `use`, methods such as `renderer()`, `log()`, `device()`, `command_queue()`, `emit_event()`, `register_create_marker()` etc. will appear to be missing.
 
-Note: an earlier 0.9 pre-release used a `*Interface` suffix (e.g. `UnityGraphicsD3D11Interface`). That suffix has been dropped before the 0.9 release in favor of the shorter `IUnityGraphics*` names that match Unity's headers exactly.
+Notes:
+* The marker trait `unity_native_plugin::interface::UnityInterface` is **not** an Unity-API wrapper — it is a Rust-only marker used by `UnityInterfaces::interface::<T>()` for GUID-based lookup. It is intentionally kept without the `I` prefix because it does not correspond 1:1 to any Unity header type.
+* An earlier 0.9 pre-release used a `*Interface` suffix (e.g. `UnityGraphicsD3D11Interface`). That suffix has been dropped before the 0.9 release in favor of the shorter `IUnity*` names that match Unity's headers exactly.
 
 ### Renamed identifiers
 

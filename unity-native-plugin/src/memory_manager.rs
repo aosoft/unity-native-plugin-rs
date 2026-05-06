@@ -1,13 +1,23 @@
 use crate::interface::UnityInterface;
 use std::ffi::{CStr, c_void};
-use unity_native_plugin_sys::*;
 
 define_unity_interface!(
     UnityMemoryManager,
-    IUnityMemoryManager,
+    unity_native_plugin_sys::IUnityMemoryManager,
     0xBAF9E57C61A811EC_u64,
     0xC5A7CC7861A811EC_u64
 );
+
+pub trait IUnityMemoryManager {
+    /// # Safety
+    /// `area_name` and `object_name` must remain valid for the lifetime of the
+    /// returned [`UnityAllocator`].
+    unsafe fn create_allocator(
+        &self,
+        area_name: &CStr,
+        object_name: &CStr,
+    ) -> Option<UnityAllocator>;
+}
 
 pub struct UnityAllocator {
     allocator: *mut unity_native_plugin_sys::UnityAllocator,
@@ -58,8 +68,8 @@ impl UnityAllocator {
     }
 }
 
-impl UnityMemoryManager {
-    pub unsafe fn create_allocator(
+impl IUnityMemoryManager for UnityMemoryManager {
+    unsafe fn create_allocator(
         &self,
         area_name: &CStr,
         object_name: &CStr,
@@ -79,7 +89,9 @@ impl UnityMemoryManager {
             }
         }
     }
+}
 
+impl UnityMemoryManager {
     pub(crate) unsafe fn destroy_allocator(
         &self,
         allocator: *mut unity_native_plugin_sys::UnityAllocator,

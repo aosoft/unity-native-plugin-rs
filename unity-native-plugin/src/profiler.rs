@@ -4,7 +4,7 @@ use unity_native_plugin_sys::*;
 
 define_unity_interface!(
     UnityProfiler,
-    IUnityProfiler,
+    unity_native_plugin_sys::IUnityProfiler,
     0x2CE79ED8316A4833_u64,
     0x87076B2013E1571F_u64
 );
@@ -256,120 +256,153 @@ bitflag!(
 
 pub type ProfilerThreadId = UnityProfilerThreadId;
 
+pub trait IUnityProfiler {
+    fn emit_event(
+        &self,
+        marker_desc: &ProfilerMarkerDesc,
+        event_type: ProfilerMarkerEventType,
+        event_data: &[ProfilerMarkerData],
+    );
+    fn is_enabled(&self) -> bool;
+    fn is_available(&self) -> bool;
+    fn create_marker(
+        &self,
+        name: &std::ffi::CStr,
+        category: ProfilerCategoryId,
+        flags: ProfilerMarkerFlags,
+        event_data_count: ::std::os::raw::c_int,
+    ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int>;
+    fn set_marker_metadata_name(
+        &self,
+        desc: &ProfilerMarkerDesc,
+        index: ::std::os::raw::c_int,
+        metadata_name: &std::ffi::CStr,
+        metadata_type: ProfilerMarkerDataType,
+        metadata_unit: ProfilerMarkerDataUnit,
+    ) -> Result<(), ::std::os::raw::c_int>;
+    fn register_thread(
+        &self,
+        group_name: &std::ffi::CStr,
+        name: &std::ffi::CStr,
+    ) -> Result<ProfilerThreadId, ::std::os::raw::c_int>;
+    fn unregister_thread(&self, thread_id: ProfilerThreadId) -> Result<(), ::std::os::raw::c_int>;
+}
+
 macro_rules! impl_profiler {
-    () => {
-        pub fn emit_event(
-            &self,
-            marker_desc: &ProfilerMarkerDesc,
-            event_type: ProfilerMarkerEventType,
-            event_data: &[ProfilerMarkerData],
-        ) {
-            unsafe {
-                self.interface().EmitEvent.expect("EmitEvent")(
-                    marker_desc.native,
-                    event_type as UnityProfilerMarkerEventType,
-                    event_data.len() as u16,
-                    event_data.as_ptr() as *const _,
-                );
-            }
-        }
-
-        pub fn is_enabled(&self) -> bool {
-            unsafe { self.interface().IsEnabled.expect("IsEnabled")() != 0 }
-        }
-
-        pub fn is_available(&self) -> bool {
-            unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
-        }
-
-        pub fn create_marker(
-            &self,
-            name: &std::ffi::CStr,
-            category: ProfilerCategoryId,
-            flags: ProfilerMarkerFlags,
-            event_data_count: ::std::os::raw::c_int,
-        ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int> {
-            unsafe {
-                let mut ret = std::ptr::null::<UnityProfilerMarkerDesc>();
-                let result = self.interface().CreateMarker.expect("CreateMarker")(
-                    &mut ret,
-                    name.as_ptr(),
-                    category as _,
-                    flags.flag as _,
-                    event_data_count,
-                );
-                if result > 0 {
-                    Err(result)
-                } else {
-                    Ok(ProfilerMarkerDesc { native: ret })
+    ($intf:ty) => {
+        impl IUnityProfiler for $intf {
+            fn emit_event(
+                &self,
+                marker_desc: &ProfilerMarkerDesc,
+                event_type: ProfilerMarkerEventType,
+                event_data: &[ProfilerMarkerData],
+            ) {
+                unsafe {
+                    self.interface().EmitEvent.expect("EmitEvent")(
+                        marker_desc.native,
+                        event_type as UnityProfilerMarkerEventType,
+                        event_data.len() as u16,
+                        event_data.as_ptr() as *const _,
+                    );
                 }
             }
-        }
 
-        pub fn set_marker_metadata_name(
-            &self,
-            desc: &ProfilerMarkerDesc,
-            index: ::std::os::raw::c_int,
-            metadata_name: &std::ffi::CStr,
-            metadata_type: ProfilerMarkerDataType,
-            metadata_unit: ProfilerMarkerDataUnit,
-        ) -> Result<(), ::std::os::raw::c_int> {
-            unsafe {
-                let result = self
-                    .interface()
-                    .SetMarkerMetadataName
-                    .expect("SetMarkerMetadataName")(
-                    desc.native,
-                    index,
-                    metadata_name.as_ptr(),
-                    metadata_type as _,
-                    metadata_unit as _,
-                );
-                if result > 0 { Err(result) } else { Ok(()) }
+            fn is_enabled(&self) -> bool {
+                unsafe { self.interface().IsEnabled.expect("IsEnabled")() != 0 }
             }
-        }
 
-        pub fn register_thread(
-            &self,
-            group_name: &std::ffi::CStr,
-            name: &std::ffi::CStr,
-        ) -> Result<ProfilerThreadId, ::std::os::raw::c_int> {
-            unsafe {
-                let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
+            fn is_available(&self) -> bool {
+                unsafe { self.interface().IsAvailable.expect("IsAvailable")() != 0 }
+            }
 
-                let result = self.interface().RegisterThread.expect("RegisterThread")(
-                    &mut thread_id,
-                    group_name.as_ptr(),
-                    name.as_ptr(),
-                );
-                if result > 0 {
-                    Err(result)
-                } else {
-                    Ok(thread_id)
+            fn create_marker(
+                &self,
+                name: &std::ffi::CStr,
+                category: ProfilerCategoryId,
+                flags: ProfilerMarkerFlags,
+                event_data_count: ::std::os::raw::c_int,
+            ) -> Result<ProfilerMarkerDesc, ::std::os::raw::c_int> {
+                unsafe {
+                    let mut ret = std::ptr::null::<UnityProfilerMarkerDesc>();
+                    let result = self.interface().CreateMarker.expect("CreateMarker")(
+                        &mut ret,
+                        name.as_ptr(),
+                        category as _,
+                        flags.flag as _,
+                        event_data_count,
+                    );
+                    if result > 0 {
+                        Err(result)
+                    } else {
+                        Ok(ProfilerMarkerDesc { native: ret })
+                    }
                 }
             }
-        }
 
-        pub fn unregister_thread(
-            &self,
-            thread_id: ProfilerThreadId,
-        ) -> Result<(), ::std::os::raw::c_int> {
-            unsafe {
-                let result =
-                    self.interface().UnregisterThread.expect("UnregisterThread")(thread_id);
-                if result > 0 { Err(result) } else { Ok(()) }
+            fn set_marker_metadata_name(
+                &self,
+                desc: &ProfilerMarkerDesc,
+                index: ::std::os::raw::c_int,
+                metadata_name: &std::ffi::CStr,
+                metadata_type: ProfilerMarkerDataType,
+                metadata_unit: ProfilerMarkerDataUnit,
+            ) -> Result<(), ::std::os::raw::c_int> {
+                unsafe {
+                    let result = self
+                        .interface()
+                        .SetMarkerMetadataName
+                        .expect("SetMarkerMetadataName")(
+                        desc.native,
+                        index,
+                        metadata_name.as_ptr(),
+                        metadata_type as _,
+                        metadata_unit as _,
+                    );
+                    if result > 0 { Err(result) } else { Ok(()) }
+                }
+            }
+
+            fn register_thread(
+                &self,
+                group_name: &std::ffi::CStr,
+                name: &std::ffi::CStr,
+            ) -> Result<ProfilerThreadId, ::std::os::raw::c_int> {
+                unsafe {
+                    let mut thread_id = std::mem::zeroed::<UnityProfilerThreadId>();
+
+                    let result = self.interface().RegisterThread.expect("RegisterThread")(
+                        &mut thread_id,
+                        group_name.as_ptr(),
+                        name.as_ptr(),
+                    );
+                    if result > 0 {
+                        Err(result)
+                    } else {
+                        Ok(thread_id)
+                    }
+                }
+            }
+
+            fn unregister_thread(
+                &self,
+                thread_id: ProfilerThreadId,
+            ) -> Result<(), ::std::os::raw::c_int> {
+                unsafe {
+                    let result =
+                        self.interface().UnregisterThread.expect("UnregisterThread")(thread_id);
+                    if result > 0 { Err(result) } else { Ok(()) }
+                }
             }
         }
     };
 }
 
-impl UnityProfiler {
-    impl_profiler!();
-}
+impl_profiler!(UnityProfiler);
+impl_profiler!(UnityProfilerV2);
 
 define_unity_interface!(
     UnityProfilerV2,
-    IUnityProfilerV2,
+    unity_native_plugin_sys::IUnityProfilerV2,
     0xB957E0189CB6A30B_u64,
     0x83CE589AE85B9068_u64
 );
@@ -390,112 +423,134 @@ impl<T> ProfilerCounter<T> {
     }
 }
 
-macro_rules! impl_profiler_v2 {
-    () => {
-        impl_profiler!();
+pub trait IUnityProfilerV2: IUnityProfiler {
+    fn create_category(&self, name: &std::ffi::CStr, unused: u32) -> Option<ProfilerCategoryId>;
 
-        pub fn create_category(
-            &self,
-            name: &std::ffi::CStr,
-            unused: u32,
-        ) -> Option<ProfilerCategoryId> {
-            unsafe {
-                let mut category: UnityProfilerCategoryId = std::mem::zeroed();
-                let r = self.interface().CreateCategory.expect("CreateCategory")(
-                    &mut category as *mut UnityProfilerCategoryId,
-                    name.as_ptr(),
-                    unused,
-                );
-                if r > 0 { Some(category) } else { None }
+    /// # Safety
+    /// `activate_func`/`deactivate_func` are called by Unity from arbitrary
+    /// threads with the supplied `user_data`. The caller must ensure that
+    /// `user_data` outlives the counter and is safe to access from those
+    /// threads.
+    #[allow(clippy::too_many_arguments)]
+    unsafe fn create_counter_value(
+        &self,
+        category: ProfilerCategoryId,
+        name: &std::ffi::CStr,
+        flags: ProfilerMarkerFlags,
+        value_type: ProfilerMarkerDataType,
+        value_unit: ProfilerMarkerDataUnit,
+        value_size: usize,
+        counter_flags: ProfilerCounterFlags,
+        activate_func: ProfilerCounterStatePtrCallback,
+        deactivate_func: ProfilerCounterStatePtrCallback,
+        user_data: *mut ::std::os::raw::c_void,
+    ) -> *mut ::std::os::raw::c_void;
+
+    /// # Safety
+    /// `counter` must be a pointer obtained from [`create_counter_value`] on
+    /// the same profiler instance and must still be live.
+    unsafe fn flush_counter_value(&self, counter: *mut ::std::os::raw::c_void);
+
+    /// # Safety
+    /// See [`create_counter_value`].
+    #[allow(clippy::too_many_arguments)]
+    unsafe fn create_counter<T>(
+        &self,
+        category: ProfilerCategoryId,
+        name: &std::ffi::CStr,
+        flags: ProfilerMarkerFlags,
+        value_type: ProfilerMarkerDataType,
+        value_unit: ProfilerMarkerDataUnit,
+        counter_flags: ProfilerCounterFlags,
+        activate_func: ProfilerCounterStatePtrCallback,
+        deactivate_func: ProfilerCounterStatePtrCallback,
+        user_data: *mut ::std::os::raw::c_void,
+    ) -> Option<ProfilerCounter<T>> {
+        unsafe {
+            let r = self.create_counter_value(
+                category,
+                name,
+                flags,
+                value_type,
+                value_unit,
+                std::mem::size_of::<T>(),
+                counter_flags,
+                activate_func,
+                deactivate_func,
+                user_data,
+            );
+            if !r.is_null() {
+                Some(ProfilerCounter::<T> {
+                    counter: r as *mut T,
+                })
+            } else {
+                None
             }
         }
+    }
 
-        #[allow(clippy::too_many_arguments)]
-        pub unsafe fn create_counter_value(
-            &self,
-            category: ProfilerCategoryId,
-            name: &std::ffi::CStr,
-            flags: ProfilerMarkerFlags,
-            value_type: ProfilerMarkerDataType,
-            value_unit: ProfilerMarkerDataUnit,
-            value_size: usize,
-            counter_flags: ProfilerCounterFlags,
-            activate_func: ProfilerCounterStatePtrCallback,
-            deactivate_func: ProfilerCounterStatePtrCallback,
-            user_data: *mut ::std::os::raw::c_void,
-        ) -> *mut ::std::os::raw::c_void {
-            unsafe {
-                self.interface()
-                    .CreateCounterValue
-                    .expect("CreateCounterValue")(
-                    category,
-                    name.as_ptr(),
-                    flags.into(),
-                    value_type as u8,
-                    value_unit as u8,
-                    value_size,
-                    counter_flags.into(),
-                    activate_func,
-                    deactivate_func,
-                    user_data,
-                )
-            }
+    /// # Safety
+    /// `counter` must wrap a live pointer originally obtained from
+    /// [`create_counter`].
+    unsafe fn flush_counter<T>(&self, counter: &mut ProfilerCounter<T>) {
+        unsafe {
+            self.flush_counter_value(counter.counter as *mut ::std::os::raw::c_void);
         }
-
-        pub unsafe fn flush_counter_value(&self, counter: *mut ::std::os::raw::c_void) {
-            unsafe {
-                self.interface()
-                    .FlushCounterValue
-                    .expect("FlushCounterValue")(counter)
-            }
-        }
-
-        #[allow(clippy::too_many_arguments)]
-        pub unsafe fn create_counter<T>(
-            &self,
-            category: ProfilerCategoryId,
-            name: &std::ffi::CStr,
-            flags: ProfilerMarkerFlags,
-            value_type: ProfilerMarkerDataType,
-            value_unit: ProfilerMarkerDataUnit,
-            counter_flags: ProfilerCounterFlags,
-            activate_func: ProfilerCounterStatePtrCallback,
-            deactivate_func: ProfilerCounterStatePtrCallback,
-            user_data: *mut ::std::os::raw::c_void,
-        ) -> Option<ProfilerCounter<T>> {
-            unsafe {
-                let r = self.create_counter_value(
-                    category,
-                    name,
-                    flags,
-                    value_type,
-                    value_unit,
-                    std::mem::size_of::<T>(),
-                    counter_flags.into(),
-                    activate_func,
-                    deactivate_func,
-                    user_data,
-                );
-                if !r.is_null() {
-                    Some(ProfilerCounter::<T> {
-                        counter: r as *mut T,
-                    })
-                } else {
-                    None
-                }
-            }
-        }
-
-        pub unsafe fn flush_counter<T>(&self, counter: &mut ProfilerCounter<T>) {
-            unsafe {
-                self.flush_counter_value(counter.counter as *mut ::std::os::raw::c_void);
-            }
-        }
-    };
+    }
 }
 
-impl UnityProfilerV2 {
-    impl_profiler_v2!();
+impl IUnityProfilerV2 for UnityProfilerV2 {
+    fn create_category(&self, name: &std::ffi::CStr, unused: u32) -> Option<ProfilerCategoryId> {
+        unsafe {
+            let mut category: UnityProfilerCategoryId = std::mem::zeroed();
+            let r = self.interface().CreateCategory.expect("CreateCategory")(
+                &mut category as *mut UnityProfilerCategoryId,
+                name.as_ptr(),
+                unused,
+            );
+            if r > 0 { Some(category) } else { None }
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    unsafe fn create_counter_value(
+        &self,
+        category: ProfilerCategoryId,
+        name: &std::ffi::CStr,
+        flags: ProfilerMarkerFlags,
+        value_type: ProfilerMarkerDataType,
+        value_unit: ProfilerMarkerDataUnit,
+        value_size: usize,
+        counter_flags: ProfilerCounterFlags,
+        activate_func: ProfilerCounterStatePtrCallback,
+        deactivate_func: ProfilerCounterStatePtrCallback,
+        user_data: *mut ::std::os::raw::c_void,
+    ) -> *mut ::std::os::raw::c_void {
+        unsafe {
+            self.interface()
+                .CreateCounterValue
+                .expect("CreateCounterValue")(
+                category,
+                name.as_ptr(),
+                flags.into(),
+                value_type as u8,
+                value_unit as u8,
+                value_size,
+                counter_flags.into(),
+                activate_func,
+                deactivate_func,
+                user_data,
+            )
+        }
+    }
+
+    unsafe fn flush_counter_value(&self, counter: *mut ::std::os::raw::c_void) {
+        unsafe {
+            self.interface()
+                .FlushCounterValue
+                .expect("FlushCounterValue")(counter)
+        }
+    }
 }
 
 #[cfg(test)]
