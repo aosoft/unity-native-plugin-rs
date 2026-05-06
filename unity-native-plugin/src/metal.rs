@@ -4,12 +4,12 @@ use objc2_metal::{
     MTLCommandBuffer, MTLCommandEncoder, MTLCommandQueue, MTLDevice, MTLRenderPassDescriptor,
     MTLTexture,
 };
-use unity_native_plugin_sys::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2, UnityRenderBuffer};
+use unity_native_plugin_sys::UnityRenderBuffer;
 
 use crate::graphics;
 use crate::interface::UnityInterface;
 
-pub trait UnityGraphicsMetalV1Interface {
+pub trait IUnityGraphicsMetalV1 {
     fn metal_bundle(&self) -> Option<Retained<NSBundle>>;
     fn metal_device(&self) -> Option<Retained<ProtocolObject<dyn MTLDevice>>>;
     fn current_command_buffer(&self) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
@@ -36,7 +36,7 @@ pub trait UnityGraphicsMetalV1Interface {
 
 macro_rules! impl_metal_v1 {
     ($intf:ty) => {
-        impl UnityGraphicsMetalV1Interface for $intf {
+        impl IUnityGraphicsMetalV1 for $intf {
             fn metal_bundle(&self) -> Option<Retained<NSBundle>> {
                 unsafe {
                     Retained::retain(self.interface().MetalBundle.expect("MetalBundle")() as *mut _)
@@ -158,12 +158,12 @@ impl_metal_v1!(UnityGraphicsMetalV1);
 
 define_unity_interface!(
     UnityGraphicsMetalV1,
-    IUnityGraphicsMetalV1,
+    unity_native_plugin_sys::IUnityGraphicsMetalV1,
     0x29F8F3D03833465E_u64,
     0x92138551C15D823D_u64
 );
 
-pub trait UnityGraphicsMetalV2Interface: UnityGraphicsMetalV1Interface {
+pub trait IUnityGraphicsMetalV2: IUnityGraphicsMetalV1 {
     fn commit_current_command_buffer(
         &self,
     ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>>;
@@ -174,7 +174,7 @@ macro_rules! impl_metal_v2 {
     ($intf:ty) => {
         impl_metal_v1!($intf);
 
-        impl UnityGraphicsMetalV2Interface for $intf {
+        impl IUnityGraphicsMetalV2 for $intf {
             fn commit_current_command_buffer(
                 &self,
             ) -> Option<Retained<ProtocolObject<dyn MTLCommandBuffer>>> {
@@ -204,7 +204,7 @@ impl_metal_v2!(UnityGraphicsMetalV2);
 
 define_unity_interface!(
     UnityGraphicsMetalV2,
-    IUnityGraphicsMetalV2,
+    unity_native_plugin_sys::IUnityGraphicsMetalV2,
     0xF58857784FEF46EC_u64,
     0x9DB7A8803B87DA3D_u64
 );

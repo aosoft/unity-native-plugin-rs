@@ -94,22 +94,24 @@ let intf = unity_native_plugin::interface::UnityInterfaces::get()
 * `unity_native_plugin_vulkan::vulkan::*` → `unity_native_plugin::vulkan::*`
 * `unity_native_plugin::d3d11::ComPtr` / `unity_native_plugin::d3d12::ComPtr` → `unity_native_plugin::windows::ComPtr`
 
-### Methods are now provided through `*Interface` traits
+### Methods are now provided through `IUnityGraphics*` traits
 
-The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*`, `UnityGraphicsMetal*` and `UnityGraphicsVulkan*` have been replaced with traits that mirror the underlying `IUnityGraphics*` C interfaces. To call any method, bring the matching trait into scope:
+The inherent `impl` blocks on `UnityGraphicsD3D11`, `UnityGraphicsD3D12*`, `UnityGraphicsMetal*` and `UnityGraphicsVulkan*` have been replaced with traits whose names match the underlying `IUnityGraphics*` C interfaces 1:1. To call any method, bring the matching trait into scope:
 
 ```rust
-use unity_native_plugin::d3d11::UnityGraphicsD3D11Interface;
+use unity_native_plugin::d3d11::IUnityGraphicsD3D11;
 use unity_native_plugin::d3d12::{
-    UnityGraphicsD3D12Interface,    // for UnityGraphicsD3D12
-    UnityGraphicsD3D12V2Interface,  // for UnityGraphicsD3D12v2
-    UnityGraphicsD3D12v3Interface,  // ... v3 .. v8Interface for the corresponding interface versions
+    IUnityGraphicsD3D12,    // for UnityGraphicsD3D12
+    IUnityGraphicsD3D12v2,  // for UnityGraphicsD3D12v2
+    IUnityGraphicsD3D12v3,  // ... v3 .. v8 for the corresponding interface versions
 };
-use unity_native_plugin::metal::{UnityGraphicsMetalV1Interface, UnityGraphicsMetalV2Interface};
-use unity_native_plugin::vulkan::{UnityGraphicsVulkanInterface, UnityGraphicsVulkanV2Interface};
+use unity_native_plugin::metal::{IUnityGraphicsMetalV1, IUnityGraphicsMetalV2};
+use unity_native_plugin::vulkan::{IUnityGraphicsVulkan, IUnityGraphicsVulkanV2};
 ```
 
 Without the corresponding `use`, methods such as `device()`, `command_queue()` or `command_recording_state()` will appear to be missing.
+
+Note: an earlier 0.9 pre-release used a `*Interface` suffix (e.g. `UnityGraphicsD3D11Interface`). That suffix has been dropped before the 0.9 release in favor of the shorter `IUnityGraphics*` names that match Unity's headers exactly.
 
 ### Renamed identifiers
 

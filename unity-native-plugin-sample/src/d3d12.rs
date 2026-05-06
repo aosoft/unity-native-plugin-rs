@@ -1,5 +1,5 @@
 use unity_native_plugin::d3d12::{
-    UnityGraphicsD3D12V2Interface, UnityGraphicsD3D12v6Interface, UnityGraphicsD3D12v8Interface,
+    IUnityGraphicsD3D12v2, IUnityGraphicsD3D12v6, IUnityGraphicsD3D12v8,
 };
 use winapi::Interface;
 use winapi::um::d3d12::*;
