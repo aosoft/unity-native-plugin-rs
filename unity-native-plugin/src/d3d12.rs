@@ -73,8 +73,11 @@ define_unity_interface!(
 );
 impl_d3d12_v2!(UnityGraphicsD3D12v2);
 
-pub trait UnityGraphicsD3D12Interface: UnityGraphicsD3D12v2Interface {
+pub trait UnityGraphicsD3D12Interface {
+    unsafe fn device(&self) -> ComPtr;
     unsafe fn command_queue(&self) -> ComPtr;
+    unsafe fn frame_fence(&self) -> ComPtr;
+    fn next_frame_fence_value(&self) -> u64;
     fn resource_state(&self, resource: ComPtr) -> Option<i32>;
     fn set_resource_state(&self, resource: ComPtr, state: i32);
 }
@@ -83,11 +86,25 @@ pub use UnityGraphicsD3D12Interface as IUnityGraphicsD3D12;
 
 macro_rules! impl_d3d12 {
     ($intf:ty) => {
-        impl_d3d12_v2!($intf);
-
         impl UnityGraphicsD3D12Interface for $intf {
+            unsafe fn device(&self) -> ComPtr {
+                unsafe { self.interface().GetDevice.expect("GetDevice")() as ComPtr }
+            }
+
             unsafe fn command_queue(&self) -> ComPtr {
                 unsafe { self.interface().GetCommandQueue.expect("GetCommandQueue")() as ComPtr }
+            }
+
+            unsafe fn frame_fence(&self) -> ComPtr {
+                unsafe { self.interface().GetFrameFence.expect("GetFrameFence")() as ComPtr }
+            }
+
+            fn next_frame_fence_value(&self) -> u64 {
+                unsafe {
+                    self.interface()
+                        .GetNextFrameFenceValue
+                        .expect("GetNextFrameFenceValue")() as u64
+                }
             }
 
             fn resource_state(&self, resource: ComPtr) -> Option<i32> {
