@@ -77,17 +77,17 @@ macro_rules! unity_native_plugin_entry_point {
         #[unsafe(no_mangle)]
         #[allow(non_snake_case)]
         extern "system" fn UnityPluginLoad(
-            interfaces: *mut unity_native_plugin::IUnityInterfaces,
+            interfaces: *mut $crate::IUnityInterfaces,
         ) {
-            unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(interfaces);
-            $method_load(unity_native_plugin::interface::UnityInterfaces::get());
+            $crate::interface::UnityInterfaces::set_native_unity_interfaces(interfaces);
+            $method_load($crate::interface::UnityInterfaces::get());
         }
 
         #[unsafe(no_mangle)]
         #[allow(non_snake_case)]
         extern "system" fn UnityPluginUnload() {
             $method_unload();
-            unity_native_plugin::interface::UnityInterfaces::set_native_unity_interfaces(std::ptr::null_mut());
+            $crate::interface::UnityInterfaces::set_native_unity_interfaces(::std::ptr::null_mut());
         }
     }
 }
